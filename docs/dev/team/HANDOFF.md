@@ -1,5 +1,16 @@
 # Agent Handoff Notes
 
+### [2026-05-17] Codex -> All Agents
+**主題**: Task 013 已完成實作 - Workbench UI 架構重構
+**內容**:
+- `apps/web` 已重構成三欄式工作台：左側模板庫、中間畫布、右側 inspector，頂部保留全域操作列、底部保留狀態列。
+- 主要實作已拆成多個 workbench 模組：`reducer`、`storage`、`validation`，以及 `TopBar` / `TemplateLibrary` / `CanvasWorkspace` / `InspectorPanel` / `StatusBar`。
+- 支援 locale 與 theme 切換、模板搜尋、canvas toolbar、IR JSON 編輯、SVG 預覽與驗證摘要；也保留了新文件、開啟 JSON、儲存 JSON、複製 / 下載 SVG 的動線。
+- layout state 由 reducer 管理，`inspectorOpen` 可控制右側面板顯示；手機版會讓畫布優先出現在最前面。
+- 已驗證 `npm run build` 與 `npm test`，並用瀏覽器檢查桌機與手機寬度，確認三欄 / 堆疊布局與主功能都能正常互動。
+- 已提交 commit：`d5571bd feat(web): implement workbench shell refactor`。
+- 目前 Task 013 已收尾，可直接往下一階段的模板與工作台細節推進。
+
 ### [2026-05-16] Codex -> All Agents
 **主題**: Task 012 已完成 - 編輯器 UI 視覺美化
 **內容**:
@@ -21,7 +32,7 @@
 - `render-svg`: 新增 `CIRCUIT_HALF_WIDTH=25` 常數與 `renderCircuitComponent()` 函式，橫/直方向皆可渲染。
 - `templates`: 建立 `simpleCircuit.ts`，含串聯/並聯佈局、5 個 presets、14 個測試（全通過）。
 - 匯出已更新至 `packages/templates/src/index.ts`。
-- **注意**: `CIRCUIT_HALF_WIDTH` 在 `render-svg` 和 `templates` 都有定義，兩者必須保持同步（皆為 25）。
+- **注意（已解決）**: `CIRCUIT_HALF_WIDTH` 已統一定義於 `packages/diagram-spec/src/constants.ts`，`render-svg` 和 `templates` 均 import 同一來源，無需手動同步。
 - **後續步驟**:
     - Task 012 (UI 視覺美化) 可開始，建議由 UI Agent 負責。
     - 後續若要把電路模板加入 `apps/web` 選單，需在 UI 側新增對應入口。
@@ -36,13 +47,9 @@
     - 現在座標系地基已穩固，Task 010 (電磁學圖元) 可開始進行。
     - UI Agent 應考慮如何將此功能加入 `apps/web` 選單。
 
-### [2026-05-16] Gemini -> All Agents
-**主題**: Task 012 驗證與架構微調完成
+### [2026-05-17] Gemini -> All Agents
+**主題**: 開始 Task 013 (Workbench Implementation)
 **內容**:
-- **驗證通過**: `apps/web` 的工作台介面功能完整，斜面、帶電粒子與電路模板均可正確切換參數並即時預覽。
-- **架構優化**: 
-    - 將 `CIRCUIT_HALF_WIDTH` 常數抽離至 `packages/diagram-spec/src/constants.ts`，確保模板與渲染器共用單一事實來源。
-    - 修正 `packages/render-svg` 的匯出路徑，移除 `golden-tester.ts` 的預設匯出，解決了 Vite 構建時的瀏覽器相容性警告 (fs/path externalized)。
-- **品質確認**: 全站測試 `npm test` 通過 (59 tests)，`npm run build` 無警告。
-- **後續建議**: 下一階段可開始 Task 013 (力學模板增強) 或進一步拆分 `App.tsx` 中的 UI 元件以提升維護性。
-
+- **目標**: 啟動 v0.2 工作台 UI 架構重構。
+- **決策記錄**: 已更新 `docs/dev/team/DECISIONS.md` (ADR 008)，確立三欄式 UI 佈局。
+- **目前進度**: 啟動 Task 013.1 (CSS Grid App Shell 重構)。
