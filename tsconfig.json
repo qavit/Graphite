@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ESNext", "DOM"],
+    "strict": true,
+    "declaration": true,
+    "sourceMap": true,
+    "composite": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "rootDir": ".",
+    "baseUrl": ".",
+    "noEmit": true,
+    "ignoreDeprecations": "6.0",
+    "paths": {
+      "@graphite/*": ["packages/*/src"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

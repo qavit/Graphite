@@ -1,0 +1,25 @@
+<svg 
+  width="600" 
+  height="500" 
+  viewBox="0 0 600 500" 
+  xmlns="http://www.w3.org/2000/svg"
+  class="graphite-diagram theme-exam-bw"
+>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+    </marker>
+  </defs>
+  <rect width="100%" height="100%" fill="white" />
+  <line x1="40" y1="460" x2="560" y2="159.77786002139464" id="incline" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="" />
+<line x1="20" y1="460" x2="580" y2="460" id="ground" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="" />
+<rect 
+  x="285" 
+  y="277.56842193500853" 
+  width="30" 
+  height="30" 
+  id="block" stroke="#000" stroke-width="2" fill="#fff" stroke-dasharray="" transform="rotate(-30 300 292.56842193500853)"
+/>
+<line x1="300" y1="292.56842193500853" x2="300" y2="372.56842193500853" id="force-weight" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="" marker-end="url(#arrowhead)" />
+<line x1="300" y1="292.56842193500853" x2="265.3589838486225" y2="232.56842193500853" id="force-normal" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="" marker-end="url(#arrowhead)" />
+</svg>

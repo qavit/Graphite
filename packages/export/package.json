@@ -1,0 +1,22 @@
+{
+  "name": "@graphite/export",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Export diagrams to PDF and PNG formats",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@graphite/diagram-spec": "*",
+    "@graphite/render-svg": "*",
+    "sharp": "^0.33.0",
+    "pdfkit": "^0.13.0"
+  },
+  "devDependencies": {
+    "@types/sharp": "^0.32.0",
+    "@types/pdfkit": "^0.12.8"
+  }
+}

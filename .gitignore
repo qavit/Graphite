@@ -1,0 +1,16 @@
+docs/dev/
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# Test/cache output
+coverage/
+.vite/
+
+# Local/editor/system files
+.DS_Store
+.claude/

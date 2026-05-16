@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
+    "baseUrl": ".",
+    "paths": {
+      "@graphite/diagram-spec": ["../diagram-spec/dist"],
+      "@graphite/render-svg": ["../render-svg/dist"],
+      "@graphite/templates": ["../templates/dist"]
+    }
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../diagram-spec" },
+    { "path": "../render-svg" },
+    { "path": "../templates" }
+  ]
+}

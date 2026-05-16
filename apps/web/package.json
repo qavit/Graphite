@@ -1,0 +1,24 @@
+{
+  "name": "@graphite/web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Graphite Editor Web Application",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "test": "vitest run --passWithNoTests",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@graphite/diagram-spec": "*",
+    "@graphite/render-svg": "*",
+    "@graphite/templates": "*",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.2"
+  }
+}

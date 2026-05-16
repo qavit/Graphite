@@ -1,0 +1,30 @@
+{
+  "name": "graphite-monorepo",
+  "private": true,
+  "description": "Teacher-first, vector-first STEM diagramming tool",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "test": "npm test --workspaces",
+    "build": "npm run build --workspaces"
+  },
+  "keywords": [
+    "stem",
+    "diagram",
+    "teacher",
+    "taiwan",
+    "vector"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@types/node": "25.8.0",
+    "@vitest/ui": "4.1.6",
+    "ts-node": "10.9.2",
+    "typescript": "6.0.3",
+    "vite": "8.0.13",
+    "vitest": "4.1.6"
+  }
+}

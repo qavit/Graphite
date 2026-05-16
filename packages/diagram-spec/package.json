@@ -1,0 +1,12 @@
+{
+  "name": "@graphite/diagram-spec",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Core schema and types for Graphite diagrams",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  }
+}
