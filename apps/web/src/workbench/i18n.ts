@@ -97,6 +97,8 @@ const messages = {
     validationLabel: '驗證',
     diagramFailed: '圖形生成失敗。',
     diagramFailedHint: '請檢查參數設定。',
+    settingsTitle: '設定',
+    settingsGeneral: '一般',
   },
   'en-US': {
     appTitle: 'Graphite',
@@ -194,6 +196,8 @@ const messages = {
     validationLabel: 'Validation',
     diagramFailed: 'Diagram generation failed.',
     diagramFailedHint: 'Check the current parameter values.',
+    settingsTitle: 'Settings',
+    settingsGeneral: 'General',
   },
 } satisfies Record<UiLocale, Record<string, string>>;
 

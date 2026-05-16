@@ -11,6 +11,7 @@ import {
   PencilIcon,
   SearchIcon,
   SaveIcon,
+  SettingsIcon,
   SunIcon,
 } from './icons';
 import { ToolButton } from './ToolButton';
@@ -29,6 +30,7 @@ interface TopBarProps {
   onToggleLocale: () => void;
   onToggleInspector: () => void;
   onOpenCommandPalette: () => void;
+  onOpenSettings: () => void;
   fileLabel: string;
   mode: WorkbenchDocument['mode'];
 }
@@ -47,6 +49,7 @@ export function TopBar({
   onToggleLocale,
   onToggleInspector,
   onOpenCommandPalette,
+  onOpenSettings,
   fileLabel,
   mode,
 }: TopBarProps) {
@@ -105,6 +108,11 @@ export function TopBar({
           label={t('openCommandPalette')}
           shortcut="⌘/"
           onClick={onOpenCommandPalette}
+        />
+        <ToolButton
+          icon={<SettingsIcon />}
+          label={t('settingsTitle')}
+          onClick={onOpenSettings}
         />
       </div>
     </header>

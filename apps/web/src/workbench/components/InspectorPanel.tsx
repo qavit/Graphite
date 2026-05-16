@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { CIRCUIT_PRESET_META } from '../catalog';
-import { createTranslator, getLocaleLabel } from '../i18n';
+import { createTranslator } from '../i18n';
 import { serializeDocument } from '../document';
 import type {
   CanvasState,
@@ -10,7 +10,6 @@ import type {
   ParticleTemplateState,
   TemplateState,
   UiLocale,
-  UiTheme,
   WorkbenchDocument,
   WorkbenchValidationReport,
 } from '../types';
@@ -27,8 +26,6 @@ interface InspectorPanelProps {
   locale: UiLocale;
   onTabChange: (tab: InspectorTab) => void;
   onDocumentModeChange: (mode: WorkbenchDocument['mode']) => void;
-  onDocumentLocaleChange: (locale: UiLocale) => void;
-  onDocumentThemeChange: (theme: UiTheme) => void;
   onTemplateChange: (template: TemplateState) => void;
   onCanvasChange: (patch: Partial<CanvasState>) => void;
   onIrDraftChange: (value: string) => void;
@@ -311,8 +308,6 @@ export function InspectorPanel({
   locale,
   onTabChange,
   onDocumentModeChange,
-  onDocumentLocaleChange,
-  onDocumentThemeChange,
   onTemplateChange,
   onCanvasChange,
   onIrDraftChange,
@@ -352,22 +347,6 @@ export function InspectorPanel({
             </div>
 
             <ModeSelect locale={locale} value={document.mode} onChange={onDocumentModeChange} />
-
-            <label className="field">
-              <span className="field-label">{t('languageLabel')}</span>
-              <select className="select" value={document.locale} onChange={(event) => onDocumentLocaleChange(event.target.value as UiLocale)}>
-                <option value="zh-TW">{getLocaleLabel('zh-TW')}</option>
-                <option value="en-US">{getLocaleLabel('en-US')}</option>
-              </select>
-            </label>
-
-            <label className="field">
-              <span className="field-label">{t('themeLabel')}</span>
-              <select className="select" value={document.theme} onChange={(event) => onDocumentThemeChange(event.target.value as UiTheme)}>
-                <option value="light">{t('themeLight')}</option>
-                <option value="dark">{t('themeDark')}</option>
-              </select>
-            </label>
 
             <div className="divider" />
 

@@ -9,6 +9,7 @@ import { persistStateToStorage, WORKBENCH_STORAGE_KEY } from './workbench/storag
 import { CanvasWorkspace } from './workbench/components/CanvasWorkspace';
 import { CommandPalette, type CommandPaletteItem } from './workbench/components/CommandPalette';
 import { InspectorPanel } from './workbench/components/InspectorPanel';
+import { SettingsDialog } from './workbench/components/SettingsDialog';
 import { StatusBar } from './workbench/components/StatusBar';
 import { TemplateLibrary } from './workbench/components/TemplateLibrary';
 import { TopBar } from './workbench/components/TopBar';
@@ -71,6 +72,7 @@ function App() {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [commandQuery, setCommandQuery] = useState('');
   const [mobilePanel, setMobilePanel] = useState<'templates' | 'inspector' | null>(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const t = useMemo(() => createTranslator(state.document.locale), [state.document.locale]);
 
@@ -198,6 +200,9 @@ function App() {
   const handleToggleInspector = useCallback(() => {
     dispatch({ type: 'ui/inspectorOpen', open: !state.inspectorOpen });
   }, [state.inspectorOpen]);
+
+  const handleOpenSettings = useCallback(() => setSettingsOpen(true), []);
+  const handleCloseSettings = useCallback(() => setSettingsOpen(false), []);
 
   const handleOpenCommandPalette = useCallback(() => {
     setCommandQuery('');
@@ -659,6 +664,7 @@ function App() {
         onToggleLocale={handleToggleLocale}
         onToggleInspector={handleToggleInspector}
         onOpenCommandPalette={handleOpenCommandPalette}
+        onOpenSettings={handleOpenSettings}
         fileLabel={fileLabel}
         mode={state.document.mode}
       />
@@ -723,8 +729,6 @@ function App() {
             locale={state.document.locale}
             onTabChange={handleInspectorTabChange}
             onDocumentModeChange={(mode) => dispatch({ type: 'document/mode', mode })}
-            onDocumentLocaleChange={(locale) => dispatch({ type: 'document/locale', locale })}
-            onDocumentThemeChange={(theme) => dispatch({ type: 'document/theme', theme })}
             onTemplateChange={handleTemplateUpdate}
             onCanvasChange={handleCanvasPatch}
             onIrDraftChange={handleIrDraftChange}
@@ -746,6 +750,15 @@ function App() {
         commands={commandPaletteItems}
         onClose={handleCloseCommandPalette}
         onQueryChange={setCommandQuery}
+      />
+
+      <SettingsDialog
+        open={settingsOpen}
+        locale={state.document.locale}
+        theme={state.document.theme}
+        onClose={handleCloseSettings}
+        onLocaleChange={(locale) => dispatch({ type: 'document/locale', locale })}
+        onThemeChange={(theme) => dispatch({ type: 'document/theme', theme })}
       />
 
       <StatusBar
