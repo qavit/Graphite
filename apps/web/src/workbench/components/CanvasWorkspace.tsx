@@ -77,7 +77,7 @@ export function CanvasWorkspace({
     <main className="surface surface--canvas">
       <div className="surface__header surface__header--stacked">
         <div>
-          <p className="eyebrow">{locale === 'zh-TW' ? '畫布' : 'Canvas'}</p>
+          <p className="eyebrow">{t('canvasLabel')}</p>
           <h1>{spec?.metadata.title ?? canvasTitle}</h1>
         </div>
         <div className="canvas-metrics">
@@ -89,45 +89,40 @@ export function CanvasWorkspace({
         </div>
       </div>
 
-      <div className="canvas-toolbar" role="toolbar" aria-label={locale === 'zh-TW' ? '畫布工具列' : 'Canvas toolbar'}>
-        <ToolButton
-          icon={<PointerIcon />}
-          label={locale === 'zh-TW' ? '選取' : 'Select'}
-          shortcut="S"
-          active={canvas.interactionMode === 'select'}
-          onClick={() => onInteractionModeChange('select')}
-        />
-        <ToolButton
-          icon={<HandIcon />}
-          label={locale === 'zh-TW' ? '平移' : 'Pan'}
-          shortcut="Space"
-          active={canvas.interactionMode === 'pan'}
-          onClick={() => onInteractionModeChange('pan')}
-        />
-        <ToolButton icon={<ZoomInIcon />} label={locale === 'zh-TW' ? '放大' : 'Zoom in'} shortcut="+" onClick={onZoomIn} />
-        <ToolButton icon={<ZoomOutIcon />} label={locale === 'zh-TW' ? '縮小' : 'Zoom out'} shortcut="-" onClick={onZoomOut} />
-        <ToolButton icon={<FitIcon />} label={locale === 'zh-TW' ? '適合畫布' : 'Fit'} shortcut="0" onClick={onFit} />
-        <ToolButton
-          icon={<GridIcon />}
-          label={locale === 'zh-TW' ? '格線' : 'Grid'}
-          shortcut="G"
-          active={canvas.showGrid}
-          onClick={onToggleGrid}
-        />
-        <ToolButton
-          icon={<TypeIcon />}
-          label={locale === 'zh-TW' ? '標註' : 'Labels'}
-          shortcut="L"
-          active={canvas.showLabels}
-          onClick={onToggleLabels}
-        />
-        <ToolButton
-          icon={<VectorIcon />}
-          label={locale === 'zh-TW' ? '向量' : 'Vectors'}
-          shortcut="V"
-          active={canvas.showVectors}
-          onClick={onToggleVectors}
-        />
+      <div className="canvas-toolbar" role="toolbar" aria-label={t('canvasLabel')}>
+        {/* Tool group — mutually exclusive interaction mode */}
+        <div className="toolbar-group toolbar-group--segmented" role="group">
+          <ToolButton
+            icon={<PointerIcon />}
+            label={t('selectMode')}
+            shortcut="S"
+            active={canvas.interactionMode === 'select'}
+            iconOnly
+            onClick={() => onInteractionModeChange('select')}
+          />
+          <ToolButton
+            icon={<HandIcon />}
+            label={t('panMode')}
+            shortcut="H"
+            active={canvas.interactionMode === 'pan'}
+            iconOnly
+            onClick={() => onInteractionModeChange('pan')}
+          />
+        </div>
+
+        {/* View group — zoom controls */}
+        <div className="toolbar-group" role="group">
+          <ToolButton icon={<ZoomInIcon />} label={t('zoomIn')} shortcut="+" iconOnly onClick={onZoomIn} />
+          <ToolButton icon={<ZoomOutIcon />} label={t('zoomOut')} shortcut="-" iconOnly onClick={onZoomOut} />
+          <ToolButton icon={<FitIcon />} label={t('fitCanvas')} shortcut="0" iconOnly onClick={onFit} />
+        </div>
+
+        {/* Overlay group — independent display toggles */}
+        <div className="toolbar-group" role="group">
+          <ToolButton icon={<GridIcon />} label={t('grid')} shortcut="G" active={canvas.showGrid} iconOnly onClick={onToggleGrid} />
+          <ToolButton icon={<TypeIcon />} label={t('labels')} shortcut="L" active={canvas.showLabels} iconOnly onClick={onToggleLabels} />
+          <ToolButton icon={<VectorIcon />} label={t('vectors')} shortcut="V" active={canvas.showVectors} iconOnly onClick={onToggleVectors} />
+        </div>
       </div>
 
       <div className="canvas-summary">

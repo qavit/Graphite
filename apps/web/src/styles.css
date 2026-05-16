@@ -386,6 +386,42 @@ button {
 
 .canvas-toolbar {
   margin-bottom: 14px;
+  align-items: center;
+}
+
+/* Toolbar group: visually clusters related buttons with a gap between groups */
+.toolbar-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.canvas-toolbar > .toolbar-group + .toolbar-group {
+  margin-left: 10px;
+  padding-left: 10px;
+  border-left: 1px solid var(--border);
+}
+
+/* Segmented control: joined buttons that act as a mutually exclusive mode selector */
+.toolbar-group--segmented .tool-button {
+  border-radius: 0;
+  border-right-width: 0;
+}
+
+.toolbar-group--segmented .tool-button:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+.toolbar-group--segmented .tool-button:last-child {
+  border-radius: 0 10px 10px 0;
+  border-right-width: 1px;
+}
+
+/* icon-only: square button, no extra padding */
+.tool-button.is-icon-only {
+  padding-inline: 9px;
+  min-width: 38px;
+  justify-content: center;
 }
 
 .tool-button {
