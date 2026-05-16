@@ -1,7 +1,7 @@
 /**
  * 針對新元素類型的渲染邏輯擴展
  */
-import { DiagramElement } from '@graphite/diagram-spec';
+import { DiagramElement, CircuitComponentElement, CIRCUIT_HALF_WIDTH } from '@graphite/diagram-spec';
 
 export function renderNewElements(el: DiagramElement): string {
   switch (el.type) {
@@ -97,9 +97,6 @@ export function renderNewElements(el: DiagramElement): string {
 // Each component is rendered centered at (cx, cy).
 // Wires connect at cx ± CIRCUIT_HALF_WIDTH for horizontal orientation,
 // cy ± CIRCUIT_HALF_WIDTH for vertical.
-export const CIRCUIT_HALF_WIDTH = 25;
-
-import { CircuitComponentElement } from '@graphite/diagram-spec';
 
 function renderCircuitComponent(el: CircuitComponentElement): string {
   const { center: { x: cx, y: cy }, componentType, orientation, value } = el;

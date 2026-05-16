@@ -22,9 +22,8 @@ import {
   CircuitComponentElement,
   CircuitComponentType,
   Point,
+  CIRCUIT_HALF_WIDTH,
 } from '@graphite/diagram-spec';
-
-export const CIRCUIT_HALF_WIDTH = 25; // must match render-svg/extra-renderers
 
 // ── Param types ──────────────────────────────────────────────────────────────
 
