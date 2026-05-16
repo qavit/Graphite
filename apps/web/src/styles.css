@@ -987,7 +987,6 @@ button {
   border-radius: 20px;
   background: var(--surface);
   box-shadow: var(--shadow);
-  overflow: hidden;
 }
 
 .command-palette__header {
@@ -1013,8 +1012,7 @@ button {
   gap: 4px;
   overflow-y: auto;
   padding-right: 4px;
-  flex: 1 1 0;
-  min-height: 0;
+  max-height: min(52vh, 480px);
 }
 
 .command-item {
