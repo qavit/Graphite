@@ -19,9 +19,10 @@ it('renders a coordinate system with a quadratic curve', () => {
         id: 'curve',
         type: 'function-curve',
         visibility: ['teacher'],
-        fn: (x: number) => (x - 300) ** 2 / 1000 + 100, // 模擬拋物線
-        domain: [0, 600],
-        points: 50
+        samples: Array.from({ length: 51 }, (_, i) => {
+          const x = i * 12; // 0..600 in steps of 12
+          return { x, y: (x - 300) ** 2 / 1000 + 100 };
+        }),
       }
     ]
   };

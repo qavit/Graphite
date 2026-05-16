@@ -78,13 +78,7 @@ export function renderNewElements(el: DiagramElement): string {
     }
 
     case 'function-curve': {
-      const pathPoints: string[] = [];
-      const dx = (el.domain[1] - el.domain[0]) / el.points;
-      for (let i = 0; i <= el.points; i++) {
-        const x = el.domain[0] + i * dx;
-        const y = el.fn(x);
-        pathPoints.push(`${x.toFixed(2)},${y.toFixed(2)}`);
-      }
+      const pathPoints = el.samples.map((p) => `${p.x.toFixed(2)},${p.y.toFixed(2)}`);
       return `<polyline points="${pathPoints.join(' ')}" fill="none" stroke="black" stroke-width="2" />`;
     }
 
