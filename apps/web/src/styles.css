@@ -507,6 +507,17 @@ button {
   font-weight: 800;
 }
 
+.metric-chip--button {
+  cursor: pointer;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+
+.metric-chip--button:hover {
+  border-color: var(--border-strong);
+  background: color-mix(in srgb, var(--accent-soft) 40%, var(--surface-muted));
+  color: var(--accent);
+}
+
 .canvas-summary,
 .preview-summary {
   display: grid;
@@ -544,6 +555,15 @@ button {
 
 .canvas-stage {
   min-height: 0;
+  overflow: auto;
+}
+
+.canvas-stage--grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--border) 60%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--border) 60%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: center center;
 }
 
 .paper-frame {
@@ -555,6 +575,7 @@ button {
     radial-gradient(circle at top left, color-mix(in srgb, var(--accent-soft) 28%, transparent), transparent 38%);
   box-shadow: var(--shadow);
   overflow: hidden;
+  transition: transform 120ms ease;
 }
 
 .paper-content {

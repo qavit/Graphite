@@ -85,7 +85,14 @@ export function CanvasWorkspace({
             {spec?.canvas.width ?? 0} × {spec?.canvas.height ?? 0}
           </span>
           <span className="metric-chip">{spec?.elements.length ?? 0} elements</span>
-          <span className="metric-chip">{zoomLabel}</span>
+          <button
+            type="button"
+            className="metric-chip metric-chip--button"
+            title={t('fitCanvas') + ' (0)'}
+            onClick={onFit}
+          >
+            {zoomLabel}
+          </button>
         </div>
       </div>
 
@@ -143,9 +150,12 @@ export function CanvasWorkspace({
         </div>
       </div>
 
-      <div className="canvas-stage">
+      <div className={`canvas-stage${canvas.showGrid ? ' canvas-stage--grid' : ''}`}>
         {spec ? (
-          <div className="paper-frame">
+          <div
+            className="paper-frame"
+            style={{ transform: `scale(${canvas.zoom})`, transformOrigin: 'top center' }}
+          >
             <div className="paper-content" aria-label="SVG preview" dangerouslySetInnerHTML={{ __html: svgMarkup }} />
           </div>
         ) : (
