@@ -979,13 +979,15 @@ button {
 .command-palette {
   width: min(760px, 100%);
   max-height: min(80vh, 760px);
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 14px;
   padding: 18px;
   border: 1px solid color-mix(in srgb, var(--border) 84%, transparent);
   border-radius: 20px;
   background: var(--surface);
   box-shadow: var(--shadow);
+  overflow: hidden;
 }
 
 .command-palette__header {
@@ -1006,10 +1008,13 @@ button {
 }
 
 .command-palette__list {
-  display: grid;
-  gap: 8px;
-  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
   padding-right: 4px;
+  flex: 1 1 0;
+  min-height: 0;
 }
 
 .command-item {
@@ -1028,9 +1033,20 @@ button {
 }
 
 .command-item:hover,
-.command-item:focus-visible {
-  border-color: var(--border-strong);
-  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+.command-item:focus-visible,
+.command-item.is-active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.command-group-header {
+  padding: 6px 4px 2px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
 }
 
 .command-item__meta {
