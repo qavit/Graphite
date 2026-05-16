@@ -36,3 +36,11 @@ export {
   fixture_60deg_teacher_simple,
   fixture_30deg_minimal,
 } from './physics/__fixtures__/inclinedPlane.fixtures';
+
+export {
+  fixture_circuit_series_full,
+  fixture_circuit_series_minimal,
+  fixture_circuit_series_open_switch,
+  fixture_circuit_parallel_resistor_bulb,
+  fixture_circuit_parallel_two_resistors,
+} from './physics/__fixtures__/simpleCircuit.fixtures';
