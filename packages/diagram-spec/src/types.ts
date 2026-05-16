@@ -28,17 +28,51 @@ export interface Point {
   y: number;
 }
 
-export type ElementType = 
-  | 'line' 
-  | 'circle' 
-  | 'polygon' 
-  | 'arrow' 
-  | 'label' 
-  | 'box' 
-  | 'force-vector' 
+export type ElementType =
+  | 'line'
+  | 'circle'
+  | 'polygon'
+  | 'arrow'
+  | 'label'
+  | 'box'
+  | 'force-vector'
   | 'coordinate-axis'
   | 'grid'
-  | 'function-curve';
+  | 'function-curve'
+  | 'arc-path'
+  | 'field-symbol';
+
+export interface CircleElement extends BaseElement {
+  type: 'circle';
+  center: Point;
+  radius: number;
+  label?: string; // e.g. '+' or '−' for charged particles
+}
+
+/**
+ * Arc for circular trajectories (e.g. charged particle in magnetic field).
+ * Angles measured in degrees: 0=right, 90=down (SVG convention).
+ */
+export interface ArcPathElement extends BaseElement {
+  type: 'arc-path';
+  center: Point;
+  radius: number;
+  startAngle: number;
+  endAngle: number;
+  sweep: 'clockwise' | 'counterclockwise'; // as seen on screen
+  showArrowhead?: boolean;
+}
+
+/**
+ * Standard physics symbol for magnetic field direction.
+ * into-page = ⊗ (cross), out-of-page = ⊙ (dot).
+ */
+export interface FieldSymbolElement extends BaseElement {
+  type: 'field-symbol';
+  center: Point;
+  size: number; // radius of the outer circle
+  direction: 'into-page' | 'out-of-page';
+}
 
 export interface GridElement extends BaseElement {
   type: 'grid';
@@ -124,12 +158,15 @@ export interface ForceVectorElement extends BaseElement {
   showMagnitude: boolean;
 }
 
-export type DiagramElement = 
-  | LineElement 
-  | ArrowElement 
-  | LabelElement 
-  | BoxElement 
+export type DiagramElement =
+  | LineElement
+  | ArrowElement
+  | LabelElement
+  | BoxElement
   | ForceVectorElement
+  | CircleElement
+  | ArcPathElement
+  | FieldSymbolElement
   | GridElement
   | CoordinateAxisElement
   | FunctionCurveElement;
