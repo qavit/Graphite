@@ -652,7 +652,6 @@ function App() {
     <div className="app-shell" data-theme={state.document.theme} data-inspector-open={state.inspectorOpen ? 'true' : 'false'}>
       <TopBar
         locale={state.document.locale}
-        theme={state.document.theme}
         inspectorOpen={state.inspectorOpen}
         status={statusText}
         onNewDocument={handleNewDocument}
@@ -660,8 +659,6 @@ function App() {
         onSaveDocument={handleSaveDocument}
         onCopySvg={handleCopySvg}
         onDownloadSvg={handleDownloadSvg}
-        onToggleTheme={handleToggleTheme}
-        onToggleLocale={handleToggleLocale}
         onToggleInspector={handleToggleInspector}
         onOpenCommandPalette={handleOpenCommandPalette}
         onOpenSettings={handleOpenSettings}
