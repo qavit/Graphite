@@ -102,12 +102,14 @@ function TemplateSettings({
   template: TemplateState;
   onTemplateChange: (template: TemplateState) => void;
 }) {
+  const t = createTranslator(locale);
+
   if (template.type === 'inclined') {
     const current = template as InclinedTemplateState;
     return (
       <div className="field-stack">
         <label className="field">
-          <span className="field-label">{locale === 'zh-TW' ? '角度' : 'Angle'}</span>
+          <span className="field-label">{t('angleLabel')}</span>
           <span className="field-value">{current.angle}°</span>
         </label>
         <input
@@ -119,7 +121,7 @@ function TemplateSettings({
           onChange={(event) => onTemplateChange({ ...current, angle: Number(event.target.value) })}
         />
         <label className="field">
-          <span className="field-label">{locale === 'zh-TW' ? '分析情境' : 'Analysis scenario'}</span>
+          <span className="field-label">{t('analysisScenario')}</span>
           <select
             className="select"
             value={current.scenario}
@@ -130,9 +132,9 @@ function TemplateSettings({
               })
             }
           >
-            <option value="simple">{locale === 'zh-TW' ? '基礎受力圖' : 'Basic free-body diagram'}</option>
-            <option value="friction">{locale === 'zh-TW' ? '含摩擦力' : 'Include friction'}</option>
-            <option value="advanced">{locale === 'zh-TW' ? '完整分析' : 'Full analysis'}</option>
+            <option value="simple">{t('scenarioSimple')}</option>
+            <option value="friction">{t('scenarioFriction')}</option>
+            <option value="advanced">{t('scenarioAdvanced')}</option>
           </select>
         </label>
       </div>
@@ -144,7 +146,7 @@ function TemplateSettings({
     return (
       <div className="field-stack">
         <label className="field">
-          <span className="field-label">{locale === 'zh-TW' ? '場類型' : 'Field type'}</span>
+          <span className="field-label">{t('fieldTypeLabel')}</span>
           <select
             className="select"
             value={current.fieldType}
@@ -157,12 +159,12 @@ function TemplateSettings({
               });
             }}
           >
-            <option value="magnetic">{locale === 'zh-TW' ? '磁場' : 'Magnetic field'}</option>
-            <option value="electric">{locale === 'zh-TW' ? '電場' : 'Electric field'}</option>
+            <option value="magnetic">{t('fieldMagnetic')}</option>
+            <option value="electric">{t('fieldElectric')}</option>
           </select>
         </label>
         <label className="field">
-          <span className="field-label">{locale === 'zh-TW' ? '場方向' : 'Field direction'}</span>
+          <span className="field-label">{t('fieldDirectionLabel')}</span>
           <select
             className="select"
             value={current.fieldDirection}
@@ -175,19 +177,19 @@ function TemplateSettings({
           >
             {current.fieldType === 'magnetic' ? (
               <>
-                <option value="into-page">{locale === 'zh-TW' ? '入紙面' : 'Into the page'}</option>
-                <option value="out-of-page">{locale === 'zh-TW' ? '出紙面' : 'Out of the page'}</option>
+                <option value="into-page">{t('dirIntoPage')}</option>
+                <option value="out-of-page">{t('dirOutOfPage')}</option>
               </>
             ) : (
               <>
-                <option value="upward">{locale === 'zh-TW' ? '向上' : 'Upward'}</option>
-                <option value="downward">{locale === 'zh-TW' ? '向下' : 'Downward'}</option>
+                <option value="upward">{t('dirUpward')}</option>
+                <option value="downward">{t('dirDownward')}</option>
               </>
             )}
           </select>
         </label>
         <label className="field">
-          <span className="field-label">{locale === 'zh-TW' ? '電荷' : 'Charge'}</span>
+          <span className="field-label">{t('chargeLabel')}</span>
           <select
             className="select"
             value={current.chargeSign}
@@ -198,8 +200,8 @@ function TemplateSettings({
               })
             }
           >
-            <option value="positive">{locale === 'zh-TW' ? '正電' : 'Positive'}</option>
-            <option value="negative">{locale === 'zh-TW' ? '負電' : 'Negative'}</option>
+            <option value="positive">{t('chargePositive')}</option>
+            <option value="negative">{t('chargeNegative')}</option>
           </select>
         </label>
         <label className="toggle">
@@ -208,7 +210,7 @@ function TemplateSettings({
             checked={current.showTrajectory}
             onChange={(event) => onTemplateChange({ ...current, showTrajectory: event.target.checked })}
           />
-          <span>{locale === 'zh-TW' ? '顯示軌跡' : 'Show trajectory'}</span>
+          <span>{t('showTrajectory')}</span>
         </label>
         <label className="toggle">
           <input
@@ -216,7 +218,7 @@ function TemplateSettings({
             checked={current.showVelocityVector}
             onChange={(event) => onTemplateChange({ ...current, showVelocityVector: event.target.checked })}
           />
-          <span>{locale === 'zh-TW' ? '顯示速度向量' : 'Show velocity vector'}</span>
+          <span>{t('showVelocityVector')}</span>
         </label>
         <label className="toggle">
           <input
@@ -224,10 +226,10 @@ function TemplateSettings({
             checked={current.showForceVector}
             onChange={(event) => onTemplateChange({ ...current, showForceVector: event.target.checked })}
           />
-          <span>{locale === 'zh-TW' ? '顯示受力向量' : 'Show force vector'}</span>
+          <span>{t('showForceVector')}</span>
         </label>
         <label className="field">
-          <span className="field-label">{locale === 'zh-TW' ? '分析情境' : 'Analysis scenario'}</span>
+          <span className="field-label">{t('analysisScenario')}</span>
           <select
             className="select"
             value={current.analysisScenario}
@@ -238,8 +240,8 @@ function TemplateSettings({
               })
             }
           >
-            <option value="simple">{locale === 'zh-TW' ? '簡單' : 'Simple'}</option>
-            <option value="detailed">{locale === 'zh-TW' ? '詳細' : 'Detailed'}</option>
+            <option value="simple">{t('analysisSimple')}</option>
+            <option value="detailed">{t('analysisDetailed')}</option>
           </select>
         </label>
       </div>
@@ -252,7 +254,7 @@ function TemplateSettings({
   return (
     <div className="field-stack">
       <label className="field">
-        <span className="field-label">{locale === 'zh-TW' ? '電路預設' : 'Circuit preset'}</span>
+        <span className="field-label">{t('circuitPreset')}</span>
         <select
           className="select"
           value={current.preset}
@@ -350,7 +352,7 @@ export function InspectorPanel({
             <ModeSelect locale={locale} value={document.mode} onChange={onDocumentModeChange} />
 
             <label className="field">
-              <span className="field-label">{locale === 'zh-TW' ? '語言' : 'Language'}</span>
+              <span className="field-label">{t('languageLabel')}</span>
               <select className="select" value={document.locale} onChange={(event) => onDocumentLocaleChange(event.target.value as UiLocale)}>
                 <option value="zh-TW">{getLocaleLabel('zh-TW')}</option>
                 <option value="en-US">{getLocaleLabel('en-US')}</option>
@@ -358,10 +360,10 @@ export function InspectorPanel({
             </label>
 
             <label className="field">
-              <span className="field-label">{locale === 'zh-TW' ? '主題' : 'Theme'}</span>
+              <span className="field-label">{t('themeLabel')}</span>
               <select className="select" value={document.theme} onChange={(event) => onDocumentThemeChange(event.target.value as UiTheme)}>
-                <option value="light">{locale === 'zh-TW' ? '淺色' : 'Light'}</option>
-                <option value="dark">{locale === 'zh-TW' ? '深色' : 'Dark'}</option>
+                <option value="light">{t('themeLight')}</option>
+                <option value="dark">{t('themeDark')}</option>
               </select>
             </label>
 
@@ -378,7 +380,7 @@ export function InspectorPanel({
                   checked={document.canvas.showGrid}
                   onChange={(event) => onCanvasChange({ showGrid: event.target.checked })}
                 />
-                <span>{locale === 'zh-TW' ? '顯示格線' : 'Show grid'}</span>
+                <span>{t('showGrid')}</span>
               </label>
               <label className="toggle">
                 <input
@@ -386,7 +388,7 @@ export function InspectorPanel({
                   checked={document.canvas.showLabels}
                   onChange={(event) => onCanvasChange({ showLabels: event.target.checked })}
                 />
-                <span>{locale === 'zh-TW' ? '顯示標註' : 'Show labels'}</span>
+                <span>{t('showLabels')}</span>
               </label>
               <label className="toggle">
                 <input
@@ -394,7 +396,7 @@ export function InspectorPanel({
                   checked={document.canvas.showVectors}
                   onChange={(event) => onCanvasChange({ showVectors: event.target.checked })}
                 />
-                <span>{locale === 'zh-TW' ? '顯示向量' : 'Show vectors'}</span>
+                <span>{t('showVectors')}</span>
               </label>
             </div>
           </div>

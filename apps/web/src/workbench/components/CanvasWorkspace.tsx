@@ -1,4 +1,5 @@
 import type { DiagramSpec } from '@graphite/diagram-spec';
+import { createTranslator } from '../i18n';
 import type { CanvasState, TemplateState, UiLocale, WorkbenchValidationReport } from '../types';
 import {
   FitIcon,
@@ -68,6 +69,7 @@ export function CanvasWorkspace({
   onToggleLabels,
   onToggleVectors,
 }: CanvasWorkspaceProps) {
+  const t = createTranslator(locale);
   const canvasTitle = formatTitle(locale, template);
   const zoomLabel = `${Math.round(canvas.zoom * 100)}%`;
 
@@ -130,17 +132,17 @@ export function CanvasWorkspace({
 
       <div className="canvas-summary">
         <div className="summary-block">
-          <span className="summary-label">{locale === 'zh-TW' ? '模板' : 'Template'}</span>
+          <span className="summary-label">{t('templateLabel')}</span>
           <strong>{canvasTitle}</strong>
-          <span>{locale === 'zh-TW' ? '以模板為主的教學圖' : 'Template-first teaching diagram'}</span>
+          <span>{t('templateHint')}</span>
         </div>
         <div className="summary-block">
-          <span className="summary-label">{locale === 'zh-TW' ? '模式' : 'Mode'}</span>
-          <strong>{canvas.interactionMode === 'select' ? (locale === 'zh-TW' ? '選取' : 'Select') : (locale === 'zh-TW' ? '平移' : 'Pan')}</strong>
-          <span>{locale === 'zh-TW' ? '畫布互動模式' : 'Canvas interaction mode'}</span>
+          <span className="summary-label">{t('interactionModeLabel')}</span>
+          <strong>{canvas.interactionMode === 'select' ? t('selectMode') : t('panMode')}</strong>
+          <span>{t('interactionModeHint')}</span>
         </div>
         <div className="summary-block">
-          <span className="summary-label">{locale === 'zh-TW' ? '驗證' : 'Validation'}</span>
+          <span className="summary-label">{t('validationLabel')}</span>
           <strong>{validation.status === 'success' ? 'OK' : 'Review'}</strong>
           <span>{validation.summary}</span>
         </div>
@@ -153,8 +155,8 @@ export function CanvasWorkspace({
           </div>
         ) : (
           <div className="error-state">
-            <strong>{locale === 'zh-TW' ? '圖形生成失敗。' : 'Diagram generation failed.'}</strong>
-            <span>{locale === 'zh-TW' ? '請檢查參數設定。' : 'Check the current parameter values.'}</span>
+            <strong>{t('diagramFailed')}</strong>
+            <span>{t('diagramFailedHint')}</span>
           </div>
         )}
       </div>
