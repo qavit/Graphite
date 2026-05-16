@@ -250,13 +250,15 @@ function buildElectric(params: ChargedParticleParams, viewMode: ViewMode): Diagr
   const k = maxDeflect / (horizTravel * horizTravel);
 
   if (showTrajectory) {
+    const fn = (x: number) => enterY + (deflectsUp ? -1 : 1) * k * (x - enterX) ** 2;
     const curve: FunctionCurveElement = {
       id: 'trajectory',
       type: 'function-curve',
       visibility: viewMode === 'minimal' ? [] : visTeacherStudent(),
-      fn: (x: number) => enterY + (deflectsUp ? -1 : 1) * k * (x - enterX) ** 2,
-      domain: [enterX, enterX + horizTravel],
-      points: 60,
+      samples: Array.from({ length: 61 }, (_, i) => {
+        const x = enterX + (i / 60) * horizTravel;
+        return { x, y: fn(x) };
+      }),
       style: { stroke: '#000', strokeWidth: 2, strokeDasharray: '6,3' },
     };
     elements.push(curve);
