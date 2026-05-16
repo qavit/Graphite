@@ -62,6 +62,10 @@ export function renderNewElements(el: DiagramElement): string {
       return `${outer}\n${inner}`;
     }
 
+    case 'circuit-component': {
+      return renderCircuitComponent(el);
+    }
+
     case 'grid': {
       const lines: string[] = [];
       for (let x = el.xMin; x <= el.xMax; x += el.stepX) {
@@ -87,4 +91,128 @@ export function renderNewElements(el: DiagramElement): string {
     default:
       return '';
   }
+}
+
+// ── Circuit component renderer ────────────────────────────────────────────────
+// Each component is rendered centered at (cx, cy).
+// Wires connect at cx ± CIRCUIT_HALF_WIDTH for horizontal orientation,
+// cy ± CIRCUIT_HALF_WIDTH for vertical.
+export const CIRCUIT_HALF_WIDTH = 25;
+
+import { CircuitComponentElement } from '@graphite/diagram-spec';
+
+function renderCircuitComponent(el: CircuitComponentElement): string {
+  const { center: { x: cx, y: cy }, componentType, orientation, value } = el;
+  const sw = el.style?.strokeWidth ?? 2;
+  const stroke = el.style?.stroke ?? 'black';
+  const hw = CIRCUIT_HALF_WIDTH;
+  const parts: string[] = [];
+
+  const line = (x1: number, y1: number, x2: number, y2: number, w = sw) =>
+    `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${stroke}" stroke-width="${w}" fill="none"/>`;
+
+  const horiz = orientation === 'horizontal';
+
+  // Helper: coordinates along "along" and "across" the wire
+  const A = (a: number, b: number): [number, number] => horiz ? [cx + a, cy + b] : [cx + b, cy + a];
+
+  switch (componentType) {
+    case 'battery': {
+      // IEC single-cell: long line = positive (toward wire start), short = negative
+      // Lead wires to ±hw, terminal lines at ±7
+      const [lx1, ly1] = A(-hw, 0); const [lx2, ly2] = A(-7, 0);
+      const [rx1, ry1] = A(7, 0);   const [rx2, ry2] = A(hw, 0);
+      parts.push(line(lx1, ly1, lx2, ly2)); // left lead
+      parts.push(line(rx1, ry1, rx2, ry2)); // right lead
+      // Long line (positive)
+      const [p1x, p1y] = A(-7, -14); const [p2x, p2y] = A(-7, 14);
+      parts.push(line(p1x, p1y, p2x, p2y, 2));
+      // Short line (negative)
+      const [n1x, n1y] = A(7, -9); const [n2x, n2y] = A(7, 9);
+      parts.push(line(n1x, n1y, n2x, n2y, 2));
+      // + / − labels (small)
+      const [plx, ply] = A(-7, horiz ? -18 : -18);
+      const [nlx, nly] = A(7, horiz ? -13 : -13);
+      parts.push(`<text x="${plx.toFixed(1)}" y="${ply.toFixed(1)}" text-anchor="middle" font-size="11" font-family="sans-serif" fill="${stroke}">+</text>`);
+      parts.push(`<text x="${nlx.toFixed(1)}" y="${nly.toFixed(1)}" text-anchor="middle" font-size="11" font-family="sans-serif" fill="${stroke}">−</text>`);
+      break;
+    }
+
+    case 'resistor': {
+      // IEC: rectangle 40×16 centered on wire
+      const [lx1, ly1] = A(-hw, 0); const [lx2, ly2] = A(-20, 0);
+      const [rx1, ry1] = A(20, 0);  const [rx2, ry2] = A(hw, 0);
+      parts.push(line(lx1, ly1, lx2, ly2));
+      parts.push(line(rx1, ry1, rx2, ry2));
+      // Rectangle
+      const [bx, by] = A(-20, -9);
+      const rectW = 40, rectH = 18;
+      const [finalW, finalH] = horiz ? [rectW, rectH] : [rectH, rectW];
+      parts.push(`<rect x="${bx.toFixed(1)}" y="${by.toFixed(1)}" width="${finalW}" height="${finalH}" stroke="${stroke}" stroke-width="${sw}" fill="white"/>`);
+      break;
+    }
+
+    case 'bulb': {
+      const r = 15;
+      const [lx1, ly1] = A(-hw, 0); const [lx2, ly2] = A(-r, 0);
+      const [rx1, ry1] = A(r, 0);   const [rx2, ry2] = A(hw, 0);
+      parts.push(line(lx1, ly1, lx2, ly2));
+      parts.push(line(rx1, ry1, rx2, ry2));
+      parts.push(`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r}" stroke="${stroke}" stroke-width="${sw}" fill="white"/>`);
+      // Cross inside
+      const d = r * 0.6;
+      parts.push(line(cx - d, cy - d, cx + d, cy + d));
+      parts.push(line(cx + d, cy - d, cx - d, cy + d));
+      break;
+    }
+
+    case 'switch-open': {
+      const pivotOffset = 12;
+      const [lx1, ly1] = A(-hw, 0);  const [lx2, ly2] = A(-pivotOffset, 0);
+      const [rx1, ry1] = A(pivotOffset, 0); const [rx2, ry2] = A(hw, 0);
+      parts.push(line(lx1, ly1, lx2, ly2));
+      parts.push(line(rx1, ry1, rx2, ry2));
+      // Pivot and end dots
+      parts.push(`<circle cx="${lx2.toFixed(1)}" cy="${ly2.toFixed(1)}" r="2.5" fill="${stroke}"/>`);
+      parts.push(`<circle cx="${rx1.toFixed(1)}" cy="${ry1.toFixed(1)}" r="2.5" fill="${stroke}"/>`);
+      // Open blade (angled ~25° toward the "up" / "left" direction)
+      const [bx, by] = A(-pivotOffset, 0);
+      const [ex, ey] = A(pivotOffset - 4, horiz ? -13 : -13);
+      parts.push(line(bx, by, ex, ey));
+      break;
+    }
+
+    case 'switch-closed': {
+      const pivotOffset = 12;
+      const [lx1, ly1] = A(-hw, 0);  const [lx2, ly2] = A(-pivotOffset, 0);
+      const [rx1, ry1] = A(pivotOffset, 0); const [rx2, ry2] = A(hw, 0);
+      parts.push(line(lx1, ly1, lx2, ly2));
+      parts.push(line(rx1, ry1, rx2, ry2));
+      parts.push(`<circle cx="${lx2.toFixed(1)}" cy="${ly2.toFixed(1)}" r="2.5" fill="${stroke}"/>`);
+      parts.push(`<circle cx="${rx1.toFixed(1)}" cy="${ry1.toFixed(1)}" r="2.5" fill="${stroke}"/>`);
+      parts.push(line(lx2, ly2, rx1, ry1)); // closed blade
+      break;
+    }
+
+    case 'ammeter':
+    case 'voltmeter': {
+      const r = 15;
+      const [lx1, ly1] = A(-hw, 0); const [lx2, ly2] = A(-r, 0);
+      const [rx1, ry1] = A(r, 0);   const [rx2, ry2] = A(hw, 0);
+      parts.push(line(lx1, ly1, lx2, ly2));
+      parts.push(line(rx1, ry1, rx2, ry2));
+      parts.push(`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r}" stroke="${stroke}" stroke-width="${sw}" fill="white"/>`);
+      const letter = componentType === 'ammeter' ? 'A' : 'V';
+      parts.push(`<text x="${cx.toFixed(1)}" y="${(cy + 5).toFixed(1)}" text-anchor="middle" font-size="13" font-weight="bold" font-family="sans-serif" fill="${stroke}">${letter}</text>`);
+      break;
+    }
+  }
+
+  // Optional value label below/beside the component
+  if (value) {
+    const [vlx, vly] = A(0, horiz ? 30 : 30);
+    parts.push(`<text x="${vlx.toFixed(1)}" y="${vly.toFixed(1)}" text-anchor="middle" font-size="12" font-family="sans-serif" fill="${stroke}">${value}</text>`);
+  }
+
+  return parts.join('\n');
 }
