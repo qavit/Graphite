@@ -1031,8 +1031,7 @@ button {
   align-items: center;
   gap: 8px;
   width: 100%;
-  min-height: 48px;
-  padding: 8px 12px;
+  padding: 10px 12px;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-muted);
@@ -1049,12 +1048,17 @@ button {
 }
 
 .command-group-header {
-  padding: 6px 4px 2px;
+  padding: 2px 4px;
+  margin-top: 6px;
   font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--muted);
+}
+
+.command-group-header:first-child {
+  margin-top: 0;
 }
 
 .command-item__meta {
