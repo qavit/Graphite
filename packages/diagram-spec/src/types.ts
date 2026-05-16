@@ -36,7 +36,36 @@ export type ElementType =
   | 'label' 
   | 'box' 
   | 'force-vector' 
-  | 'coordinate-axis';
+  | 'coordinate-axis'
+  | 'grid'
+  | 'function-curve';
+
+export interface GridElement extends BaseElement {
+  type: 'grid';
+  xMin: number;
+  xMax: number;
+  yMin: number;
+  yMax: number;
+  stepX: number;
+  stepY: number;
+}
+
+export interface CoordinateAxisElement extends BaseElement {
+  type: 'coordinate-axis';
+  origin: Point;
+  xRange: [number, number];
+  yRange: [number, number];
+  xLabel?: string;
+  yLabel?: string;
+  showTicks: boolean;
+}
+
+export interface FunctionCurveElement extends BaseElement {
+  type: 'function-curve';
+  fn: (x: number) => number;
+  domain: [number, number];
+  points: number; // Sampling points for rendering
+}
 
 export interface BaseElement {
   id: string;
@@ -100,7 +129,10 @@ export type DiagramElement =
   | ArrowElement 
   | LabelElement 
   | BoxElement 
-  | ForceVectorElement;
+  | ForceVectorElement
+  | GridElement
+  | CoordinateAxisElement
+  | FunctionCurveElement;
 
 export interface DiagramSpec {
   metadata: DiagramMetadata;
