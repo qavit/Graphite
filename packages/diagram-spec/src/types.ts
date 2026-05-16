@@ -125,9 +125,8 @@ export interface CoordinateAxisElement extends BaseElement {
 
 export interface FunctionCurveElement extends BaseElement {
   type: 'function-curve';
-  fn: (x: number) => number;
-  domain: [number, number];
-  points: number; // Sampling points for rendering
+  /** Pre-sampled (x, y) points to draw. Computed by the caller before building the spec. */
+  samples: Point[];
 }
 
 export interface BaseElement {
