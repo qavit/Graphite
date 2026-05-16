@@ -20,6 +20,14 @@ const messages = {
     toggleTheme: '切換主題',
     toggleLanguage: '切換語言',
     toggleInspector: '切換檢視器',
+    commandPalette: '命令',
+    commandPaletteTitle: '命令面板',
+    commandPalettePlaceholder: '搜尋命令、快捷操作或面板',
+    commandPaletteEmpty: '找不到符合的命令。',
+    commandPaletteHint: '按 Esc 關閉',
+    mobileTemplates: '模板',
+    mobileInspector: '檢視器',
+    mobileCommands: '命令',
     selectMode: '選取',
     panMode: '平移',
     zoomIn: '放大',
@@ -101,6 +109,14 @@ const messages = {
     toggleTheme: 'Toggle theme',
     toggleLanguage: 'Toggle language',
     toggleInspector: 'Toggle inspector',
+    commandPalette: 'Command',
+    commandPaletteTitle: 'Command Palette',
+    commandPalettePlaceholder: 'Search commands, shortcuts, or panels',
+    commandPaletteEmpty: 'No matching commands.',
+    commandPaletteHint: 'Press Esc to close',
+    mobileTemplates: 'Templates',
+    mobileInspector: 'Inspector',
+    mobileCommands: 'Commands',
     selectMode: 'Select',
     panMode: 'Pan',
     zoomIn: 'Zoom in',
@@ -174,4 +190,3 @@ export function createTranslator(locale: UiLocale) {
 export function getLocaleLabel(locale: UiLocale) {
   return locale === 'zh-TW' ? '繁中 / zh-TW' : 'EN / English';
 }
-

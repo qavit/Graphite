@@ -8,6 +8,7 @@ import {
   MoonIcon,
   PanelIcon,
   PencilIcon,
+  SearchIcon,
   SaveIcon,
   SunIcon,
 } from './icons';
@@ -26,6 +27,7 @@ interface TopBarProps {
   onToggleTheme: () => void;
   onToggleLocale: () => void;
   onToggleInspector: () => void;
+  onOpenCommandPalette: () => void;
   fileLabel: string;
   mode: WorkbenchDocument['mode'];
 }
@@ -43,6 +45,7 @@ export function TopBar({
   onToggleTheme,
   onToggleLocale,
   onToggleInspector,
+  onOpenCommandPalette,
   fileLabel,
   mode,
 }: TopBarProps) {
@@ -101,6 +104,12 @@ export function TopBar({
           shortcut="⌘I"
           active={inspectorOpen}
           onClick={onToggleInspector}
+        />
+        <ToolButton
+          icon={<SearchIcon />}
+          label={locale === 'zh-TW' ? '命令面板' : 'Command palette'}
+          shortcut="⌘/"
+          onClick={onOpenCommandPalette}
         />
       </div>
     </header>

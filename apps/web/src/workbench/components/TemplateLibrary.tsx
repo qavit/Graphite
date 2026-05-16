@@ -9,6 +9,7 @@ interface TemplateLibraryProps {
   selectedTemplateId: TemplateId;
   onSearchChange: (value: string) => void;
   onTemplateSelect: (templateId: TemplateId) => void;
+  className?: string;
 }
 
 function matchesQuery(locale: UiLocale, query: string, templateId: TemplateId): boolean {
@@ -43,6 +44,7 @@ export function TemplateLibrary({
   selectedTemplateId,
   onSearchChange,
   onTemplateSelect,
+  className = '',
 }: TemplateLibraryProps) {
   const filteredTemplates = TEMPLATE_CATALOG.filter((entry) => matchesQuery(locale, value, entry.id));
   const groupedTemplates = filteredTemplates.reduce<Record<string, typeof filteredTemplates>>((acc, template) => {
@@ -54,7 +56,7 @@ export function TemplateLibrary({
   const groups = Object.keys(groupedTemplates) as Array<keyof typeof TEMPLATE_GROUP_LABELS>;
 
   return (
-    <section className="surface surface--sidebar">
+    <section className={`surface surface--sidebar ${className}`.trim()}>
       <div className="surface__header">
         <div>
           <p className="eyebrow">Template Library</p>

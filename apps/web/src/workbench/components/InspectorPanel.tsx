@@ -38,6 +38,7 @@ interface InspectorPanelProps {
   onSaveJson: () => void;
   onDownloadSvg: () => void;
   onCopySvg: () => void;
+  className?: string;
 }
 
 function TabButton({
@@ -321,11 +322,12 @@ export function InspectorPanel({
   onSaveJson,
   onDownloadSvg,
   onCopySvg,
+  className = '',
 }: InspectorPanelProps) {
   const t = createTranslator(locale);
 
   return (
-    <aside className="surface surface--inspector">
+    <aside className={`surface surface--inspector ${className}`.trim()}>
       <div className="surface__header surface__header--stacked">
         <div>
           <p className="eyebrow">{locale === 'zh-TW' ? '屬性檢視器' : 'Inspector'}</p>
