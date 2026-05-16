@@ -748,7 +748,14 @@ function App() {
         onQueryChange={setCommandQuery}
       />
 
-      <StatusBar locale={state.document.locale} status={statusText} validation={validation} />
+      <StatusBar
+        locale={state.document.locale}
+        theme={state.document.theme}
+        status={statusText}
+        canvas={state.document.canvas}
+        spec={specResult.spec}
+        validation={validation}
+      />
 
       <input ref={fileInputRef} type="file" accept="application/json,.json" hidden onChange={handleOpenFileChange} />
     </div>
