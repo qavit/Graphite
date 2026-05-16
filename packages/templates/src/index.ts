@@ -17,6 +17,15 @@ export {
   type ChargedParticleParams,
 } from './physics/chargedParticleMotion';
 
+// Physics - Simple Circuit Diagrams (Task 011)
+export {
+  generateSimpleCircuit,
+  simpleCircuitPresets,
+  type SimpleCircuitParams,
+  type SeriesCircuitParams,
+  type ParallelCircuitParams,
+} from './physics/simpleCircuit';
+
 // Golden fixtures for testing
 export {
   inclinedPlaneFixtures,
