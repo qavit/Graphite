@@ -10,6 +10,13 @@ export {
   type InclinedPlaneParams,
 } from './physics/inclinedPlane';
 
+// Physics - Charged Particle Motion in EM Field (Task 010)
+export {
+  generateChargedParticleMotion,
+  chargedParticlePresets,
+  type ChargedParticleParams,
+} from './physics/chargedParticleMotion';
+
 // Golden fixtures for testing
 export {
   inclinedPlaneFixtures,
