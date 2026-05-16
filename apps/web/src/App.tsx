@@ -312,9 +312,9 @@ function App() {
       });
   }
 
-  function handleInspectorTabChange(tab: typeof state.inspectorTab) {
+  const handleInspectorTabChange = useCallback((tab: typeof state.inspectorTab) => {
     dispatch({ type: 'ui/inspectorTab', tab });
-  }
+  }, []);
 
   const commandPaletteItems = useMemo<CommandPaletteItem[]>(
     () => [
@@ -515,15 +515,14 @@ function App() {
       },
     ],
     [
-      handleApplyIr,
       handleCanvasPatch,
-      handleCloseCommandPalette,
       handleCopySvg,
       handleDownloadSvg,
-      handleFormatIr,
+      handleInspectorTabChange,
       handleNewDocument,
       handleOpenDocument,
       handleSaveDocument,
+      handleTemplateSelect,
       handleToggleInspector,
       handleToggleInspectorPanel,
       handleToggleLocale,
@@ -535,7 +534,6 @@ function App() {
       state.document.locale,
       state.document.template,
       state.document.theme,
-      state.inspectorTab,
     ],
   );
 
@@ -636,7 +634,6 @@ function App() {
     handleCloseCommandPalette,
     state.document.canvas,
     state.document.locale,
-    state.inspectorOpen,
     handleNewDocument,
     handleOpenDocument,
     handleSaveDocument,
@@ -666,24 +663,24 @@ function App() {
         mode={state.document.mode}
       />
 
-      <div className="mobile-dock" aria-label={state.document.locale === 'zh-TW' ? '行動版面板切換' : 'Mobile panel switcher'}>
+      <div className="mobile-dock" aria-label={t('mobileTemplates')}>
         <ToolButton
           icon={<FolderOpenIcon />}
-          label={state.document.locale === 'zh-TW' ? '模板' : 'Templates'}
+          label={t('mobileTemplates')}
           active={mobilePanel === 'templates'}
           onClick={handleToggleTemplatesPanel}
           compact
         />
         <ToolButton
           icon={<InspectIcon />}
-          label={state.document.locale === 'zh-TW' ? '檢視器' : 'Inspector'}
+          label={t('mobileInspector')}
           active={mobilePanel === 'inspector'}
           onClick={handleToggleInspectorPanel}
           compact
         />
         <ToolButton
           icon={<SearchIcon />}
-          label={state.document.locale === 'zh-TW' ? '命令' : 'Commands'}
+          label={t('mobileCommands')}
           onClick={handleOpenCommandPalette}
           compact
         />
