@@ -1,4 +1,5 @@
 import { DiagramSpec, DiagramElement, ViewMode } from '@graphite/diagram-spec';
+import { renderNewElements } from './extra-renderers';
 
 /**
  * 核心渲染函數：將 DiagramSpec 轉換為 SVG 字串
@@ -33,6 +34,9 @@ export function renderToSVG(spec: DiagramSpec): string {
 }
 
 function renderElement(el: DiagramElement, mode: ViewMode): string {
+  const newEl = renderNewElements(el);
+  if (newEl) return newEl;
+
   const commonAttrs = `id="${el.id}" stroke="${el.style?.stroke || 'black'}" stroke-width="${el.style?.strokeWidth || 1.5}" fill="${el.style?.fill || 'none'}" stroke-dasharray="${el.style?.strokeDasharray || ''}"`;
   
   let transform = '';
