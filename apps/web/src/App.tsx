@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useReducer, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react';
 import type { ChangeEvent } from 'react';
 import { buildDiagramSpec, createDefaultDocument, loadDocumentFromUnknown, readSvgFromSpec, serializeDocument } from './workbench/document';
 import { TEMPLATE_CATALOG } from './workbench/catalog';
@@ -140,22 +140,22 @@ function App() {
     return () => window.clearTimeout(timer);
   }, [state.status, readyStatus]);
 
-  function handleNewDocument() {
+  const handleNewDocument = useCallback(() => {
     const document = createDefaultDocument();
     dispatch({ type: 'document/reset', document });
     dispatch({ type: 'ui/status', status: t('statusReady') });
-  }
+  }, [t]);
 
-  function handleOpenDocument() {
+  const handleOpenDocument = useCallback(() => {
     fileInputRef.current?.click();
-  }
+  }, []);
 
-  function handleSaveDocument() {
+  const handleSaveDocument = useCallback(() => {
     downloadText('graphite-workbench.json', serializeDocument(state.document));
     dispatch({ type: 'ui/status', status: state.document.locale === 'zh-TW' ? 'JSON 已儲存。' : 'JSON saved.' });
-  }
+  }, [state.document]);
 
-  async function handleCopySvg() {
+  const handleCopySvg = useCallback(async () => {
     if (!svgMarkup) {
       return;
     }
@@ -169,9 +169,9 @@ function App() {
         status: cause instanceof Error ? cause.message : state.document.locale === 'zh-TW' ? '複製失敗。' : 'Copy failed.',
       });
     }
-  }
+  }, [svgMarkup, state.document.locale]);
 
-  function handleDownloadSvg() {
+  const handleDownloadSvg = useCallback(() => {
     if (!svgMarkup) {
       return;
     }
@@ -179,19 +179,19 @@ function App() {
     const filename = `${fileLabel.replace(/\.json$/i, '')}.svg`;
     downloadText(filename, svgMarkup, 'image/svg+xml;charset=utf-8');
     dispatch({ type: 'ui/status', status: state.document.locale === 'zh-TW' ? 'SVG 已下載。' : 'SVG downloaded.' });
-  }
+  }, [svgMarkup, fileLabel, state.document.locale]);
 
-  function handleToggleTheme() {
+  const handleToggleTheme = useCallback(() => {
     dispatch({ type: 'document/theme', theme: nextTheme(state.document.theme) });
-  }
+  }, [state.document.theme]);
 
-  function handleToggleLocale() {
+  const handleToggleLocale = useCallback(() => {
     dispatch({ type: 'document/locale', locale: nextLocale(state.document.locale) });
-  }
+  }, [state.document.locale]);
 
-  function handleToggleInspector() {
+  const handleToggleInspector = useCallback(() => {
     dispatch({ type: 'ui/inspectorOpen', open: !state.inspectorOpen });
-  }
+  }, [state.inspectorOpen]);
 
   function handleTemplateSelect(templateId: TemplateId) {
     switch (templateId) {
@@ -225,9 +225,9 @@ function App() {
     dispatch({ type: 'document/template', template });
   }
 
-  function handleCanvasPatch(patch: Partial<WorkbenchDocument['canvas']>) {
+  const handleCanvasPatch = useCallback((patch: Partial<WorkbenchDocument['canvas']>) => {
     dispatch({ type: 'document/canvas', patch });
-  }
+  }, []);
 
   function handleIrDraftChange(value: string) {
     dispatch({ type: 'ui/irDraft', draft: value, error: null });
