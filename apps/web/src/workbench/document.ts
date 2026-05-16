@@ -78,6 +78,7 @@ export function buildDiagramSpec(document: WorkbenchDocument): DiagramSpec {
     elements,
     view: {
       ...baseSpec.view,
+      // DiagramSpec theme is always exam-bw; the UI light/dark theme is a shell concern only.
       theme: 'exam-bw',
     },
   };
