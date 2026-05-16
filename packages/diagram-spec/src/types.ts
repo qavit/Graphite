@@ -40,7 +40,36 @@ export type ElementType =
   | 'grid'
   | 'function-curve'
   | 'arc-path'
-  | 'field-symbol';
+  | 'field-symbol'
+  | 'circuit-component';
+
+/**
+ * Standard circuit component types used in Taiwan high school physics.
+ * IEC symbol conventions (rectangular resistor, circle bulb with cross).
+ */
+export type CircuitComponentType =
+  | 'battery'
+  | 'resistor'
+  | 'bulb'
+  | 'switch-open'
+  | 'switch-closed'
+  | 'ammeter'
+  | 'voltmeter';
+
+/**
+ * A single circuit component (battery, resistor, bulb, etc.).
+ * The component is centered at `center`; wires connect at center ± CIRCUIT_HALF_WIDTH
+ * in the orientation direction (see render-svg for the exact constant).
+ */
+export interface CircuitComponentElement extends BaseElement {
+  type: 'circuit-component';
+  componentType: CircuitComponentType;
+  center: Point;
+  /** Direction the component's leads extend along the wire. */
+  orientation: 'horizontal' | 'vertical';
+  /** Short value label shown near the component, e.g. "10 Ω", "6 V". */
+  value?: string;
+}
 
 export interface CircleElement extends BaseElement {
   type: 'circle';
@@ -167,6 +196,7 @@ export type DiagramElement =
   | CircleElement
   | ArcPathElement
   | FieldSymbolElement
+  | CircuitComponentElement
   | GridElement
   | CoordinateAxisElement
   | FunctionCurveElement;
