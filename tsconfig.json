@@ -2,9 +2,11 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "lib": ["ESNext", "DOM"],
+    "types": ["node"],
     "strict": true,
+
     "declaration": true,
     "sourceMap": true,
     "composite": true,
