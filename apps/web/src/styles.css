@@ -1085,6 +1085,25 @@ button {
   color: var(--muted);
 }
 
+.settings-dialog__section + .settings-dialog__section {
+  border-top: 1px solid var(--border);
+}
+
+.settings-toggle--disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* App-level feature flags */
+[data-tooltips='off'] .tool-button.is-icon-only::before {
+  display: none;
+}
+
+[data-shortcuts='off'] .tool-button__shortcut,
+[data-shortcuts='off'] .command-item kbd {
+  display: none;
+}
+
 .command-palette-backdrop {
   position: fixed;
   inset: 0;

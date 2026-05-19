@@ -6,6 +6,7 @@ import { createTranslator } from './workbench/i18n';
 import { createWorkbenchState, hydrateWorkbenchState, workbenchReducer } from './workbench/reducer';
 import { buildValidationReport } from './workbench/validation';
 import { persistStateToStorage, WORKBENCH_STORAGE_KEY } from './workbench/storage';
+import { readAppSettings, writeAppSettings, type AppSettings } from './workbench/settings';
 import { CanvasWorkspace } from './workbench/components/CanvasWorkspace';
 import { CommandPalette, type CommandPaletteItem } from './workbench/components/CommandPalette';
 import { InspectorPanel } from './workbench/components/InspectorPanel';
@@ -92,6 +93,14 @@ function App() {
   const [commandQuery, setCommandQuery] = useState('');
   const [mobilePanel, setMobilePanel] = useState<'templates' | 'inspector' | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [appSettings, setAppSettings] = useState<AppSettings>(() =>
+    typeof window !== 'undefined' ? readAppSettings() : { defaultInspectorTab: 'properties', showTooltips: true, showShortcuts: true, defaultShowGrid: true, defaultZoom: 1, snapEnabled: false }
+  );
+
+  const handleSettingsChange = useCallback((next: AppSettings) => {
+    setAppSettings(next);
+    writeAppSettings(next);
+  }, []);
 
   const initialLayout = typeof window !== 'undefined' ? readPanelLayout() : { leftWidth: 320, rightWidth: 380, leftCollapsed: false };
   const [leftWidth, setLeftWidth] = useState(initialLayout.leftWidth);
@@ -205,10 +214,15 @@ function App() {
   }, [leftWidth, rightWidth]);
 
   const handleNewDocument = useCallback(() => {
-    const document = createDefaultDocument();
+    const base = createDefaultDocument();
+    const document = {
+      ...base,
+      canvas: { ...base.canvas, showGrid: appSettings.defaultShowGrid, zoom: appSettings.defaultZoom },
+    };
     dispatch({ type: 'document/reset', document });
+    dispatch({ type: 'ui/inspectorTab', tab: appSettings.defaultInspectorTab });
     dispatch({ type: 'ui/status', status: t('statusReady') });
-  }, [t]);
+  }, [t, appSettings]);
 
   const handleOpenDocument = useCallback(() => {
     fileInputRef.current?.click();
@@ -705,7 +719,13 @@ function App() {
   ]);
 
   return (
-    <div className="app-shell" data-theme={state.document.theme} data-inspector-open={state.inspectorOpen ? 'true' : 'false'}>
+    <div
+      className="app-shell"
+      data-theme={state.document.theme}
+      data-inspector-open={state.inspectorOpen ? 'true' : 'false'}
+      data-tooltips={appSettings.showTooltips ? 'on' : 'off'}
+      data-shortcuts={appSettings.showShortcuts ? 'on' : 'off'}
+    >
       <TopBar
         locale={state.document.locale}
         theme={state.document.theme}
@@ -852,9 +872,11 @@ function App() {
         open={settingsOpen}
         locale={state.document.locale}
         theme={state.document.theme}
+        settings={appSettings}
         onClose={handleCloseSettings}
         onLocaleChange={(locale) => dispatch({ type: 'document/locale', locale })}
         onThemeChange={(theme) => dispatch({ type: 'document/theme', theme })}
+        onSettingsChange={handleSettingsChange}
       />
 
       <StatusBar
