@@ -93,6 +93,7 @@ function App() {
   const [commandQuery, setCommandQuery] = useState('');
   const [mobilePanel, setMobilePanel] = useState<'templates' | 'inspector' | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [focusMode, setFocusMode] = useState(false);
   const [appSettings, setAppSettings] = useState<AppSettings>(() =>
     typeof window !== 'undefined' ? readAppSettings() : { defaultInspectorTab: 'properties', showTooltips: true, showShortcuts: true, defaultShowGrid: true, defaultZoom: 1, snapEnabled: false, uiDensity: 'comfortable' as const }
   );
@@ -621,6 +622,16 @@ function App() {
       const key = event.key.toLowerCase();
       const mod = event.metaKey || event.ctrlKey;
 
+      if (mod && key === '\\') {
+        event.preventDefault();
+        setFocusMode((f) => {
+          const next = !f;
+          dispatch({ type: 'ui/status', status: next ? t('focusModeOn') : t('focusModeOff') });
+          return next;
+        });
+        return;
+      }
+
       if (mod && key === '/') {
         event.preventDefault();
         setCommandQuery('');
@@ -676,6 +687,16 @@ function App() {
         return;
       }
 
+      if (key === 'f') {
+        event.preventDefault();
+        setFocusMode((f) => {
+          const next = !f;
+          dispatch({ type: 'ui/status', status: next ? t('focusModeOn') : t('focusModeOff') });
+          return next;
+        });
+        return;
+      }
+
       if (key === 'g') {
         event.preventDefault();
         handleCanvasPatch({ showGrid: !state.document.canvas.showGrid });
@@ -716,6 +737,7 @@ function App() {
     handleCopySvg,
     handleToggleInspector,
     handleCanvasPatch,
+    t,
   ]);
 
   return (
@@ -726,6 +748,7 @@ function App() {
       data-tooltips={appSettings.showTooltips ? 'on' : 'off'}
       data-shortcuts={appSettings.showShortcuts ? 'on' : 'off'}
       data-density={appSettings.uiDensity}
+      data-focus={focusMode ? 'on' : 'off'}
     >
       <TopBar
         locale={state.document.locale}

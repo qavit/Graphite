@@ -1104,6 +1104,18 @@ button {
   display: none;
 }
 
+/* Focus mode */
+[data-focus='on'] .topbar,
+[data-focus='on'] .panel-wrapper,
+[data-focus='on'] .panel-resizer,
+[data-focus='on'] .mobile-dock {
+  display: none;
+}
+
+[data-focus='on'] .workspace-grid {
+  padding-top: 8px;
+}
+
 /* Compact density */
 [data-density='compact'] .topbar {
   padding: 10px 16px;
