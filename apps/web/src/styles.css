@@ -504,6 +504,34 @@ button {
   padding-inline: 9px;
   min-width: 38px;
   justify-content: center;
+  position: relative;
+}
+
+.tool-button.is-icon-only::before {
+  content: attr(title);
+  position: absolute;
+  bottom: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  white-space: nowrap;
+  background: var(--ink);
+  color: var(--surface);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 5px 8px;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity 0.12s ease,
+    transform 0.12s ease;
+  z-index: 200;
+}
+
+.tool-button.is-icon-only:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 .tool-button {
