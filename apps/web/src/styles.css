@@ -1155,6 +1155,14 @@ button {
   margin-bottom: 0;
 }
 
+.command-palette__sigil-hint {
+  margin: 0;
+  padding: 4px 2px 2px;
+  font-size: 0.74rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
 .command-palette__list {
   display: flex;
   flex-direction: column;

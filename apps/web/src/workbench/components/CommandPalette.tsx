@@ -22,6 +22,12 @@ interface CommandPaletteProps {
   onQueryChange: (query: string) => void;
 }
 
+const SIGIL_GROUPS: Record<string, string[]> = {
+  '>': ['File', 'Export', 'UI', 'Canvas', 'Inspector', '檔案', '匯出', '介面', '畫布', '檢視器'],
+  '@': ['Templates', '模板'],
+  '#': ['Panels', '面板'],
+};
+
 export function CommandPalette({ locale, open, query, commands, onClose, onQueryChange }: CommandPaletteProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
@@ -49,12 +55,20 @@ export function CommandPalette({ locale, open, query, commands, onClose, onQuery
   }, [activeIndex]);
 
   const filteredCommands = useMemo(() => {
-    const tokens = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
-    if (tokens.length === 0) {
-      return commands;
+    const trimmed = query.trim();
+    const sigil = trimmed.length > 0 && trimmed[0] in SIGIL_GROUPS ? trimmed[0] : null;
+    const searchText = sigil ? trimmed.slice(1).trim() : trimmed;
+    const tokens = searchText.toLowerCase().split(/\s+/).filter(Boolean);
+
+    let base = commands;
+    if (sigil) {
+      const allowed = SIGIL_GROUPS[sigil];
+      base = commands.filter((cmd) => allowed.includes(cmd.group));
     }
 
-    return commands.filter((command) => {
+    if (tokens.length === 0) return base;
+
+    return base.filter((command) => {
       const haystack = [command.label, command.detail, command.group, ...command.keywords].join(' ').toLowerCase();
       return tokens.every((token) => haystack.includes(token));
     });
@@ -125,6 +139,10 @@ export function CommandPalette({ locale, open, query, commands, onClose, onQuery
             placeholder={t('commandPalettePlaceholder')}
           />
         </label>
+
+        {query === '' ? (
+          <p className="command-palette__sigil-hint">{t('commandPaletteSigilHint')}</p>
+        ) : null}
 
         <div ref={listRef} className="command-palette__list" role="listbox">
           {rows.length === 0 ? (
