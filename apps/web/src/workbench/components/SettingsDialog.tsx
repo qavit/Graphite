@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { createTranslator, getLocaleLabel } from '../i18n';
-import type { AppSettings } from '../settings';
+import type { AppSettings, UiDensity } from '../settings';
 import type { InspectorTab, UiLocale, UiTheme } from '../types';
 
 interface SettingsDialogProps {
@@ -90,6 +90,17 @@ export function SettingsDialog({
               <select className="select" value={theme} onChange={(e) => onThemeChange(e.target.value as UiTheme)}>
                 <option value="light">{t('themeLight')}</option>
                 <option value="dark">{t('themeDark')}</option>
+              </select>
+            </label>
+            <label className="field">
+              <span className="field-label">{t('settingDensity')}</span>
+              <select
+                className="select"
+                value={settings.uiDensity}
+                onChange={(e) => patch({ uiDensity: e.target.value as UiDensity })}
+              >
+                <option value="comfortable">{t('densityComfortable')}</option>
+                <option value="compact">{t('densityCompact')}</option>
               </select>
             </label>
           </div>

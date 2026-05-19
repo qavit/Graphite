@@ -1104,6 +1104,52 @@ button {
   display: none;
 }
 
+/* Compact density */
+[data-density='compact'] .topbar {
+  padding: 10px 16px;
+  gap: 8px 12px;
+}
+
+[data-density='compact'] .topbar-actions {
+  gap: 3px;
+}
+
+[data-density='compact'] .tool-button {
+  min-height: 32px;
+  padding: 0 8px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+}
+
+[data-density='compact'] .tool-button.is-icon-only {
+  min-width: 32px;
+  padding-inline: 7px;
+}
+
+[data-density='compact'] .tool-button__icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+[data-density='compact'] .surface--sidebar,
+[data-density='compact'] .surface--inspector {
+  padding: 10px;
+}
+
+[data-density='compact'] .inspector-tab {
+  padding: 4px 8px;
+  font-size: 0.78rem;
+}
+
+[data-density='compact'] .field-stack {
+  gap: 8px;
+}
+
+[data-density='compact'] .statusbar {
+  height: 24px;
+  font-size: 0.74rem;
+}
+
 .command-palette-backdrop {
   position: fixed;
   inset: 0;

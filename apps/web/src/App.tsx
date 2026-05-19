@@ -94,7 +94,7 @@ function App() {
   const [mobilePanel, setMobilePanel] = useState<'templates' | 'inspector' | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [appSettings, setAppSettings] = useState<AppSettings>(() =>
-    typeof window !== 'undefined' ? readAppSettings() : { defaultInspectorTab: 'properties', showTooltips: true, showShortcuts: true, defaultShowGrid: true, defaultZoom: 1, snapEnabled: false }
+    typeof window !== 'undefined' ? readAppSettings() : { defaultInspectorTab: 'properties', showTooltips: true, showShortcuts: true, defaultShowGrid: true, defaultZoom: 1, snapEnabled: false, uiDensity: 'comfortable' as const }
   );
 
   const handleSettingsChange = useCallback((next: AppSettings) => {
@@ -725,6 +725,7 @@ function App() {
       data-inspector-open={state.inspectorOpen ? 'true' : 'false'}
       data-tooltips={appSettings.showTooltips ? 'on' : 'off'}
       data-shortcuts={appSettings.showShortcuts ? 'on' : 'off'}
+      data-density={appSettings.uiDensity}
     >
       <TopBar
         locale={state.document.locale}

@@ -1,5 +1,7 @@
 import type { InspectorTab } from './types';
 
+export type UiDensity = 'comfortable' | 'compact';
+
 export interface AppSettings {
   defaultInspectorTab: InspectorTab;
   showTooltips: boolean;
@@ -7,6 +9,7 @@ export interface AppSettings {
   defaultShowGrid: boolean;
   defaultZoom: number;
   snapEnabled: boolean; // stub
+  uiDensity: UiDensity;
 }
 
 export const DEFAULT_APP_SETTINGS: AppSettings = {
@@ -16,6 +19,7 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
   defaultShowGrid: true,
   defaultZoom: 1,
   snapEnabled: false,
+  uiDensity: 'comfortable',
 };
 
 export const APP_SETTINGS_KEY = 'graphite-app-settings';
@@ -34,6 +38,7 @@ export function readAppSettings(): AppSettings {
       defaultShowGrid: typeof p.defaultShowGrid === 'boolean' ? p.defaultShowGrid : DEFAULT_APP_SETTINGS.defaultShowGrid,
       defaultZoom: validZooms.includes(p.defaultZoom) ? p.defaultZoom : DEFAULT_APP_SETTINGS.defaultZoom,
       snapEnabled: typeof p.snapEnabled === 'boolean' ? p.snapEnabled : DEFAULT_APP_SETTINGS.snapEnabled,
+      uiDensity: p.uiDensity === 'compact' ? 'compact' : 'comfortable',
     };
   } catch {
     return { ...DEFAULT_APP_SETTINGS };
