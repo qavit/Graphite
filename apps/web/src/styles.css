@@ -818,35 +818,45 @@ button {
   margin: 2px 0;
 }
 
-.ir-editor {
-  min-height: 360px;
-  width: 100%;
-  padding: 14px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-  background: var(--surface-muted);
-  color: var(--ink);
-  resize: vertical;
-  box-sizing: border-box;
+.ir-tab-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.code-shell {
+.ir-tab-editor {
+  height: 360px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
-  background: var(--surface-muted);
-  overflow: auto;
+  overflow: hidden;
 }
 
-.code-block {
-  margin: 0;
-  min-height: 360px;
-  padding: 14px;
-  color: var(--ink);
-  font-family: 'SFMono-Regular', 'SF Mono', Consolas, 'Liberation Mono', monospace;
-  font-size: 0.82rem;
-  line-height: 1.55;
-  white-space: pre-wrap;
-  word-break: break-word;
+.svg-tab-editor {
+  height: 420px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.codemirror-wrap {
+  height: 100%;
+  overflow: hidden;
+}
+
+.codemirror-wrap .cm-editor {
+  height: 100%;
+  border-radius: inherit;
+}
+
+.codemirror-wrap .cm-editor.cm-focused {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.codemirror-wrap .cm-gutters {
+  border-right: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--muted);
 }
 
 .validation-list {

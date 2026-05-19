@@ -13,8 +13,9 @@ import type {
   WorkbenchDocument,
   WorkbenchValidationReport,
 } from '../types';
-import { FileIcon, LanguageIcon, MoonIcon, ResetIcon, SaveIcon, SunIcon } from './icons';
+import { FileIcon, ResetIcon, SaveIcon } from './icons';
 import { ToolButton } from './ToolButton';
+import { CodeMirrorEditor } from './CodeMirrorEditor';
 
 interface InspectorPanelProps {
   document: WorkbenchDocument;
@@ -384,13 +385,15 @@ export function InspectorPanel({
         ) : null}
 
         {tab === 'ir' ? (
-          <div className="field-stack">
-            <textarea
-              className="ir-editor"
-              value={irDraft}
-              onChange={(event) => onIrDraftChange(event.target.value)}
-              spellCheck={false}
-            />
+          <div className="ir-tab-layout">
+            <div className="ir-tab-editor">
+              <CodeMirrorEditor
+                value={irDraft}
+                language="json"
+                theme={document.theme}
+                onChange={onIrDraftChange}
+              />
+            </div>
             {irError ? <p className="error-text">{irError}</p> : null}
             <div className="action-row">
               <ToolButton icon={<SaveIcon />} label={t('saveIr')} shortcut="Enter" onClick={onApplyIr} />
@@ -401,10 +404,13 @@ export function InspectorPanel({
         ) : null}
 
         {tab === 'svg' ? (
-          <div className="field-stack">
-            <div className="code-shell">
-              <pre className="code-block">{svgMarkup}</pre>
-            </div>
+          <div className="svg-tab-editor">
+            <CodeMirrorEditor
+              value={svgMarkup}
+              language="xml"
+              readOnly
+              theme={document.theme}
+            />
           </div>
         ) : null}
 
