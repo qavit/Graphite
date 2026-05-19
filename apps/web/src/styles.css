@@ -172,9 +172,32 @@ button {
   grid-area: actions;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
   justify-content: flex-end;
+}
+
+.topbar-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.topbar-divider {
+  width: 1px;
+  height: 22px;
+  background: var(--border);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+.topbar-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+  padding-left: 4px;
+  border-left: 1px solid var(--border);
 }
 
 .workspace-grid {
