@@ -99,6 +99,10 @@ const messages = {
     diagramFailedHint: '請檢查參數設定。',
     settingsTitle: '設定',
     settingsGeneral: '一般',
+    collapseLeft: '收合左側面板',
+    expandLeft: '展開左側面板',
+    collapseRight: '收合右側面板',
+    expandRight: '展開右側面板',
   },
   'en-US': {
     appTitle: 'Graphite',
@@ -198,6 +202,10 @@ const messages = {
     diagramFailedHint: 'Check the current parameter values.',
     settingsTitle: 'Settings',
     settingsGeneral: 'General',
+    collapseLeft: 'Collapse left panel',
+    expandLeft: 'Expand left panel',
+    collapseRight: 'Collapse right panel',
+    expandRight: 'Expand right panel',
   },
 } satisfies Record<UiLocale, Record<string, string>>;
 

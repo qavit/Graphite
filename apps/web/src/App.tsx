@@ -14,9 +14,28 @@ import { StatusBar } from './workbench/components/StatusBar';
 import { TemplateLibrary } from './workbench/components/TemplateLibrary';
 import { TopBar } from './workbench/components/TopBar';
 import { ToolButton } from './workbench/components/ToolButton';
-import { FolderOpenIcon, InspectIcon, SearchIcon } from './workbench/components/icons';
+import { ChevronLeftIcon, ChevronRightIcon, FolderOpenIcon, InspectIcon, SearchIcon } from './workbench/components/icons';
 import type { InspectorTab, TemplateId, UiLocale, UiTheme, WorkbenchDocument } from './workbench/types';
 import './styles.css';
+
+const PANEL_MIN_WIDTH = 220;
+const PANEL_MAX_WIDTH = 560;
+const PANEL_LAYOUT_KEY = 'graphite-panel-layout';
+
+function readPanelLayout() {
+  try {
+    const raw = window.localStorage.getItem(PANEL_LAYOUT_KEY);
+    if (!raw) return { leftWidth: 320, rightWidth: 380, leftCollapsed: false };
+    const p = JSON.parse(raw);
+    return {
+      leftWidth: typeof p.leftWidth === 'number' ? p.leftWidth : 320,
+      rightWidth: typeof p.rightWidth === 'number' ? p.rightWidth : 380,
+      leftCollapsed: Boolean(p.leftCollapsed),
+    };
+  } catch {
+    return { leftWidth: 320, rightWidth: 380, leftCollapsed: false };
+  }
+}
 
 function readInitialState() {
   if (typeof window === 'undefined') {
@@ -73,6 +92,12 @@ function App() {
   const [commandQuery, setCommandQuery] = useState('');
   const [mobilePanel, setMobilePanel] = useState<'templates' | 'inspector' | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+
+  const initialLayout = typeof window !== 'undefined' ? readPanelLayout() : { leftWidth: 320, rightWidth: 380, leftCollapsed: false };
+  const [leftWidth, setLeftWidth] = useState(initialLayout.leftWidth);
+  const [rightWidth, setRightWidth] = useState(initialLayout.rightWidth);
+  const [leftCollapsed, setLeftCollapsed] = useState(initialLayout.leftCollapsed);
+  const dragRef = useRef<{ side: 'left' | 'right'; startX: number; startWidth: number } | null>(null);
 
   const t = useMemo(() => createTranslator(state.document.locale), [state.document.locale]);
 
@@ -147,6 +172,37 @@ function App() {
 
     return () => window.clearTimeout(timer);
   }, [state.status, readyStatus]);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(PANEL_LAYOUT_KEY, JSON.stringify({ leftWidth, rightWidth, leftCollapsed }));
+    } catch {}
+  }, [leftWidth, rightWidth, leftCollapsed]);
+
+  const handleResizerMouseDown = useCallback((side: 'left' | 'right', e: React.MouseEvent) => {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startWidth = side === 'left' ? leftWidth : rightWidth;
+    dragRef.current = { side, startX, startWidth };
+
+    const onMouseMove = (ev: MouseEvent) => {
+      if (!dragRef.current) return;
+      const dx = ev.clientX - startX;
+      const delta = side === 'left' ? dx : -dx;
+      const newWidth = Math.min(PANEL_MAX_WIDTH, Math.max(PANEL_MIN_WIDTH, startWidth + delta));
+      if (side === 'left') setLeftWidth(newWidth);
+      else setRightWidth(newWidth);
+    };
+
+    const onMouseUp = () => {
+      dragRef.current = null;
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+  }, [leftWidth, rightWidth]);
 
   const handleNewDocument = useCallback(() => {
     const document = createDefaultDocument();
@@ -690,14 +746,35 @@ function App() {
       </div>
 
       <div className="workspace-grid">
-        <TemplateLibrary
-          locale={state.document.locale}
-          value={state.templateSearch}
-          selectedTemplateId={state.document.template.type}
-          onSearchChange={(query) => dispatch({ type: 'ui/templateSearch', query })}
-          onTemplateSelect={handleTemplateSelect}
-          className={`mobile-sheet mobile-sheet--templates ${mobilePanel === 'templates' ? 'is-open' : ''}`}
-        />
+        <div
+          className={`panel-wrapper panel-wrapper--left${leftCollapsed ? ' is-collapsed' : ''}`}
+          style={{ width: leftCollapsed ? 0 : leftWidth }}
+        >
+          <TemplateLibrary
+            locale={state.document.locale}
+            value={state.templateSearch}
+            selectedTemplateId={state.document.template.type}
+            onSearchChange={(query) => dispatch({ type: 'ui/templateSearch', query })}
+            onTemplateSelect={handleTemplateSelect}
+            className={`mobile-sheet mobile-sheet--templates ${mobilePanel === 'templates' ? 'is-open' : ''}`}
+          />
+        </div>
+
+        <div
+          className="panel-resizer panel-resizer--left"
+          onMouseDown={(e) => handleResizerMouseDown('left', e)}
+          role="separator"
+          aria-label={t(leftCollapsed ? 'expandLeft' : 'collapseLeft')}
+        >
+          <button
+            type="button"
+            className="panel-resizer__btn"
+            onClick={() => setLeftCollapsed((c) => !c)}
+            title={t(leftCollapsed ? 'expandLeft' : 'collapseLeft')}
+          >
+            {leftCollapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </button>
+        </div>
 
         <CanvasWorkspace
           locale={state.document.locale}
@@ -715,7 +792,26 @@ function App() {
           onToggleVectors={() => handleCanvasPatch({ showVectors: !state.document.canvas.showVectors })}
         />
 
-        {state.inspectorOpen ? (
+        <div
+          className="panel-resizer panel-resizer--right"
+          onMouseDown={(e) => handleResizerMouseDown('right', e)}
+          role="separator"
+          aria-label={t(state.inspectorOpen ? 'collapseRight' : 'expandRight')}
+        >
+          <button
+            type="button"
+            className="panel-resizer__btn"
+            onClick={handleToggleInspector}
+            title={t(state.inspectorOpen ? 'collapseRight' : 'expandRight')}
+          >
+            {state.inspectorOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </button>
+        </div>
+
+        <div
+          className={`panel-wrapper panel-wrapper--right${!state.inspectorOpen ? ' is-collapsed' : ''}`}
+          style={{ width: state.inspectorOpen ? rightWidth : 0 }}
+        >
           <InspectorPanel
             document={state.document}
             validation={validation}
@@ -737,7 +833,7 @@ function App() {
             onCopySvg={handleCopySvg}
             className={`mobile-sheet mobile-sheet--inspector ${mobilePanel === 'inspector' ? 'is-open' : ''}`}
           />
-        ) : null}
+        </div>
       </div>
 
       <CommandPalette

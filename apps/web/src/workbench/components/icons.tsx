@@ -23,4 +23,6 @@ export {
   Save as SaveIcon,
   PanelRight as PanelIcon,
   Settings as SettingsIcon,
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
 } from 'lucide-react';
