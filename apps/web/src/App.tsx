@@ -145,6 +145,11 @@ function App() {
     return template ? `${template.title[state.document.locale]}.json` : 'graphite-workbench.json';
   }, [state.document.locale, state.document.template.type]);
 
+  const templateName = useMemo(() => {
+    const template = TEMPLATE_CATALOG.find((entry) => entry.id === state.document.template.type as TemplateId);
+    return template ? template.title[state.document.locale] : state.document.template.type;
+  }, [state.document.locale, state.document.template.type]);
+
   useEffect(() => {
     if (typeof window === 'undefined') {
       return;
@@ -754,21 +759,21 @@ function App() {
       <TopBar
         locale={state.document.locale}
         theme={state.document.theme}
-        inspectorOpen={state.inspectorOpen}
-        status={statusText}
+        fileLabel={fileLabel}
+        docTitle={state.document.title}
         docStatus={docStatus}
+        spec={specResult.spec}
+        templateName={templateName}
+        onTitleChange={(title) => dispatch({ type: 'document/title', title })}
         onNewDocument={handleNewDocument}
         onOpenDocument={handleOpenDocument}
         onSaveDocument={handleSaveDocument}
         onCopySvg={handleCopySvg}
         onDownloadSvg={handleDownloadSvg}
-        onToggleInspector={handleToggleInspector}
         onOpenCommandPalette={handleOpenCommandPalette}
         onOpenSettings={handleOpenSettings}
         onToggleTheme={handleToggleTheme}
         onToggleLocale={handleToggleLocale}
-        fileLabel={fileLabel}
-        mode={state.document.mode}
       />
 
       <div className="mobile-dock" aria-label={t('mobileTemplates')}>

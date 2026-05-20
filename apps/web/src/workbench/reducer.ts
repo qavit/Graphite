@@ -67,6 +67,15 @@ export function workbenchReducer(state: WorkbenchState, action: WorkbenchAction)
         irError: null,
       };
     }
+    case 'document/title': {
+      const document = { ...state.document, title: action.title };
+      return {
+        ...state,
+        document,
+        irDraft: serializeDocument(document),
+        irError: null,
+      };
+    }
     case 'document/locale': {
       const document = { ...state.document, locale: action.locale };
       return {

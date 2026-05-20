@@ -46,6 +46,7 @@ export type TemplateState = InclinedTemplateState | ParticleTemplateState | Circ
 
 export interface WorkbenchDocument {
   version: 1;
+  title: string;
   locale: UiLocale;
   theme: UiTheme;
   mode: ViewMode;
@@ -81,6 +82,7 @@ export type WorkbenchAction =
   | { type: 'document/template'; template: TemplateState }
   | { type: 'document/canvas'; patch: Partial<CanvasState> }
   | { type: 'document/mode'; mode: ViewMode }
+  | { type: 'document/title'; title: string }
   | { type: 'document/locale'; locale: UiLocale }
   | { type: 'document/theme'; theme: UiTheme }
   | { type: 'ui/inspectorTab'; tab: InspectorTab }

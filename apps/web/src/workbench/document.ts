@@ -22,6 +22,7 @@ import type {
 export function createDefaultDocument(): WorkbenchDocument {
   return {
     version: 1,
+    title: '',
     locale: 'zh-TW',
     theme: 'light',
     mode: 'teacher',
@@ -165,6 +166,7 @@ export function loadDocumentFromUnknown(input: unknown, fallback = createDefault
 
   return {
     version: 1,
+    title: toString(raw.title, ''),
     locale,
     theme,
     mode,
