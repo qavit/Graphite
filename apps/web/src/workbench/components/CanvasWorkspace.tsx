@@ -1,3 +1,4 @@
+import { useCallback, useRef } from 'react';
 import type { DiagramSpec } from '@graphite/diagram-spec';
 import { createTranslator } from '../i18n';
 import type { CanvasState, TemplateState, UiLocale, WorkbenchValidationReport } from '../types';
@@ -72,6 +73,28 @@ export function CanvasWorkspace({
   const t = createTranslator(locale);
   const canvasTitle = formatTitle(locale, template);
   const zoomLabel = `${Math.round(canvas.zoom * 100)}%`;
+  const stageRef = useRef<HTMLDivElement>(null);
+  const panRef = useRef<{ startX: number; startY: number; scrollLeft: number; scrollTop: number } | null>(null);
+
+  const handleStageMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (canvas.interactionMode !== 'pan' || !stageRef.current) return;
+    e.preventDefault();
+    const el = stageRef.current;
+    panRef.current = { startX: e.clientX, startY: e.clientY, scrollLeft: el.scrollLeft, scrollTop: el.scrollTop };
+
+    const onMouseMove = (ev: MouseEvent) => {
+      if (!panRef.current || !stageRef.current) return;
+      stageRef.current.scrollLeft = panRef.current.scrollLeft - (ev.clientX - panRef.current.startX);
+      stageRef.current.scrollTop  = panRef.current.scrollTop  - (ev.clientY - panRef.current.startY);
+    };
+    const onMouseUp = () => {
+      panRef.current = null;
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+  }, [canvas.interactionMode]);
 
   return (
     <main className="surface surface--canvas">
@@ -150,7 +173,11 @@ export function CanvasWorkspace({
         </div>
       </div>
 
-      <div className={`canvas-stage${canvas.showGrid ? ' canvas-stage--grid' : ''}`}>
+      <div
+        ref={stageRef}
+        className={`canvas-stage${canvas.showGrid ? ' canvas-stage--grid' : ''}${canvas.interactionMode === 'pan' ? ' canvas-stage--pan' : ''}`}
+        onMouseDown={handleStageMouseDown}
+      >
         {spec ? (
           <div
             className="paper-frame"
