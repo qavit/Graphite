@@ -104,6 +104,23 @@ button {
   flex-shrink: 0;
 }
 
+/* ghost tool-buttons inside topbar */
+.topbar .tool-button {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  min-height: 34px;
+  padding: 0 8px;
+}
+
+.topbar .tool-button:hover,
+.topbar .tool-button:focus-visible {
+  background: color-mix(in srgb, var(--foreground) 8%, transparent);
+  border-color: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
 .brand-mark {
   display: flex;
   align-items: center;

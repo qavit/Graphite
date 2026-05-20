@@ -3,11 +3,11 @@ import { createTranslator } from '../i18n';
 import type { DiagramSpec } from '@graphite/diagram-spec';
 import type { UiLocale, UiTheme } from '../types';
 import {
+  CommandIcon,
   CopyIcon,
   DownloadIcon,
   LanguageIcon,
   MoonIcon,
-  SearchIcon,
   SettingsIcon,
   SunIcon,
 } from './icons';
@@ -281,7 +281,7 @@ export function TopBar({
         />
         <ToolButton
           iconOnly
-          icon={<SearchIcon />}
+          icon={<CommandIcon />}
           label={t('openCommandPalette')}
           shortcut="⌘/"
           onClick={onOpenCommandPalette}
