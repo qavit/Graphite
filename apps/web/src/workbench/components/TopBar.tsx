@@ -277,6 +277,7 @@ export function TopBar({
           iconOnly
           icon={<SettingsIcon />}
           label={t('settingsTitle')}
+          shortcut="⌘,"
           onClick={onOpenSettings}
         />
         <ToolButton

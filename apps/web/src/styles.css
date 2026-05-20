@@ -132,6 +132,17 @@ button {
   transform: translateX(-50%) translateY(0);
 }
 
+/* rightmost topbar buttons — anchor tooltip to right so it doesn't overflow */
+.topbar-actions .tool-button:last-child.is-icon-only::before {
+  left: auto;
+  right: 0;
+  transform: translateY(-4px);
+}
+
+.topbar-actions .tool-button:last-child.is-icon-only:hover::before {
+  transform: translateY(0);
+}
+
 .brand-mark {
   display: flex;
   align-items: center;
@@ -1424,13 +1435,18 @@ button {
 }
 
 .statusbar__zoom-caret {
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   color: var(--muted);
   cursor: pointer;
-  padding: 0 2px;
+  padding: 1px 4px;
   border-radius: 3px;
   line-height: 1;
   transition: background 80ms, color 80ms;
+  border: 1px solid transparent;
+}
+
+.statusbar__zoom-caret:hover {
+  border-color: var(--border);
 }
 
 .statusbar__zoom-caret:hover,

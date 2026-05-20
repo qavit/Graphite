@@ -654,6 +654,12 @@ function App() {
         return;
       }
 
+      if (mod && key === ',') {
+        event.preventDefault();
+        setSettingsOpen((open) => !open);
+        return;
+      }
+
       if (commandPaletteOpen) {
         if (key === 'escape') {
           event.preventDefault();
