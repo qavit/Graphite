@@ -279,21 +279,30 @@ function TemplateSettings({
   );
 }
 
+const SEVERITY_ICON: Record<'success' | 'info' | 'warning', string> = {
+  success: '✅',
+  info: 'ℹ️',
+  warning: '⚠️',
+};
+
 function ValidationList({ validation, locale }: { validation: WorkbenchValidationReport; locale: UiLocale }) {
+  const t = createTranslator(locale);
   return (
-    <div className="validation-list">
-      {validation.items.map((item) => (
-        <article key={item.id} className={`validation-item is-${item.severity}`}>
-          <div className="validation-item__header">
-            <strong>{item.title}</strong>
-            <span>{item.severity}</span>
-          </div>
-          <p>{item.detail}</p>
-        </article>
-      ))}
-      <div className="helper-card">
-        <strong>{locale === 'zh-TW' ? '摘要' : 'Summary'}</strong>
-        <span>{validation.summary}</span>
+    <div className="validation-panel">
+      <div className={`validation-summary validation-summary--${validation.status}`}>
+        <span className="validation-summary__icon">{validation.status === 'success' ? '✅' : '⚠️'}</span>
+        <span className="validation-summary__text">{validation.status === 'success' ? t('validationAllPassed') : t('validationHasIssues')}</span>
+      </div>
+      <div className="validation-cards">
+        {validation.items.map((item) => (
+          <article key={item.id} className={`validation-card validation-card--${item.severity}`}>
+            <div className="validation-card__icon" aria-hidden="true">{SEVERITY_ICON[item.severity]}</div>
+            <div className="validation-card__body">
+              <strong className="validation-card__title">{item.title}</strong>
+              <p className="validation-card__detail">{item.detail}</p>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   );

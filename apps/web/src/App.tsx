@@ -139,6 +139,7 @@ function App() {
 
   const readyStatus = t('statusReady');
   const statusText = specResult.error ?? (state.status === 'Workbench ready' ? readyStatus : state.status);
+  const docStatus = specResult.error ? 'error' : validation.status === 'warning' ? 'warning' : 'valid';
   const fileLabel = useMemo(() => {
     const template = TEMPLATE_CATALOG.find((entry) => entry.id === state.document.template.type as TemplateId);
     return template ? `${template.title[state.document.locale]}.json` : 'graphite-workbench.json';
@@ -755,6 +756,7 @@ function App() {
         theme={state.document.theme}
         inspectorOpen={state.inspectorOpen}
         status={statusText}
+        docStatus={docStatus}
         onNewDocument={handleNewDocument}
         onOpenDocument={handleOpenDocument}
         onSaveDocument={handleSaveDocument}

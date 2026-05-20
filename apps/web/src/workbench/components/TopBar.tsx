@@ -16,11 +16,14 @@ import {
 } from './icons';
 import { ToolButton } from './ToolButton';
 
+type DocStatus = 'valid' | 'warning' | 'error';
+
 interface TopBarProps {
   locale: UiLocale;
   theme: UiTheme;
   inspectorOpen: boolean;
   status: string;
+  docStatus: DocStatus;
   onNewDocument: () => void;
   onOpenDocument: () => void;
   onSaveDocument: () => void;
@@ -40,6 +43,7 @@ export function TopBar({
   theme,
   inspectorOpen,
   status,
+  docStatus,
   onNewDocument,
   onOpenDocument,
   onSaveDocument,
@@ -54,6 +58,7 @@ export function TopBar({
   mode,
 }: TopBarProps) {
   const t = createTranslator(locale);
+  const docStatusKey = docStatus === 'valid' ? 'docStatusValid' : docStatus === 'warning' ? 'docStatusWarning' : 'docStatusError';
   const modeLabels: Record<WorkbenchDocument['mode'], string> = {
     teacher: t('modeTeacher'),
     student: t('modeStudent'),
@@ -76,6 +81,7 @@ export function TopBar({
           <span>{fileLabel}</span>
         </div>
         <div className="mode-pill">{modeLabels[mode]}</div>
+        <div className={`doc-status-badge doc-status-badge--${docStatus}`}>{t(docStatusKey)}</div>
         <div className="status-pill">{status}</div>
       </div>
 

@@ -117,6 +117,11 @@ const messages = {
     expandLeft: '展開左側面板',
     collapseRight: '收合右側面板',
     expandRight: '展開右側面板',
+    docStatusValid: '✓ 通過',
+    docStatusWarning: '⚠ 待確認',
+    docStatusError: '✕ 錯誤',
+    validationAllPassed: '所有檢查已通過。',
+    validationHasIssues: '有部分項目需要確認。',
   },
   'en-US': {
     appTitle: 'Graphite',
@@ -234,6 +239,11 @@ const messages = {
     expandLeft: 'Expand left panel',
     collapseRight: 'Collapse right panel',
     expandRight: 'Expand right panel',
+    docStatusValid: '✓ Valid',
+    docStatusWarning: '⚠ Review',
+    docStatusError: '✕ Error',
+    validationAllPassed: 'All checks passed.',
+    validationHasIssues: 'Some items need review.',
   },
 } satisfies Record<UiLocale, Record<string, string>>;
 
