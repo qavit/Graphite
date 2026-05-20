@@ -101,8 +101,6 @@ export function CanvasWorkspace({
       <div className="canvas-header">
         <h1 className="canvas-header__title">{spec?.metadata.title ?? canvasTitle}</h1>
         <div className="canvas-metrics">
-          <span className="metric-chip">{spec?.canvas.width ?? 0} × {spec?.canvas.height ?? 0}</span>
-          <span className="metric-chip">{spec?.elements.length ?? 0} el</span>
           <button type="button" className="metric-chip metric-chip--button" title={t('fitCanvas') + ' (0)'} onClick={onFit}>
             {zoomLabel}
           </button>
@@ -153,10 +151,23 @@ export function CanvasWorkspace({
       >
         {spec ? (
           <div
-            className="paper-frame"
-            style={{ transform: `scale(${canvas.zoom})`, transformOrigin: 'top center' }}
+            style={{
+              width: spec.canvas.width * canvas.zoom,
+              height: spec.canvas.height * canvas.zoom,
+              flexShrink: 0,
+            }}
           >
-            <div className="paper-content" aria-label="SVG preview" dangerouslySetInnerHTML={{ __html: svgMarkup }} />
+            <div
+              className="paper-frame"
+              style={{
+                transform: `scale(${canvas.zoom})`,
+                transformOrigin: 'top left',
+                width: spec.canvas.width,
+                height: spec.canvas.height,
+              }}
+            >
+              <div className="paper-content" aria-label="SVG preview" dangerouslySetInnerHTML={{ __html: svgMarkup }} />
+            </div>
           </div>
         ) : (
           <div className="error-state">

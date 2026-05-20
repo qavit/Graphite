@@ -482,8 +482,11 @@ button {
 .surface--canvas {
   flex: 1 1 0;
   min-width: 0;
+  overflow: hidden;
   padding: 16px;
   margin: 0 4px;
+  display: flex;
+  flex-direction: column;
 }
 
 .surface--inspector {
@@ -979,6 +982,7 @@ button {
 }
 
 .canvas-stage {
+  flex: 1 1 0;
   min-height: 0;
   overflow: auto;
   background: #e8eaed;
@@ -1372,7 +1376,7 @@ button {
   backdrop-filter: blur(8px);
   color: var(--muted);
   font-size: 0.78rem;
-  overflow: hidden;
+  overflow: visible;
   white-space: nowrap;
 }
 

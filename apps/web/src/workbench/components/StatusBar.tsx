@@ -40,6 +40,14 @@ export function StatusBar({ locale, status, canvas, spec, validation, onFitCanva
       <span className={`statusbar__status${validOk ? '' : ' statusbar__status--warn'}`}>{status}</span>
       <span className="statusbar__sep" aria-hidden="true" />
       <span className="statusbar__field">{toolLabel}</span>
+      {spec && (
+        <>
+          <span className="statusbar__sep" aria-hidden="true" />
+          <span className="statusbar__field">{spec.canvas.width} × {spec.canvas.height}</span>
+          <span className="statusbar__sep" aria-hidden="true" />
+          <span className="statusbar__field">{spec.elements.length} {spec.elements.length === 1 ? 'element' : 'elements'}</span>
+        </>
+      )}
       <span className="statusbar__sep" aria-hidden="true" />
 
       <span className="statusbar__zoom-anchor" ref={zoomAnchorRef}>
