@@ -90,12 +90,12 @@ button {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
+  gap: 10px;
+  padding: 6px 14px;
   border-bottom: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
   background: color-mix(in srgb, var(--surface) 76%, transparent);
   backdrop-filter: blur(14px);
-  min-height: 52px;
+  min-height: 44px;
   position: relative;
   z-index: 30;
 }
@@ -109,8 +109,8 @@ button {
   background: transparent;
   border-color: transparent;
   box-shadow: none;
-  min-height: 34px;
-  padding: 0 8px;
+  min-height: 30px;
+  padding: 0 7px;
 }
 
 .topbar .tool-button:hover,
@@ -119,6 +119,17 @@ button {
   border-color: transparent;
   box-shadow: none;
   transform: none;
+}
+
+/* tooltip below for topbar buttons (they're at the top of the viewport) */
+.topbar .tool-button.is-icon-only::before {
+  bottom: auto;
+  top: calc(100% + 7px);
+  transform: translateX(-50%) translateY(-4px);
+}
+
+.topbar .tool-button.is-icon-only:hover::before {
+  transform: translateX(-50%) translateY(0);
 }
 
 .brand-mark {

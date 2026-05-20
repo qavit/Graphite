@@ -13,7 +13,7 @@ export {
   Pencil as PencilIcon,
   MousePointer2 as PointerIcon,
   Search as SearchIcon,
-  Command as CommandIcon,
+  Terminal as CommandIcon,
   Sun as SunIcon,
   Type as TypeIcon,
   ArrowUpRight as VectorIcon,
