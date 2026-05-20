@@ -10,6 +10,8 @@ export interface AppSettings {
   defaultZoom: number;
   snapEnabled: boolean; // stub
   uiDensity: UiDensity;
+  svgIncludeMetadata: boolean;
+  svgInlineStyles: boolean;
 }
 
 export const DEFAULT_APP_SETTINGS: AppSettings = {
@@ -20,6 +22,8 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
   defaultZoom: 1,
   snapEnabled: false,
   uiDensity: 'comfortable',
+  svgIncludeMetadata: true,
+  svgInlineStyles: true,
 };
 
 export const APP_SETTINGS_KEY = 'graphite-app-settings';
@@ -39,6 +43,8 @@ export function readAppSettings(): AppSettings {
       defaultZoom: validZooms.includes(p.defaultZoom) ? p.defaultZoom : DEFAULT_APP_SETTINGS.defaultZoom,
       snapEnabled: typeof p.snapEnabled === 'boolean' ? p.snapEnabled : DEFAULT_APP_SETTINGS.snapEnabled,
       uiDensity: p.uiDensity === 'compact' ? 'compact' : 'comfortable',
+      svgIncludeMetadata: typeof p.svgIncludeMetadata === 'boolean' ? p.svgIncludeMetadata : DEFAULT_APP_SETTINGS.svgIncludeMetadata,
+      svgInlineStyles: typeof p.svgInlineStyles === 'boolean' ? p.svgInlineStyles : DEFAULT_APP_SETTINGS.svgInlineStyles,
     };
   } catch {
     return { ...DEFAULT_APP_SETTINGS };

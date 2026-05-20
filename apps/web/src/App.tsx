@@ -95,7 +95,7 @@ function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [focusMode, setFocusMode] = useState(false);
   const [appSettings, setAppSettings] = useState<AppSettings>(() =>
-    typeof window !== 'undefined' ? readAppSettings() : { defaultInspectorTab: 'properties', showTooltips: true, showShortcuts: true, defaultShowGrid: true, defaultZoom: 1, snapEnabled: false, uiDensity: 'comfortable' as const }
+    typeof window !== 'undefined' ? readAppSettings() : { defaultInspectorTab: 'properties', showTooltips: true, showShortcuts: true, defaultShowGrid: true, defaultZoom: 1, snapEnabled: false, uiDensity: 'comfortable' as const, svgIncludeMetadata: true, svgInlineStyles: true }
   );
 
   const handleSettingsChange = useCallback((next: AppSettings) => {
@@ -273,6 +273,15 @@ function App() {
   const handleToggleLocale = useCallback(() => {
     dispatch({ type: 'document/locale', locale: nextLocale(state.document.locale) });
   }, [state.document.locale]);
+
+  const handleFit = useCallback(() => {
+    dispatch({ type: 'document/canvas', patch: { zoom: 1 } });
+  }, []);
+
+  const handleOpenValidation = useCallback(() => {
+    dispatch({ type: 'ui/inspectorOpen', open: true });
+    dispatch({ type: 'ui/inspectorTab', tab: 'validation' });
+  }, []);
 
   const handleToggleInspector = useCallback(() => {
     dispatch({ type: 'ui/inspectorOpen', open: !state.inspectorOpen });
@@ -840,7 +849,7 @@ function App() {
           onInteractionModeChange={(interactionMode) => dispatch({ type: 'document/canvas', patch: { interactionMode } })}
           onZoomIn={() => dispatch({ type: 'document/canvas', patch: { zoom: Math.min(2, Number((state.document.canvas.zoom + 0.1).toFixed(2))) } })}
           onZoomOut={() => dispatch({ type: 'document/canvas', patch: { zoom: Math.max(0.5, Number((state.document.canvas.zoom - 0.1).toFixed(2))) } })}
-          onFit={() => dispatch({ type: 'document/canvas', patch: { zoom: 1 } })}
+          onFit={handleFit}
           onToggleGrid={() => handleCanvasPatch({ showGrid: !state.document.canvas.showGrid })}
           onToggleLabels={() => handleCanvasPatch({ showLabels: !state.document.canvas.showLabels })}
           onToggleVectors={() => handleCanvasPatch({ showVectors: !state.document.canvas.showVectors })}
@@ -874,7 +883,10 @@ function App() {
             irError={state.irError}
             tab={state.inspectorTab}
             locale={state.document.locale}
+            fileLabel={fileLabel}
+            appSettings={appSettings}
             onTabChange={handleInspectorTabChange}
+            onSettingsChange={handleSettingsChange}
             onDocumentModeChange={(mode) => dispatch({ type: 'document/mode', mode })}
             onTemplateChange={handleTemplateUpdate}
             onCanvasChange={handleCanvasPatch}
@@ -917,6 +929,8 @@ function App() {
         canvas={state.document.canvas}
         spec={specResult.spec}
         validation={validation}
+        onFitCanvas={handleFit}
+        onOpenValidation={handleOpenValidation}
       />
 
       <input ref={fileInputRef} type="file" accept="application/json,.json" hidden onChange={handleOpenFileChange} />

@@ -98,22 +98,12 @@ export function CanvasWorkspace({
 
   return (
     <main className="surface surface--canvas">
-      <div className="surface__header surface__header--stacked">
-        <div>
-          <p className="eyebrow">{t('canvasLabel')}</p>
-          <h1>{spec?.metadata.title ?? canvasTitle}</h1>
-        </div>
+      <div className="canvas-header">
+        <h1 className="canvas-header__title">{spec?.metadata.title ?? canvasTitle}</h1>
         <div className="canvas-metrics">
-          <span className="metric-chip">
-            {spec?.canvas.width ?? 0} × {spec?.canvas.height ?? 0}
-          </span>
-          <span className="metric-chip">{spec?.elements.length ?? 0} elements</span>
-          <button
-            type="button"
-            className="metric-chip metric-chip--button"
-            title={t('fitCanvas') + ' (0)'}
-            onClick={onFit}
-          >
+          <span className="metric-chip">{spec?.canvas.width ?? 0} × {spec?.canvas.height ?? 0}</span>
+          <span className="metric-chip">{spec?.elements.length ?? 0} el</span>
+          <button type="button" className="metric-chip metric-chip--button" title={t('fitCanvas') + ' (0)'} onClick={onFit}>
             {zoomLabel}
           </button>
         </div>
@@ -155,22 +145,14 @@ export function CanvasWorkspace({
         </div>
       </div>
 
-      <div className="canvas-summary">
-        <div className="summary-block">
-          <span className="summary-label">{t('templateLabel')}</span>
-          <strong>{canvasTitle}</strong>
-          <span>{t('templateHint')}</span>
-        </div>
-        <div className="summary-block">
-          <span className="summary-label">{t('interactionModeLabel')}</span>
-          <strong>{canvas.interactionMode === 'select' ? t('selectMode') : t('panMode')}</strong>
-          <span>{t('interactionModeHint')}</span>
-        </div>
-        <div className="summary-block">
-          <span className="summary-label">{t('validationLabel')}</span>
-          <strong>{validation.status === 'success' ? 'OK' : 'Review'}</strong>
-          <span>{validation.summary}</span>
-        </div>
+      <div className="canvas-info-bar">
+        <span className="canvas-info-bar__item">{canvasTitle}</span>
+        <span className="canvas-info-bar__sep" aria-hidden="true">·</span>
+        <span className="canvas-info-bar__item">{canvas.interactionMode === 'select' ? t('selectMode') : t('panMode')}</span>
+        <span className="canvas-info-bar__sep" aria-hidden="true">·</span>
+        <span className={`canvas-info-bar__item canvas-info-bar__item--${validation.status}`}>
+          {validation.status === 'success' ? '✓' : '⚠'} {validation.summary}
+        </span>
       </div>
 
       <div

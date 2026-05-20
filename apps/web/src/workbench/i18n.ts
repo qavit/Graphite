@@ -122,6 +122,13 @@ const messages = {
     docStatusError: '✕ 錯誤',
     validationAllPassed: '所有檢查已通過。',
     validationHasIssues: '有部分項目需要確認。',
+    exportFilename: '檔案名稱',
+    exportSvgOptions: 'SVG 選項',
+    exportOptIncludeMetadata: '包含 metadata',
+    exportOptInlineStyles: '內嵌樣式',
+    settingsAppearance: '外觀',
+    clickToFit: '點擊以適合',
+    clickForValidation: '點擊查看驗證',
   },
   'en-US': {
     appTitle: 'Graphite',
@@ -244,6 +251,13 @@ const messages = {
     docStatusError: '✕ Error',
     validationAllPassed: 'All checks passed.',
     validationHasIssues: 'Some items need review.',
+    exportFilename: 'Filename',
+    exportSvgOptions: 'SVG options',
+    exportOptIncludeMetadata: 'Include metadata',
+    exportOptInlineStyles: 'Inline styles',
+    settingsAppearance: 'Appearance',
+    clickToFit: 'Click to fit',
+    clickForValidation: 'Click to see validation',
   },
 } satisfies Record<UiLocale, Record<string, string>>;
 

@@ -9,9 +9,11 @@ interface StatusBarProps {
   canvas: CanvasState;
   spec: DiagramSpec | null;
   validation: WorkbenchValidationReport;
+  onFitCanvas: () => void;
+  onOpenValidation: () => void;
 }
 
-export function StatusBar({ locale, theme, status, canvas, spec, validation }: StatusBarProps) {
+export function StatusBar({ locale, theme, status, canvas, spec, validation, onFitCanvas, onOpenValidation }: StatusBarProps) {
   const t = createTranslator(locale);
   const zoomLabel = `${Math.round(canvas.zoom * 100)}%`;
   const toolLabel = canvas.interactionMode === 'select' ? t('selectMode') : t('panMode');
@@ -26,13 +28,25 @@ export function StatusBar({ locale, theme, status, canvas, spec, validation }: S
       <span className="statusbar__sep" aria-hidden="true" />
       <span className="statusbar__field" title={t('interactionModeLabel')}>{toolLabel}</span>
       <span className="statusbar__sep" aria-hidden="true" />
-      <span className="statusbar__field" title={t('canvasZoom')}>{zoomLabel}</span>
+      <button
+        type="button"
+        className="statusbar__field statusbar__field--btn"
+        title={t('clickToFit')}
+        onClick={onFitCanvas}
+      >
+        {zoomLabel}
+      </button>
       <span className="statusbar__sep" aria-hidden="true" />
       <span className="statusbar__field">{sizeLabel}</span>
       <span className="statusbar__sep" aria-hidden="true" />
-      <span className="statusbar__field statusbar__field--validation" title={t('validationLabel')}>
+      <button
+        type="button"
+        className={`statusbar__field statusbar__field--btn statusbar__field--validation${validOk ? '' : ' is-warn'}`}
+        title={t('clickForValidation')}
+        onClick={onOpenValidation}
+      >
         {validOk ? '✓' : '⚠'} {validation.summary}
-      </span>
+      </button>
       <span className="statusbar__right">
         <span className="statusbar__field">{localeLabel}</span>
         <span className="statusbar__sep" aria-hidden="true" />

@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { CIRCUIT_PRESET_META } from '../catalog';
 import { createTranslator } from '../i18n';
 import { serializeDocument } from '../document';
+import type { AppSettings } from '../settings';
 import type {
   CanvasState,
   CircuitTemplateState,
@@ -25,7 +26,10 @@ interface InspectorPanelProps {
   irError: string | null;
   tab: InspectorTab;
   locale: UiLocale;
+  fileLabel: string;
+  appSettings: AppSettings;
   onTabChange: (tab: InspectorTab) => void;
+  onSettingsChange: (s: AppSettings) => void;
   onDocumentModeChange: (mode: WorkbenchDocument['mode']) => void;
   onTemplateChange: (template: TemplateState) => void;
   onCanvasChange: (patch: Partial<CanvasState>) => void;
@@ -316,7 +320,10 @@ export function InspectorPanel({
   irError,
   tab,
   locale,
+  fileLabel,
+  appSettings,
   onTabChange,
+  onSettingsChange,
   onDocumentModeChange,
   onTemplateChange,
   onCanvasChange,
@@ -427,10 +434,42 @@ export function InspectorPanel({
 
         {tab === 'export' ? (
           <div className="field-stack">
+            <label className="field">
+              <span className="field-label">{t('exportFilename')}</span>
+              <input
+                className="input"
+                type="text"
+                readOnly
+                value={fileLabel}
+              />
+            </label>
+
+            <div className="export-section-label">{t('exportSvgOptions')}</div>
+            <div className="field-stack field-stack--tight">
+              <label className="toggle">
+                <input
+                  type="checkbox"
+                  checked={appSettings.svgIncludeMetadata}
+                  onChange={(e) => onSettingsChange({ ...appSettings, svgIncludeMetadata: e.target.checked })}
+                />
+                <span>{t('exportOptIncludeMetadata')}</span>
+              </label>
+              <label className="toggle">
+                <input
+                  type="checkbox"
+                  checked={appSettings.svgInlineStyles}
+                  onChange={(e) => onSettingsChange({ ...appSettings, svgInlineStyles: e.target.checked })}
+                />
+                <span>{t('exportOptInlineStyles')}</span>
+              </label>
+            </div>
+
+            <div className="divider" />
+
             <div className="action-row">
-              <ToolButton icon={<FileIcon />} label={t('saveDocument')} shortcut="S" onClick={onSaveJson} />
-              <ToolButton icon={<CopySvgShortcutIcon />} label={t('copySvg')} shortcut="⇧C" onClick={onCopySvg} />
-              <ToolButton icon={<SaveIcon />} label={t('downloadSvg')} shortcut="⇧D" onClick={onDownloadSvg} />
+              <ToolButton icon={<FileIcon />} label={t('saveDocument')} shortcut="⌘S" onClick={onSaveJson} />
+              <ToolButton icon={<CopySvgShortcutIcon />} label={t('copySvg')} shortcut="⌘⇧C" onClick={onCopySvg} />
+              <ToolButton icon={<SaveIcon />} label={t('downloadSvg')} shortcut="⌘⇧D" onClick={onDownloadSvg} />
             </div>
             <p className="panel-note">{t('exportHint')}</p>
           </div>

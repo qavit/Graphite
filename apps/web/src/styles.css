@@ -878,7 +878,54 @@ button {
   color: var(--accent);
 }
 
-.canvas-summary,
+/* canvas header — single row */
+.canvas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+  margin-bottom: 8px;
+}
+
+.canvas-header__title {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* canvas info bar — replaces 3 summary cards */
+.canvas-info-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0 10px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.canvas-info-bar__sep {
+  color: var(--border);
+  flex-shrink: 0;
+}
+
+.canvas-info-bar__item--success {
+  color: #16a34a;
+}
+
+.canvas-info-bar__item--warning {
+  color: #b45309;
+}
+
+[data-theme='dark'] .canvas-info-bar__item--success { color: #4ade80; }
+[data-theme='dark'] .canvas-info-bar__item--warning { color: #fbbf24; }
+
+/* keep legacy preview-summary if used elsewhere */
 .preview-summary {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1100,6 +1147,30 @@ button {
   line-height: 1.5;
 }
 
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-muted);
+  color: var(--muted-strong);
+  font-size: 0.86rem;
+}
+
+.export-section-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.field-stack--tight {
+  gap: 6px;
+}
+
 .segmented {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1311,12 +1382,31 @@ button {
   color: var(--muted);
 }
 
+.statusbar__field--btn {
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 0 3px;
+  margin: 0 -3px;
+  transition: background 80ms, color 80ms;
+}
+
+.statusbar__field--btn:hover {
+  background: color-mix(in srgb, var(--foreground) 10%, transparent);
+  color: var(--foreground);
+}
+
 .statusbar__field--validation {
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 0;
   flex-shrink: 1;
 }
+
+.statusbar__field--validation.is-warn {
+  color: #b45309;
+}
+
+[data-theme='dark'] .statusbar__field--validation.is-warn { color: #fbbf24; }
 
 .statusbar__right {
   margin-left: auto;
@@ -1353,6 +1443,8 @@ button {
 .settings-dialog__panel {
   display: flex;
   flex-direction: column;
+  width: 520px;
+  max-width: 95vw;
 }
 
 .settings-dialog__header {
@@ -1386,6 +1478,50 @@ button {
 .settings-dialog__close:hover {
   background: var(--surface-strong);
   color: var(--ink);
+}
+
+.settings-dialog__body {
+  display: flex;
+  min-height: 280px;
+}
+
+.settings-dialog__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 130px;
+  flex-shrink: 0;
+  padding: 12px 8px;
+  border-right: 1px solid var(--border);
+  background: var(--surface-muted);
+}
+
+.settings-nav-item {
+  padding: 7px 12px;
+  border-radius: var(--radius-md);
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--muted-strong);
+  cursor: pointer;
+  text-align: left;
+  transition: background 80ms, color 80ms;
+}
+
+.settings-nav-item:hover {
+  background: color-mix(in srgb, var(--foreground) 7%, transparent);
+  color: var(--foreground);
+}
+
+.settings-nav-item.is-active {
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.settings-dialog__content {
+  flex: 1;
+  padding: 20px 24px;
+  min-width: 0;
 }
 
 .settings-dialog__section {
@@ -1705,7 +1841,6 @@ button {
     transform: translateY(0);
   }
 
-  .canvas-summary,
   .preview-summary,
   .segmented,
   .segmented--compact {

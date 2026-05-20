@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createTranslator, getLocaleLabel } from '../i18n';
 import type { AppSettings, UiDensity } from '../settings';
 import type { InspectorTab, UiLocale, UiTheme } from '../types';
@@ -13,6 +13,8 @@ interface SettingsDialogProps {
   onThemeChange: (theme: UiTheme) => void;
   onSettingsChange: (settings: AppSettings) => void;
 }
+
+type SettingsTab = 'general' | 'appearance' | 'editor' | 'canvas';
 
 const INSPECTOR_TABS: InspectorTab[] = ['properties', 'ir', 'svg', 'validation', 'export'];
 const ZOOM_OPTIONS = [0.5, 0.75, 1, 1.5, 2] as const;
@@ -29,6 +31,7 @@ export function SettingsDialog({
 }: SettingsDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const t = createTranslator(locale);
+  const [activeTab, setActiveTab] = useState<SettingsTab>('general');
 
   useEffect(() => {
     const el = dialogRef.current;
@@ -43,10 +46,7 @@ export function SettingsDialog({
   useEffect(() => {
     const el = dialogRef.current;
     if (!el) return;
-    const onCancel = (e: Event) => {
-      e.preventDefault();
-      onClose();
-    };
+    const onCancel = (e: Event) => { e.preventDefault(); onClose(); };
     el.addEventListener('cancel', onCancel);
     return () => el.removeEventListener('cancel', onCancel);
   }, [onClose]);
@@ -67,6 +67,13 @@ export function SettingsDialog({
     export: t('exportTab'),
   };
 
+  const navItems: { id: SettingsTab; label: string }[] = [
+    { id: 'general', label: t('settingsGeneral') },
+    { id: 'appearance', label: t('settingsAppearance') },
+    { id: 'editor', label: t('settingsEditor') },
+    { id: 'canvas', label: t('settingsCanvas') },
+  ];
+
   return (
     <dialog ref={dialogRef} className="settings-dialog" onClick={handleBackdropClick} aria-label={t('settingsTitle')}>
       <div className="settings-dialog__panel">
@@ -75,100 +82,95 @@ export function SettingsDialog({
           <button type="button" className="settings-dialog__close" onClick={onClose} aria-label="Close">×</button>
         </div>
 
-        <section className="settings-dialog__section">
-          <h3>{t('settingsGeneral')}</h3>
-          <div className="field-stack">
-            <label className="field">
-              <span className="field-label">{t('languageLabel')}</span>
-              <select className="select" value={locale} onChange={(e) => onLocaleChange(e.target.value as UiLocale)}>
-                <option value="zh-TW">{getLocaleLabel('zh-TW')}</option>
-                <option value="en-US">{getLocaleLabel('en-US')}</option>
-              </select>
-            </label>
-            <label className="field">
-              <span className="field-label">{t('themeLabel')}</span>
-              <select className="select" value={theme} onChange={(e) => onThemeChange(e.target.value as UiTheme)}>
-                <option value="light">{t('themeLight')}</option>
-                <option value="dark">{t('themeDark')}</option>
-              </select>
-            </label>
-            <label className="field">
-              <span className="field-label">{t('settingDensity')}</span>
-              <select
-                className="select"
-                value={settings.uiDensity}
-                onChange={(e) => patch({ uiDensity: e.target.value as UiDensity })}
+        <div className="settings-dialog__body">
+          <nav className="settings-dialog__nav">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={`settings-nav-item${activeTab === item.id ? ' is-active' : ''}`}
+                onClick={() => setActiveTab(item.id)}
               >
-                <option value="comfortable">{t('densityComfortable')}</option>
-                <option value="compact">{t('densityCompact')}</option>
-              </select>
-            </label>
-          </div>
-        </section>
+                {item.label}
+              </button>
+            ))}
+          </nav>
 
-        <section className="settings-dialog__section">
-          <h3>{t('settingsEditor')}</h3>
-          <div className="field-stack">
-            <label className="field">
-              <span className="field-label">{t('settingDefaultTab')}</span>
-              <select
-                className="select"
-                value={settings.defaultInspectorTab}
-                onChange={(e) => patch({ defaultInspectorTab: e.target.value as InspectorTab })}
-              >
-                {INSPECTOR_TABS.map((tab) => (
-                  <option key={tab} value={tab}>{tabLabels[tab]}</option>
-                ))}
-              </select>
-            </label>
-            <label className="toggle">
-              <input
-                type="checkbox"
-                checked={settings.showTooltips}
-                onChange={(e) => patch({ showTooltips: e.target.checked })}
-              />
-              <span>{t('settingShowTooltips')}</span>
-            </label>
-            <label className="toggle">
-              <input
-                type="checkbox"
-                checked={settings.showShortcuts}
-                onChange={(e) => patch({ showShortcuts: e.target.checked })}
-              />
-              <span>{t('settingShowShortcuts')}</span>
-            </label>
-          </div>
-        </section>
+          <div className="settings-dialog__content">
+            {activeTab === 'general' && (
+              <div className="field-stack">
+                <label className="field">
+                  <span className="field-label">{t('languageLabel')}</span>
+                  <select className="select" value={locale} onChange={(e) => onLocaleChange(e.target.value as UiLocale)}>
+                    <option value="zh-TW">{getLocaleLabel('zh-TW')}</option>
+                    <option value="en-US">{getLocaleLabel('en-US')}</option>
+                  </select>
+                </label>
+              </div>
+            )}
 
-        <section className="settings-dialog__section">
-          <h3>{t('settingsCanvas')}</h3>
-          <div className="field-stack">
-            <label className="toggle">
-              <input
-                type="checkbox"
-                checked={settings.defaultShowGrid}
-                onChange={(e) => patch({ defaultShowGrid: e.target.checked })}
-              />
-              <span>{t('settingDefaultGrid')}</span>
-            </label>
-            <label className="field">
-              <span className="field-label">{t('settingDefaultZoom')}</span>
-              <select
-                className="select"
-                value={settings.defaultZoom}
-                onChange={(e) => patch({ defaultZoom: Number(e.target.value) })}
-              >
-                {ZOOM_OPTIONS.map((z) => (
-                  <option key={z} value={z}>{Math.round(z * 100)}%</option>
-                ))}
-              </select>
-            </label>
-            <label className="toggle settings-toggle--disabled">
-              <input type="checkbox" checked={false} disabled />
-              <span>{t('settingSnap')}</span>
-            </label>
+            {activeTab === 'appearance' && (
+              <div className="field-stack">
+                <label className="field">
+                  <span className="field-label">{t('themeLabel')}</span>
+                  <select className="select" value={theme} onChange={(e) => onThemeChange(e.target.value as UiTheme)}>
+                    <option value="light">{t('themeLight')}</option>
+                    <option value="dark">{t('themeDark')}</option>
+                  </select>
+                </label>
+                <label className="field">
+                  <span className="field-label">{t('settingDensity')}</span>
+                  <select className="select" value={settings.uiDensity} onChange={(e) => patch({ uiDensity: e.target.value as UiDensity })}>
+                    <option value="comfortable">{t('densityComfortable')}</option>
+                    <option value="compact">{t('densityCompact')}</option>
+                  </select>
+                </label>
+              </div>
+            )}
+
+            {activeTab === 'editor' && (
+              <div className="field-stack">
+                <label className="field">
+                  <span className="field-label">{t('settingDefaultTab')}</span>
+                  <select className="select" value={settings.defaultInspectorTab} onChange={(e) => patch({ defaultInspectorTab: e.target.value as InspectorTab })}>
+                    {INSPECTOR_TABS.map((tab) => (
+                      <option key={tab} value={tab}>{tabLabels[tab]}</option>
+                    ))}
+                  </select>
+                </label>
+                <label className="toggle">
+                  <input type="checkbox" checked={settings.showTooltips} onChange={(e) => patch({ showTooltips: e.target.checked })} />
+                  <span>{t('settingShowTooltips')}</span>
+                </label>
+                <label className="toggle">
+                  <input type="checkbox" checked={settings.showShortcuts} onChange={(e) => patch({ showShortcuts: e.target.checked })} />
+                  <span>{t('settingShowShortcuts')}</span>
+                </label>
+              </div>
+            )}
+
+            {activeTab === 'canvas' && (
+              <div className="field-stack">
+                <label className="toggle">
+                  <input type="checkbox" checked={settings.defaultShowGrid} onChange={(e) => patch({ defaultShowGrid: e.target.checked })} />
+                  <span>{t('settingDefaultGrid')}</span>
+                </label>
+                <label className="field">
+                  <span className="field-label">{t('settingDefaultZoom')}</span>
+                  <select className="select" value={settings.defaultZoom} onChange={(e) => patch({ defaultZoom: Number(e.target.value) })}>
+                    {ZOOM_OPTIONS.map((z) => (
+                      <option key={z} value={z}>{Math.round(z * 100)}%</option>
+                    ))}
+                  </select>
+                </label>
+                <label className="toggle settings-toggle--disabled">
+                  <input type="checkbox" checked={false} disabled />
+                  <span>{t('settingSnap')}</span>
+                </label>
+              </div>
+            )}
           </div>
-        </section>
+        </div>
       </div>
     </dialog>
   );
