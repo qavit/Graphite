@@ -340,11 +340,8 @@ export function InspectorPanel({
 
   return (
     <aside className={`surface surface--inspector ${className}`.trim()}>
-      <div className="surface__header surface__header--stacked">
-        <div>
-          <p className="eyebrow">{locale === 'zh-TW' ? '屬性檢視器' : 'Inspector'}</p>
-          <h2>{t('inspectorLabel')}</h2>
-        </div>
+      <div className="surface__header">
+        <h2 className="surface__title">{t('inspectorLabel')}</h2>
       </div>
 
       <div className="inspector-tabs" role="tablist" aria-label={locale === 'zh-TW' ? '檢視器分頁' : 'Inspector tabs'}>

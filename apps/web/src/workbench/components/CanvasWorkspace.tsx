@@ -145,15 +145,6 @@ export function CanvasWorkspace({
         </div>
       </div>
 
-      <div className="canvas-info-bar">
-        <span className="canvas-info-bar__item">{canvasTitle}</span>
-        <span className="canvas-info-bar__sep" aria-hidden="true">·</span>
-        <span className="canvas-info-bar__item">{canvas.interactionMode === 'select' ? t('selectMode') : t('panMode')}</span>
-        <span className="canvas-info-bar__sep" aria-hidden="true">·</span>
-        <span className={`canvas-info-bar__item canvas-info-bar__item--${validation.status}`}>
-          {validation.status === 'success' ? '✓' : '⚠'} {validation.summary}
-        </span>
-      </div>
 
       <div
         ref={stageRef}

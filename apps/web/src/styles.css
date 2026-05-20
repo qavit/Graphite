@@ -552,14 +552,21 @@ button {
 
 .surface__header {
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
 }
 
-.surface__header--stacked {
-  align-items: flex-start;
+.surface__title {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
 }
 
 .eyebrow {
@@ -1408,12 +1415,63 @@ button {
 
 [data-theme='dark'] .statusbar__field--validation.is-warn { color: #fbbf24; }
 
-.statusbar__right {
-  margin-left: auto;
-  display: flex;
+.statusbar__zoom-anchor {
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  gap: 0;
+  gap: 1px;
   flex-shrink: 0;
+}
+
+.statusbar__zoom-caret {
+  font-size: 0.6rem;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0 2px;
+  border-radius: 3px;
+  line-height: 1;
+  transition: background 80ms, color 80ms;
+}
+
+.statusbar__zoom-caret:hover,
+.statusbar__zoom-caret.is-open {
+  background: color-mix(in srgb, var(--foreground) 10%, transparent);
+  color: var(--foreground);
+}
+
+.statusbar__zoom-menu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  padding: 4px;
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 72px;
+}
+
+.statusbar__zoom-option {
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  color: var(--foreground);
+  cursor: pointer;
+  text-align: right;
+  transition: background 60ms;
+}
+
+.statusbar__zoom-option:hover {
+  background: var(--surface-muted);
+}
+
+.statusbar__zoom-option.is-active {
+  color: var(--accent);
+  font-weight: 700;
 }
 
 .mobile-dock {
@@ -1443,8 +1501,8 @@ button {
 .settings-dialog__panel {
   display: flex;
   flex-direction: column;
-  width: 520px;
-  max-width: 95vw;
+  width: min(480px, 92vw);
+  max-height: min(460px, 88vh);
 }
 
 .settings-dialog__header {
@@ -1482,16 +1540,18 @@ button {
 
 .settings-dialog__body {
   display: flex;
-  min-height: 280px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .settings-dialog__nav {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  width: 130px;
+  width: 110px;
   flex-shrink: 0;
-  padding: 12px 8px;
+  padding: 10px 6px;
   border-right: 1px solid var(--border);
   background: var(--surface-muted);
 }
@@ -1520,8 +1580,9 @@ button {
 
 .settings-dialog__content {
   flex: 1;
-  padding: 20px 24px;
+  padding: 18px 20px;
   min-width: 0;
+  overflow-y: auto;
 }
 
 .settings-dialog__section {

@@ -924,12 +924,12 @@ function App() {
 
       <StatusBar
         locale={state.document.locale}
-        theme={state.document.theme}
         status={statusText}
         canvas={state.document.canvas}
         spec={specResult.spec}
         validation={validation}
         onFitCanvas={handleFit}
+        onZoomChange={(zoom) => dispatch({ type: 'document/canvas', patch: { zoom } })}
         onOpenValidation={handleOpenValidation}
       />
 

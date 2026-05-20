@@ -58,10 +58,7 @@ export function TemplateLibrary({
   return (
     <section className={`surface surface--sidebar ${className}`.trim()}>
       <div className="surface__header">
-        <div>
-          <p className="eyebrow">Template Library</p>
-          <h2>{locale === 'zh-TW' ? '選擇圖形家族' : 'Choose a diagram family'}</h2>
-        </div>
+        <h2 className="surface__title">{locale === 'zh-TW' ? '模板庫' : 'Templates'}</h2>
       </div>
 
       <label className="search-field">
