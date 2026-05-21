@@ -173,4 +173,47 @@ describe('Inclined Plane Template', () => {
     expect(validateDiagramSpec(spec)).toBe(true);
     expect(spec.elements.length).toBeGreaterThan(0);
   });
+
+  it('advanced scenario should include force-mg-sin and force-mg-cos elements', () => {
+    const params: InclinedPlaneParams = {
+      angle: 30,
+      showLabels: true,
+      labelLocale: 'en-US',
+      analysisScenario: 'advanced',
+    };
+    const spec = generateInclinedPlane(params, 'teacher');
+
+    const mgSin = spec.elements.find((el) => el.id === 'force-mg-sin');
+    const mgCos = spec.elements.find((el) => el.id === 'force-mg-cos');
+    expect(mgSin).toBeDefined();
+    expect(mgCos).toBeDefined();
+  });
+
+  it('advanced scenario (teacher mode) should include vel-kinematic and label-accel', () => {
+    const params: InclinedPlaneParams = {
+      angle: 30,
+      showLabels: true,
+      labelLocale: 'en-US',
+      analysisScenario: 'advanced',
+    };
+    const spec = generateInclinedPlane(params, 'teacher');
+
+    const velArrow = spec.elements.find((el) => el.id === 'vel-kinematic');
+    const accelLabel = spec.elements.find((el) => el.id === 'label-accel');
+    expect(velArrow).toBeDefined();
+    expect(accelLabel).toBeDefined();
+  });
+
+  it('friction scenario should NOT include force-mg-sin', () => {
+    const params: InclinedPlaneParams = {
+      angle: 30,
+      showLabels: true,
+      labelLocale: 'en-US',
+      analysisScenario: 'friction',
+    };
+    const spec = generateInclinedPlane(params, 'teacher');
+
+    const mgSin = spec.elements.find((el) => el.id === 'force-mg-sin');
+    expect(mgSin).toBeUndefined();
+  });
 });

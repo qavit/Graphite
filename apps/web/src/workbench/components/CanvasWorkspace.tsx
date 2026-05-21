@@ -39,6 +39,12 @@ function formatTitle(locale: UiLocale, template: TemplateState) {
         return '帶電粒子';
       case 'circuit':
         return '簡單電路';
+      case 'vector-superposition':
+        return '向量疊加';
+      case 'field-lines':
+        return '電力線';
+      case 'induction-waveform':
+        return '電磁感應波形';
     }
   }
 
@@ -49,10 +55,13 @@ function formatTitle(locale: UiLocale, template: TemplateState) {
       return 'Charged Particle';
     case 'circuit':
       return 'Simple Circuit';
+    case 'vector-superposition':
+      return 'Vector Superposition';
+    case 'field-lines':
+      return 'Electric Field Lines';
+    case 'induction-waveform':
+      return 'Induction Waveform';
   }
-
-  const exhaustive: never = template;
-  return exhaustive;
 }
 
 export function CanvasWorkspace({

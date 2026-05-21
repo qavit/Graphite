@@ -331,6 +331,15 @@ function App() {
       case 'circuit':
         dispatch({ type: 'document/template', template: { type: 'circuit', preset: 'seriesFull' } });
         break;
+      case 'vector-superposition':
+        dispatch({ type: 'document/template', template: { type: 'vector-superposition' } });
+        break;
+      case 'field-lines':
+        dispatch({ type: 'document/template', template: { type: 'field-lines', chargeSign: 'positive' } });
+        break;
+      case 'induction-waveform':
+        dispatch({ type: 'document/template', template: { type: 'induction-waveform', showEMF: true } });
+        break;
     }
 
     dispatch({ type: 'ui/status', status: state.document.locale === 'zh-TW' ? '已切換模板。' : 'Template changed.' });

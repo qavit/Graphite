@@ -26,6 +26,24 @@ export {
   type ParallelCircuitParams,
 } from './physics/simpleCircuit';
 
+// Physics - Vector Superposition (Task 030 Template A)
+export {
+  generateVectorSuperposition,
+  type VectorSuperpositionParams,
+} from './physics/vectorSuperposition';
+
+// Physics - Electric Field Lines (Task 030 Template B)
+export {
+  generateFieldLines,
+  type FieldLinesParams,
+} from './physics/fieldLines';
+
+// Physics - Induction Waveform (Task 030 Template C)
+export {
+  generateInductionWaveform,
+  type InductionWaveformParams,
+} from './physics/inductionWaveform';
+
 // Golden fixtures for testing
 export {
   inclinedPlaneFixtures,

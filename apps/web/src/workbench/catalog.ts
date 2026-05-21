@@ -65,6 +65,60 @@ export const TEMPLATE_CATALOG: TemplateCatalogEntry[] = [
     },
     tags: ['physics', 'circuit', 'symbols', 'teacher'],
   },
+  {
+    id: 'vector-superposition',
+    group: 'electromagnetism',
+    accent: '#7c3aed',
+    title: {
+      'zh-TW': '向量疊加',
+      'en-US': 'Vector Superposition',
+    },
+    subtitle: {
+      'zh-TW': '電磁學 / 向量',
+      'en-US': 'Electromagnetism / vectors',
+    },
+    description: {
+      'zh-TW': '兩個向量的合力示意圖。',
+      'en-US': 'Two field vectors and their resultant.',
+    },
+    tags: ['physics', 'field', 'vector', 'superposition'],
+  },
+  {
+    id: 'field-lines',
+    group: 'electromagnetism',
+    accent: '#0891b2',
+    title: {
+      'zh-TW': '電力線',
+      'en-US': 'Electric Field Lines',
+    },
+    subtitle: {
+      'zh-TW': '電磁學 / 電場',
+      'en-US': 'Electromagnetism / electric field',
+    },
+    description: {
+      'zh-TW': '點電荷周圍的放射狀電力線。',
+      'en-US': 'Radial field lines around a point charge.',
+    },
+    tags: ['physics', 'field', 'electric', 'lines'],
+  },
+  {
+    id: 'induction-waveform',
+    group: 'electromagnetism',
+    accent: '#059669',
+    title: {
+      'zh-TW': '電磁感應波形',
+      'en-US': 'Induction Waveform',
+    },
+    subtitle: {
+      'zh-TW': '電磁學 / 感應',
+      'en-US': 'Electromagnetism / induction',
+    },
+    description: {
+      'zh-TW': '磁通量 Φ 與感應電動勢 ε 的正弦波形。',
+      'en-US': 'Sinusoidal flux Φ and induced EMF ε waveforms.',
+    },
+    tags: ['physics', 'induction', 'waveform', 'emf'],
+  },
 ];
 
 export const TEMPLATE_GROUP_LABELS: Record<TemplateCatalogEntry['group'], Record<UiLocale, string>> = {

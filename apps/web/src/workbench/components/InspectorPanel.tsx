@@ -6,6 +6,8 @@ import type { AppSettings } from '../settings';
 import type {
   CanvasState,
   CircuitTemplateState,
+  FieldLinesTemplateState,
+  InductionWaveformTemplateState,
   InspectorTab,
   InclinedTemplateState,
   ParticleTemplateState,
@@ -246,6 +248,57 @@ function TemplateSettings({
             <option value="simple">{t('analysisSimple')}</option>
             <option value="detailed">{t('analysisDetailed')}</option>
           </select>
+        </label>
+      </div>
+    );
+  }
+
+  if (template.type === 'vector-superposition') {
+    return (
+      <div className="field-stack">
+        <div className="helper-card">
+          <strong>{locale === 'zh-TW' ? '向量疊加' : 'Vector Superposition'}</strong>
+          <span>{locale === 'zh-TW' ? '兩向量合力圖，無可調參數。' : 'Two vectors and resultant. No adjustable parameters.'}</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (template.type === 'field-lines') {
+    const current = template as FieldLinesTemplateState;
+    return (
+      <div className="field-stack">
+        <label className="field">
+          <span className="field-label">{locale === 'zh-TW' ? '電荷符號' : 'Charge sign'}</span>
+          <select
+            className="select"
+            value={current.chargeSign}
+            onChange={(event) =>
+              onTemplateChange({
+                ...current,
+                chargeSign: event.target.value as FieldLinesTemplateState['chargeSign'],
+              })
+            }
+          >
+            <option value="positive">{locale === 'zh-TW' ? '正電荷 (+)' : 'Positive (+)'}</option>
+            <option value="negative">{locale === 'zh-TW' ? '負電荷 (−)' : 'Negative (−)'}</option>
+          </select>
+        </label>
+      </div>
+    );
+  }
+
+  if (template.type === 'induction-waveform') {
+    const current = template as InductionWaveformTemplateState;
+    return (
+      <div className="field-stack">
+        <label className="toggle">
+          <input
+            type="checkbox"
+            checked={current.showEMF}
+            onChange={(event) => onTemplateChange({ ...current, showEMF: event.target.checked })}
+          />
+          <span>{locale === 'zh-TW' ? '顯示 ε 曲線' : 'Show EMF curve'}</span>
         </label>
       </div>
     );

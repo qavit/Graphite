@@ -1,6 +1,6 @@
 import type { ViewMode } from '@graphite/diagram-spec';
 
-export type TemplateId = 'inclined' | 'particle' | 'circuit';
+export type TemplateId = 'inclined' | 'particle' | 'circuit' | 'vector-superposition' | 'field-lines' | 'induction-waveform';
 export type UiLocale = 'zh-TW' | 'en-US';
 export type UiTheme = 'light' | 'dark';
 export type InspectorTab = 'properties' | 'ir' | 'svg' | 'validation' | 'export';
@@ -42,7 +42,27 @@ export interface CircuitTemplateState {
   preset: CircuitPresetId;
 }
 
-export type TemplateState = InclinedTemplateState | ParticleTemplateState | CircuitTemplateState;
+export interface VectorSuperpositionTemplateState {
+  type: 'vector-superposition';
+}
+
+export interface FieldLinesTemplateState {
+  type: 'field-lines';
+  chargeSign: 'positive' | 'negative';
+}
+
+export interface InductionWaveformTemplateState {
+  type: 'induction-waveform';
+  showEMF: boolean;
+}
+
+export type TemplateState =
+  | InclinedTemplateState
+  | ParticleTemplateState
+  | CircuitTemplateState
+  | VectorSuperpositionTemplateState
+  | FieldLinesTemplateState
+  | InductionWaveformTemplateState;
 
 export interface WorkbenchDocument {
   version: 1;

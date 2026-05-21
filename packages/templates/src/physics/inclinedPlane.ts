@@ -10,6 +10,7 @@ import {
   Locale,
   LineElement,
   ForceVectorElement,
+  ArrowElement,
   LabelElement,
   BoxElement,
   DiagramElement,
@@ -190,6 +191,98 @@ export function generateInclinedPlane(
     elements.push(frictionForce);
   }
 
+  // 6b. Advanced scenario: mg sinθ, mg cosθ components, and kinematics
+  if (analysisScenario === 'advanced' && viewMode !== 'minimal') {
+    const vis = viewMode === 'teacher' ? ['teacher'] as const : ['teacher', 'student'] as const;
+
+    // mg sinθ — along slope, pointing DOWN the slope (angle + Math.PI from friction direction)
+    const sinAngleRad = -angleRad + Math.PI;
+    const mgSin: ArrowElement = {
+      id: 'force-mg-sin',
+      type: 'arrow',
+      visibility: [...vis],
+      start: { x: blockCenterX, y: blockCenterY },
+      end: {
+        x: blockCenterX + frictionScale * Math.cos(sinAngleRad),
+        y: blockCenterY + frictionScale * Math.sin(sinAngleRad),
+      },
+      headSize: 8,
+      style: { stroke: '#000', strokeWidth: 1.5 },
+    };
+    elements.push(mgSin);
+
+    const mgSinLabel: LabelElement = {
+      id: 'label-mg-sin',
+      type: 'label',
+      visibility: ['teacher'],
+      position: {
+        x: blockCenterX + frictionScale * Math.cos(sinAngleRad) + 10,
+        y: blockCenterY + frictionScale * Math.sin(sinAngleRad) + 5,
+      },
+      text: 'mg sinθ',
+      fontSize: 12,
+      anchor: 'start',
+    };
+    elements.push(mgSinLabel);
+
+    // mg cosθ — perpendicular to slope, pointing INTO surface (opposite to normal)
+    const cosAngleRad = -angleRad - Math.PI / 2 + Math.PI;
+    const mgCos: ArrowElement = {
+      id: 'force-mg-cos',
+      type: 'arrow',
+      visibility: [...vis],
+      start: { x: blockCenterX, y: blockCenterY },
+      end: {
+        x: blockCenterX + normalScale * Math.cos(cosAngleRad),
+        y: blockCenterY + normalScale * Math.sin(cosAngleRad),
+      },
+      headSize: 8,
+      style: { stroke: '#000', strokeWidth: 1.5 },
+    };
+    elements.push(mgCos);
+
+    const mgCosLabel: LabelElement = {
+      id: 'label-mg-cos',
+      type: 'label',
+      visibility: ['teacher'],
+      position: {
+        x: blockCenterX + normalScale * Math.cos(cosAngleRad) + 10,
+        y: blockCenterY + normalScale * Math.sin(cosAngleRad) + 5,
+      },
+      text: 'mg cosθ',
+      fontSize: 12,
+      anchor: 'start',
+    };
+    elements.push(mgCosLabel);
+
+    // Kinematics: velocity arrow and acceleration label (teacher only)
+    const velAngleRad = -angleRad; // up the slope
+    const velArrow: ArrowElement = {
+      id: 'vel-kinematic',
+      type: 'arrow',
+      visibility: ['teacher'],
+      start: { x: blockCenterX, y: blockCenterY },
+      end: {
+        x: blockCenterX + 50 * Math.cos(velAngleRad),
+        y: blockCenterY + 50 * Math.sin(velAngleRad),
+      },
+      headSize: 8,
+      style: { stroke: '#555', strokeWidth: 1.5, strokeDasharray: '6,3' },
+    };
+    elements.push(velArrow);
+
+    const accelLabel: LabelElement = {
+      id: 'label-accel',
+      type: 'label',
+      visibility: ['teacher'],
+      position: { x: blockCenterX + 20, y: blockCenterY - 30 },
+      text: 'a = g sinθ',
+      fontSize: 12,
+      anchor: 'start',
+    };
+    elements.push(accelLabel);
+  }
+
   // 7. Angle label
   if (showLabels && viewMode === 'teacher') {
     const angleLabelX = inclineStartX + 30;
@@ -258,8 +351,8 @@ export function generateInclinedPlane(
           : `Inclined Plane FBD (${angle}°)`,
       author: 'Graphite Physics Templates',
       locale: labelLocale,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: '2026-01-01T00:00:00.000Z',
+      updatedAt: '2026-01-01T00:00:00.000Z',
     },
     canvas: {
       width: canvasWidth,

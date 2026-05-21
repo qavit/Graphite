@@ -131,6 +131,15 @@ function buildSemanticNote(document: WorkbenchDocument): WorkbenchValidationItem
         title: 'Physics semantics',
         detail: 'Circuit preset maps to a known classroom diagram family.',
       };
+    case 'vector-superposition':
+    case 'field-lines':
+    case 'induction-waveform':
+      return {
+        id: 'physics',
+        severity: 'success',
+        title: 'Physics semantics',
+        detail: 'Electromagnetism template loaded.',
+      };
   }
 }
 

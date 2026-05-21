@@ -2,6 +2,9 @@ import {
   generateChargedParticleMotion,
   generateInclinedPlane,
   generateSimpleCircuit,
+  generateVectorSuperposition,
+  generateFieldLines,
+  generateInductionWaveform,
   simpleCircuitPresets,
 } from '@graphite/templates';
 import { renderToSVG } from '@graphite/render-svg';
@@ -11,11 +14,14 @@ import type {
   CanvasState,
   CircuitPresetId,
   CircuitTemplateState,
+  FieldLinesTemplateState,
   InclinedTemplateState,
+  InductionWaveformTemplateState,
   ParticleTemplateState,
   TemplateState,
   UiLocale,
   UiTheme,
+  VectorSuperpositionTemplateState,
   WorkbenchDocument,
 } from './types';
 
@@ -112,6 +118,15 @@ function buildBaseSpec(document: WorkbenchDocument, mode: ViewMode): DiagramSpec
     case 'circuit': {
       const params: SimpleCircuitParams = simpleCircuitPresets[document.template.preset]();
       return generateSimpleCircuit(params, mode);
+    }
+    case 'vector-superposition': {
+      return generateVectorSuperposition({}, mode);
+    }
+    case 'field-lines': {
+      return generateFieldLines({ chargeSign: document.template.chargeSign }, mode);
+    }
+    case 'induction-waveform': {
+      return generateInductionWaveform({ showEMF: document.template.showEMF }, mode);
     }
   }
 }
@@ -210,6 +225,24 @@ function normalizeTemplate(template: unknown, fallback: TemplateState): Template
           ? fallback.analysisScenario
           : 'detailed',
     };
+  }
+
+  if (type === 'vector-superposition') {
+    return { type: 'vector-superposition' } satisfies VectorSuperpositionTemplateState;
+  }
+
+  if (type === 'field-lines') {
+    return {
+      type: 'field-lines',
+      chargeSign: raw.chargeSign === 'negative' ? 'negative' : 'positive',
+    } satisfies FieldLinesTemplateState;
+  }
+
+  if (type === 'induction-waveform') {
+    return {
+      type: 'induction-waveform',
+      showEMF: toBoolean(raw.showEMF, true),
+    } satisfies InductionWaveformTemplateState;
   }
 
   if (type === 'circuit') {
