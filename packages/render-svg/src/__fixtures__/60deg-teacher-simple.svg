@@ -20,8 +20,8 @@
   height="30" 
   id="block" stroke="#000" stroke-width="2" fill="#fff" stroke-dasharray="" transform="rotate(-60 300 -20.33320996790797)"
 />
-<line x1="300" y1="-20.33320996790797" x2="300" y2="59.66679003209203" id="force-weight" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="" marker-end="url(#arrowhead)" />
-<line x1="300" y1="-20.33320996790797" x2="265.3589838486225" y2="-40.33320996790799" id="force-normal" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="" marker-end="url(#arrowhead)" />
+<line x1="300" y1="-20.33320996790797" x2="300" y2="59.66679003209203" id="force-weight" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="" data-element-id="force-weight" data-element-type="force-vector" marker-end="url(#arrowhead)" />
+<line x1="300" y1="-20.33320996790797" x2="265.3589838486225" y2="-40.33320996790799" id="force-normal" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="" data-element-id="force-normal" data-element-type="force-vector" marker-end="url(#arrowhead)" />
 <text 
   x="70" 
   y="440" 

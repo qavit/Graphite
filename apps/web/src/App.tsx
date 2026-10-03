@@ -7,6 +7,7 @@ import { createWorkbenchState, hydrateWorkbenchState, workbenchReducer } from '.
 import { buildValidationReport } from './workbench/validation';
 import { persistStateToStorage, WORKBENCH_STORAGE_KEY } from './workbench/storage';
 import { readAppSettings, writeAppSettings, type AppSettings } from './workbench/settings';
+import { findSelectedForceVector } from './workbench/selection';
 import { CanvasWorkspace } from './workbench/components/CanvasWorkspace';
 import { CommandPalette, type CommandPaletteItem } from './workbench/components/CommandPalette';
 import { InspectorPanel } from './workbench/components/InspectorPanel';
@@ -124,6 +125,8 @@ function App() {
   }, [state.document]);
 
   const svgMarkup = useMemo(() => (specResult.spec ? readSvgFromSpec(specResult.spec) : ''), [specResult.spec]);
+
+  const selectedElementId = findSelectedForceVector(specResult.spec, state.selectedElementId)?.id ?? null;
 
   const validation = useMemo(() => {
     if (!specResult.spec) {
@@ -861,6 +864,8 @@ function App() {
           template={state.document.template}
           canvas={state.document.canvas}
           validation={validation}
+          selectedElementId={selectedElementId}
+          onElementSelect={(elementId) => dispatch({ type: 'ui/selectElement', elementId })}
           onInteractionModeChange={(interactionMode) => dispatch({ type: 'document/canvas', patch: { interactionMode } })}
           onZoomIn={() => dispatch({ type: 'document/canvas', patch: { zoom: Math.min(2, Number((state.document.canvas.zoom + 0.1).toFixed(2))) } })}
           onZoomOut={() => dispatch({ type: 'document/canvas', patch: { zoom: Math.max(0.5, Number((state.document.canvas.zoom - 0.1).toFixed(2))) } })}
@@ -894,6 +899,7 @@ function App() {
             document={state.document}
             validation={validation}
             svgMarkup={svgMarkup}
+            selectedForce={findSelectedForceVector(specResult.spec, selectedElementId)}
             irDraft={state.irDraft}
             irError={state.irError}
             tab={state.inspectorTab}

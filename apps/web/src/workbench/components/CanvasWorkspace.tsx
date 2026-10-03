@@ -1,6 +1,7 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import type { DiagramSpec } from '@graphite/diagram-spec';
 import { createTranslator } from '../i18n';
+import { resolveSelectableElementId } from '../selection';
 import type { CanvasState, TemplateState, UiLocale, WorkbenchValidationReport } from '../types';
 import {
   FitIcon,
@@ -21,6 +22,8 @@ interface CanvasWorkspaceProps {
   template: TemplateState;
   canvas: CanvasState;
   validation: WorkbenchValidationReport;
+  selectedElementId: string | null;
+  onElementSelect: (elementId: string | null) => void;
   onInteractionModeChange: (mode: CanvasState['interactionMode']) => void;
   onZoomIn: () => void;
   onZoomOut: () => void;
@@ -71,6 +74,8 @@ export function CanvasWorkspace({
   template,
   canvas,
   validation,
+  selectedElementId,
+  onElementSelect,
   onInteractionModeChange,
   onZoomIn,
   onZoomOut,
@@ -83,6 +88,7 @@ export function CanvasWorkspace({
   const canvasTitle = formatTitle(locale, template);
   const zoomLabel = `${Math.round(canvas.zoom * 100)}%`;
   const stageRef = useRef<HTMLDivElement>(null);
+  const paperRef = useRef<HTMLDivElement>(null);
   const panRef = useRef<{ startX: number; startY: number; scrollLeft: number; scrollTop: number } | null>(null);
 
   const handleStageMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -104,6 +110,33 @@ export function CanvasWorkspace({
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup', onMouseUp);
   }, [canvas.interactionMode]);
+
+  const handleStageClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (canvas.interactionMode !== 'select') return;
+    onElementSelect(resolveSelectableElementId(e.target, spec));
+  }, [canvas.interactionMode, spec, onElementSelect]);
+
+  // Presentation-only decoration of the live DOM. svgMarkup (the export source) is never touched.
+  useEffect(() => {
+    const root = paperRef.current;
+    if (!root) return;
+    root.querySelectorAll('.graphite-hit').forEach((n) => n.remove());
+    root.querySelectorAll('.graphite-selected').forEach((n) => n.classList.remove('graphite-selected'));
+    root.querySelectorAll('line[data-element-type="force-vector"]').forEach((line) => {
+      const hit = line.cloneNode(false) as SVGLineElement;
+      hit.removeAttribute('id');
+      hit.removeAttribute('marker-end');
+      hit.removeAttribute('class');
+      hit.setAttribute('class', 'graphite-hit');
+      hit.setAttribute('stroke', 'transparent');
+      hit.setAttribute('stroke-width', '14');
+      hit.setAttribute('stroke-dasharray', '');
+      hit.setAttribute('fill', 'none');
+      hit.setAttribute('pointer-events', 'stroke');
+      line.after(hit);
+      if (line.getAttribute('data-element-id') === selectedElementId) line.classList.add('graphite-selected');
+    });
+  }, [svgMarkup, selectedElementId]);
 
   return (
     <main className="surface surface--canvas">
@@ -157,6 +190,7 @@ export function CanvasWorkspace({
         ref={stageRef}
         className={`canvas-stage${canvas.showGrid ? ' canvas-stage--grid' : ''}${canvas.interactionMode === 'pan' ? ' canvas-stage--pan' : ''}`}
         onMouseDown={handleStageMouseDown}
+        onClick={handleStageClick}
       >
         {spec ? (
           <div
@@ -175,7 +209,7 @@ export function CanvasWorkspace({
                 height: spec.canvas.height,
               }}
             >
-              <div className="paper-content" aria-label="SVG preview" dangerouslySetInnerHTML={{ __html: svgMarkup }} />
+              <div ref={paperRef} className="paper-content" aria-label="SVG preview" dangerouslySetInnerHTML={{ __html: svgMarkup }} />
             </div>
           </div>
         ) : (
