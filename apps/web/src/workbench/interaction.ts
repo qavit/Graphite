@@ -1,27 +1,6 @@
-import type { DiagramSpec, Point } from '@graphite/diagram-spec';
+import type { DiagramSpec } from '@graphite/diagram-spec';
 
-/** Neutral description of a direct-manipulation edit. Stage 0A-2: force-vector end point only. */
-export type DiagramEditIntent = {
-  type: 'element/endpoint';
-  elementId: string;
-  endpoint: 'end';
-  point: Point;
-};
-
-/** Pure, immutable edit. Unsupported or invalid intents return the input spec unchanged. */
-export function applyDiagramEditIntent(spec: DiagramSpec, intent: DiagramEditIntent): DiagramSpec {
-  if (intent.type !== 'element/endpoint' || intent.endpoint !== 'end') return spec;
-  const { x, y } = intent.point ?? ({} as Point);
-  if (!Number.isFinite(x) || !Number.isFinite(y)) return spec;
-
-  const index = spec.elements.findIndex((el) => el.id === intent.elementId);
-  const target = spec.elements[index];
-  if (!target || target.type !== 'force-vector') return spec;
-
-  const elements = spec.elements.slice();
-  elements[index] = { ...target, end: { x, y } };
-  return { ...spec, elements };
-}
+export { applyDiagramEditIntent, type DiagramEditIntent } from '@graphite/diagram-spec';
 
 /**
  * Session-local editing projection over a generated spec. `baseKey` identifies the
