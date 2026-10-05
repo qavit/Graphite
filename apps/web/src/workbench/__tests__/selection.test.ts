@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import type { DiagramSpec } from '@graphite/diagram-spec';
 import { renderToSVG } from '@graphite/render-svg';
-import { resolveSelectableElementId, findSelectedForceVector } from '../selection';
+import { resolveSelectableElementId, findSelectedElement } from '../selection';
 
 const base = { visibility: ['teacher', 'student', 'minimal'] } as const;
 const spec = {
@@ -12,6 +12,7 @@ const spec = {
   elements: [
     { ...base, id: 'force-a', type: 'force-vector', start: { x: 0, y: 0 }, end: { x: 10, y: 10 }, forceName: 'mg', showMagnitude: false },
     { ...base, id: 'lbl', type: 'label', position: { x: 5, y: 5 }, text: 'hi' },
+    { ...base, id: 'box', type: 'box', position: { x: 1, y: 1 }, width: 3, height: 3 },
   ],
 } as unknown as DiagramSpec;
 
@@ -25,18 +26,20 @@ describe('resolveSelectableElementId', () => {
   it('rejects ids unknown to the spec', () => {
     expect(resolveSelectableElementId(target('ghost-force'), spec)).toBeNull();
   });
-  it('rejects non force-vector types', () => {
-    expect(resolveSelectableElementId(target('lbl'), spec)).toBeNull();
+  it('accepts labels and rejects other types', () => {
+    expect(resolveSelectableElementId(target('lbl'), spec)).toBe('lbl');
+    expect(resolveSelectableElementId(target('box'), spec)).toBeNull();
   });
   it('returns null for empty targets', () => {
     expect(resolveSelectableElementId(null, spec)).toBeNull();
     expect(resolveSelectableElementId(target(null), spec)).toBeNull();
     expect(resolveSelectableElementId(target('force-a'), null)).toBeNull();
   });
-  it('findSelectedForceVector looks up from spec', () => {
-    expect(findSelectedForceVector(spec, 'force-a')?.forceName).toBe('mg');
-    expect(findSelectedForceVector(spec, 'lbl')).toBeNull();
-    expect(findSelectedForceVector(spec, null)).toBeNull();
+  it('findSelectedElement looks up from spec', () => {
+    expect((findSelectedElement(spec, 'force-a') as any)?.forceName).toBe('mg');
+    expect(findSelectedElement(spec, 'lbl')?.type).toBe('label');
+    expect(findSelectedElement(spec, 'box')).toBeNull();
+    expect(findSelectedElement(spec, null)).toBeNull();
   });
 });
 
