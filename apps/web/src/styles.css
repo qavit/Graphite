@@ -1973,3 +1973,8 @@ button {
 .canvas-stage:not(.canvas-stage--pan) [data-element-type="force-vector"] {
   cursor: pointer;
 }
+
+.canvas-stage:not(.canvas-stage--pan) .graphite-handle {
+  cursor: move;
+  touch-action: none;
+}

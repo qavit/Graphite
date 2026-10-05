@@ -7,6 +7,7 @@ import { createWorkbenchState, hydrateWorkbenchState, workbenchReducer } from '.
 import { buildValidationReport } from './workbench/validation';
 import { persistStateToStorage, WORKBENCH_STORAGE_KEY } from './workbench/storage';
 import { readAppSettings, writeAppSettings, type AppSettings } from './workbench/settings';
+import { applyDiagramEditIntent, resolveDisplaySpec, specKey, type DiagramEditIntent, type InteractiveOverride } from './workbench/interaction';
 import { findSelectedForceVector } from './workbench/selection';
 import { CanvasWorkspace } from './workbench/components/CanvasWorkspace';
 import { CommandPalette, type CommandPaletteItem } from './workbench/components/CommandPalette';
@@ -112,7 +113,7 @@ function App() {
 
   const t = useMemo(() => createTranslator(state.document.locale), [state.document.locale]);
 
-  const specResult = useMemo(() => {
+  const generatedResult = useMemo(() => {
     try {
       const spec = buildDiagramSpec(state.document);
       return { spec, error: null as string | null };
@@ -123,6 +124,21 @@ function App() {
       };
     }
   }, [state.document]);
+
+  // Ephemeral editing projection over the generated spec; never serialized into the document.
+  const [override, setOverride] = useState<InteractiveOverride | null>(null);
+  const specResult = useMemo(
+    () => ({ ...generatedResult, spec: resolveDisplaySpec(generatedResult.spec, override) }),
+    [generatedResult, override],
+  );
+  const handleElementEdit = useCallback((intent: DiagramEditIntent) => {
+    const base = generatedResult.spec;
+    if (!base) return;
+    const current = resolveDisplaySpec(base, override) ?? base;
+    const next = applyDiagramEditIntent(current, intent);
+    if (next === current) return;
+    setOverride({ baseKey: specKey(base), spec: next });
+  }, [generatedResult, override]);
 
   const svgMarkup = useMemo(() => (specResult.spec ? readSvgFromSpec(specResult.spec) : ''), [specResult.spec]);
 
@@ -866,6 +882,7 @@ function App() {
           validation={validation}
           selectedElementId={selectedElementId}
           onElementSelect={(elementId) => dispatch({ type: 'ui/selectElement', elementId })}
+          onElementEdit={handleElementEdit}
           onInteractionModeChange={(interactionMode) => dispatch({ type: 'document/canvas', patch: { interactionMode } })}
           onZoomIn={() => dispatch({ type: 'document/canvas', patch: { zoom: Math.min(2, Number((state.document.canvas.zoom + 0.1).toFixed(2))) } })}
           onZoomOut={() => dispatch({ type: 'document/canvas', patch: { zoom: Math.max(0.5, Number((state.document.canvas.zoom - 0.1).toFixed(2))) } })}
