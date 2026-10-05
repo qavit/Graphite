@@ -1,4 +1,4 @@
-import { DiagramSpec } from './types';
+import { DiagramSpec } from './types.js';
 
 /**
  * 簡易的 DiagramSpec 驗證器 (v0.1)

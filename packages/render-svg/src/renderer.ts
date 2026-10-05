@@ -1,5 +1,5 @@
 import { DiagramSpec, DiagramElement, ViewMode } from '@graphite/diagram-spec';
-import { renderNewElements } from './extra-renderers';
+import { renderNewElements } from './extra-renderers.js';
 
 /**
  * 核心渲染函數：將 DiagramSpec 轉換為 SVG 字串

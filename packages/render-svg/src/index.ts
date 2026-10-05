@@ -1,2 +1,2 @@
-export * from './renderer';
-export * from './extra-renderers';
+export * from './renderer.js';
+export * from './extra-renderers.js';
