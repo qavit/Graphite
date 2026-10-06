@@ -1,5 +1,6 @@
 import { DiagramSpec, DiagramElement, ViewMode } from '@graphite/diagram-spec';
-import { renderNewElements } from './extra-renderers';
+import { renderNewElements } from './extra-renderers.js';
+import { escapeXml } from './escape.js';
 
 /**
  * 核心渲染函數：將 DiagramSpec 轉換為 SVG 字串
@@ -37,7 +38,7 @@ function renderElement(el: DiagramElement, mode: ViewMode): string {
   const newEl = renderNewElements(el);
   if (newEl) return newEl;
 
-  const commonAttrs = `id="${el.id}" stroke="${el.style?.stroke || 'black'}" stroke-width="${el.style?.strokeWidth || 1.5}" fill="${el.style?.fill || 'none'}" stroke-dasharray="${el.style?.strokeDasharray || ''}"`;
+  const commonAttrs = `id="${escapeXml(el.id)}" stroke="${escapeXml(el.style?.stroke || 'black')}" stroke-width="${el.style?.strokeWidth || 1.5}" fill="${escapeXml(el.style?.fill || 'none')}" stroke-dasharray="${escapeXml(el.style?.strokeDasharray || '')}"`;
   
   let transform = '';
   if (el.rotation !== undefined) {
@@ -52,7 +53,7 @@ function renderElement(el: DiagramElement, mode: ViewMode): string {
 
     case 'arrow':
     case 'force-vector':
-      return `<line x1="${el.start.x}" y1="${el.start.y}" x2="${el.end.x}" y2="${el.end.y}" ${commonAttrs} data-element-id="${el.id}" data-element-type="${el.type}"${transform} marker-end="url(#arrowhead)" />`;
+      return `<line x1="${el.start.x}" y1="${el.start.y}" x2="${el.end.x}" y2="${el.end.y}" ${commonAttrs} data-element-id="${escapeXml(el.id)}" data-element-type="${el.type}"${transform} marker-end="url(#arrowhead)" />`;
 
     case 'label':
       return `
@@ -65,7 +66,7 @@ function renderElement(el: DiagramElement, mode: ViewMode): string {
   text-anchor="${el.anchor || 'middle'}"
   ${transform}
 >
-  ${el.text}
+  ${escapeXml(el.text)}
 </text>`.trim();
 
     case 'box':
@@ -82,7 +83,7 @@ function renderElement(el: DiagramElement, mode: ViewMode): string {
   height="${el.height}" 
   ${commonAttrs}${boxTransform}
 />
-${el.label ? `<text x="${el.position.x + el.width / 2}" y="${el.position.y + el.height / 2 + 5}" font-size="12" text-anchor="middle"${boxTransform}>${el.label}</text>` : ''}
+${el.label ? `<text x="${el.position.x + el.width / 2}" y="${el.position.y + el.height / 2 + 5}" font-size="12" text-anchor="middle"${boxTransform}>${escapeXml(el.label)}</text>` : ''}
 `.trim();
 
     default:
