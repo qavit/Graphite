@@ -1961,3 +1961,20 @@ button {
     justify-self: start;
   }
 }
+
+/* Selection affordance (presentation only; never part of exported SVG) */
+.paper-content .graphite-selected {
+  stroke-width: 3.5;
+  stroke-dasharray: 8 4;
+  filter: drop-shadow(0 0 3px #2563eb);
+}
+
+.canvas-stage:not(.canvas-stage--pan) .graphite-hit,
+.canvas-stage:not(.canvas-stage--pan) [data-element-type="force-vector"] {
+  cursor: pointer;
+}
+
+.canvas-stage:not(.canvas-stage--pan) .graphite-handle {
+  cursor: move;
+  touch-action: none;
+}

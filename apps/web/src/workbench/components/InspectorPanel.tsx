@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import type { ForceVectorElement } from '@graphite/diagram-spec';
 import { CIRCUIT_PRESET_META } from '../catalog';
 import { createTranslator } from '../i18n';
 import { serializeDocument } from '../document';
@@ -24,6 +25,7 @@ interface InspectorPanelProps {
   document: WorkbenchDocument;
   validation: WorkbenchValidationReport;
   svgMarkup: string;
+  selectedForce: ForceVectorElement | null;
   irDraft: string;
   irError: string | null;
   tab: InspectorTab;
@@ -369,6 +371,7 @@ export function InspectorPanel({
   document,
   validation,
   svgMarkup,
+  selectedForce,
   irDraft,
   irError,
   tab,
@@ -412,6 +415,18 @@ export function InspectorPanel({
               <strong>{t('currentFile')}</strong>
               <span>{serializeDocument(document).slice(0, 64)}...</span>
             </div>
+
+            {selectedForce ? (
+              <div className="helper-card" role="status" aria-live="polite" data-testid="selected-element">
+                <strong>{locale === 'zh-TW' ? '已選取元素' : 'Selected element'}</strong>
+                <span>force-vector</span>
+                <span>ID: {selectedForce.id}</span>
+                <span>{locale === 'zh-TW' ? '力' : 'Force'}: {selectedForce.forceName}</span>
+                <span>{locale === 'zh-TW' ? '起點' : 'Start'}: ({selectedForce.start.x}, {selectedForce.start.y})</span>
+                <span>{locale === 'zh-TW' ? '終點' : 'End'}: ({selectedForce.end.x}, {selectedForce.end.y})</span>
+                {selectedForce.magnitude ? <span>{locale === 'zh-TW' ? '大小' : 'Magnitude'}: {selectedForce.magnitude}</span> : null}
+              </div>
+            ) : null}
 
             <ModeSelect locale={locale} value={document.mode} onChange={onDocumentModeChange} />
 

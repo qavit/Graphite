@@ -20,9 +20,9 @@
   height="30" 
   id="block" stroke="#000" stroke-width="2" fill="#fff" stroke-dasharray="" transform="rotate(-45 300 178.78679656440363)"
 />
-<line x1="300" y1="178.78679656440363" x2="300" y2="258.78679656440363" id="force-weight" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="" marker-end="url(#arrowhead)" />
-<line x1="300" y1="178.78679656440363" x2="260" y2="138.78679656440363" id="force-normal" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="" marker-end="url(#arrowhead)" />
-<line x1="300" y1="178.78679656440363" x2="340" y2="138.78679656440363" id="force-friction" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="4,4" marker-end="url(#arrowhead)" />
+<line x1="300" y1="178.78679656440363" x2="300" y2="258.78679656440363" id="force-weight" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="" data-element-id="force-weight" data-element-type="force-vector" marker-end="url(#arrowhead)" />
+<line x1="300" y1="178.78679656440363" x2="260" y2="138.78679656440363" id="force-normal" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="" data-element-id="force-normal" data-element-type="force-vector" marker-end="url(#arrowhead)" />
+<line x1="300" y1="178.78679656440363" x2="340" y2="138.78679656440363" id="force-friction" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="4,4" data-element-id="force-friction" data-element-type="force-vector" marker-end="url(#arrowhead)" />
 <text 
   x="70" 
   y="440" 

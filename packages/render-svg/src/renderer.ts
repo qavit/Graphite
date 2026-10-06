@@ -52,7 +52,7 @@ function renderElement(el: DiagramElement, mode: ViewMode): string {
 
     case 'arrow':
     case 'force-vector':
-      return `<line x1="${el.start.x}" y1="${el.start.y}" x2="${el.end.x}" y2="${el.end.y}" ${commonAttrs}${transform} marker-end="url(#arrowhead)" />`;
+      return `<line x1="${el.start.x}" y1="${el.start.y}" x2="${el.end.x}" y2="${el.end.y}" ${commonAttrs} data-element-id="${el.id}" data-element-type="${el.type}"${transform} marker-end="url(#arrowhead)" />`;
 
     case 'label':
       return `

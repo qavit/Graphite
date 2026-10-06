@@ -92,6 +92,8 @@ export interface WorkbenchState {
   inspectorTab: InspectorTab;
   templateSearch: string;
   inspectorOpen: boolean;
+  /** Ephemeral UI state: never serialized into WorkbenchDocument or persisted. */
+  selectedElementId: string | null;
   irDraft: string;
   irError: string | null;
   status: string;
@@ -109,5 +111,6 @@ export type WorkbenchAction =
   | { type: 'ui/templateSearch'; query: string }
   | { type: 'ui/inspectorOpen'; open: boolean }
   | { type: 'ui/irDraft'; draft: string; error: string | null }
+  | { type: 'ui/selectElement'; elementId: string | null }
   | { type: 'ui/status'; status: string }
   | { type: 'document/reset'; document: WorkbenchDocument };
