@@ -1,3 +1,4 @@
+import { escapeXml } from './escape.js';
 /**
  * 針對新元素類型的渲染邏輯擴展
  */
@@ -11,7 +12,7 @@ export function renderNewElements(el: DiagramElement): string {
       const sw = el.style?.strokeWidth || 2;
       const outer = `<circle cx="${el.center.x}" cy="${el.center.y}" r="${el.radius}" stroke="${stroke}" stroke-width="${sw}" fill="${fill}" />`;
       if (!el.label) return outer;
-      const label = `<text x="${el.center.x}" y="${el.center.y + el.radius * 0.4}" text-anchor="middle" font-size="${el.radius * 1.2}" font-family="sans-serif" fill="${stroke}">${el.label}</text>`;
+      const label = `<text x="${el.center.x}" y="${el.center.y + el.radius * 0.4}" text-anchor="middle" font-size="${el.radius * 1.2}" font-family="sans-serif" fill="${stroke}">${escapeXml(el.label)}</text>`;
       return `${outer}\n${label}`;
     }
 
@@ -202,7 +203,7 @@ function renderCircuitComponent(el: CircuitComponentElement): string {
   // Optional value label below/beside the component
   if (value) {
     const [vlx, vly] = A(0, horiz ? 30 : 30);
-    parts.push(`<text x="${vlx.toFixed(1)}" y="${vly.toFixed(1)}" text-anchor="middle" font-size="12" font-family="sans-serif" fill="${stroke}">${value}</text>`);
+    parts.push(`<text x="${vlx.toFixed(1)}" y="${vly.toFixed(1)}" text-anchor="middle" font-size="12" font-family="sans-serif" fill="${stroke}">${escapeXml(value)}</text>`);
   }
 
   return parts.join('\n');
