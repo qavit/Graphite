@@ -1,4 +1,5 @@
-import { createDefaultDocument, serializeDocument } from './document';
+import { buildBaseDiagramSpec, createDefaultDocument, serializeDocument } from './document';
+import { recordEditIntent } from './edits';
 import type { CanvasState, TemplateState, UiLocale, UiTheme, WorkbenchAction, WorkbenchState } from './types';
 import { createInitialPersistedState, hydratePersistedState } from './storage';
 
@@ -41,8 +42,23 @@ export function workbenchReducer(state: WorkbenchState, action: WorkbenchAction)
         irError: null,
       };
     }
+    case 'document/editIntent': {
+      const edits = recordEditIntent(buildBaseDiagramSpec(state.document), state.document.edits, action.intent);
+      if (edits === state.document.edits) return state;
+      const { edits: _previous, ...rest } = state.document;
+      const document = edits ? { ...rest, edits } : rest;
+      return { ...state, document, irDraft: serializeDocument(document), irError: null };
+    }
+    case 'document/resetEdits': {
+      if (!state.document.edits) return state;
+      const { edits: _previous, ...document } = state.document;
+      return { ...state, document, irDraft: serializeDocument(document), irError: null };
+    }
     case 'document/template': {
-      const document = { ...state.document, template: action.template };
+      // Edits are keyed by element id, which is only meaningful within one template type.
+      const keepEdits = state.document.template.type === action.template.type;
+      const { edits, ...rest } = state.document;
+      const document = { ...rest, template: action.template, ...(keepEdits && edits ? { edits } : {}) };
       return {
         ...state,
         document,

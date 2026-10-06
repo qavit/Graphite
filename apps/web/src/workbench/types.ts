@@ -1,4 +1,4 @@
-import type { ViewMode } from '@graphite/diagram-spec';
+import type { DiagramEditIntent, ViewMode } from '@graphite/diagram-spec';
 
 export type TemplateId = 'inclined' | 'particle' | 'circuit' | 'vector-superposition' | 'field-lines' | 'induction-waveform';
 export type UiLocale = 'zh-TW' | 'en-US';
@@ -64,6 +64,13 @@ export type TemplateState =
   | FieldLinesTemplateState
   | InductionWaveformTemplateState;
 
+/** Offset from the generated geometry: `end` for force-vectors, `position` for labels. */
+export interface ElementEdit {
+  end?: { x: number; y: number };
+  position?: { x: number; y: number };
+}
+export type ElementEdits = Record<string, ElementEdit>;
+
 export interface WorkbenchDocument {
   version: 1;
   title: string;
@@ -72,6 +79,8 @@ export interface WorkbenchDocument {
   mode: ViewMode;
   canvas: CanvasState;
   template: TemplateState;
+  /** Durable per-element visual overrides keyed by stable element id; omitted when empty. */
+  edits?: ElementEdits;
 }
 
 export interface WorkbenchValidationItem {
@@ -111,6 +120,8 @@ export type WorkbenchAction =
   | { type: 'ui/templateSearch'; query: string }
   | { type: 'ui/inspectorOpen'; open: boolean }
   | { type: 'ui/irDraft'; draft: string; error: string | null }
+  | { type: 'document/editIntent'; intent: DiagramEditIntent }
+  | { type: 'document/resetEdits' }
   | { type: 'ui/selectElement'; elementId: string | null }
   | { type: 'ui/status'; status: string }
   | { type: 'document/reset'; document: WorkbenchDocument };

@@ -64,6 +64,8 @@ function renderElement(el: DiagramElement, mode: ViewMode): string {
   font-family="sans-serif" 
   font-size="${el.fontSize || 14}" 
   text-anchor="${el.anchor || 'middle'}"
+  data-element-id="${el.id}"
+  data-element-type="label"
   ${transform}
 >
   ${escapeXml(el.text)}

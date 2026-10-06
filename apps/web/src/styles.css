@@ -1978,3 +1978,10 @@ button {
   cursor: move;
   touch-action: none;
 }
+
+.paper-content text.graphite-selected {
+  fill: #2563eb;
+  text-decoration: underline dashed;
+  text-underline-offset: 3px;
+  font-weight: 600;
+}
