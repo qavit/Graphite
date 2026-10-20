@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "test": "npm test --workspaces",
-    "build": "npm run build --workspaces"
+    "build": "npm run build -w packages/diagram-spec && npm run build -w packages/render-svg && npm run build -w packages/templates && npm run build -w packages/export && npm run build -w apps/web"
   },
   "keywords": [
     "stem",
