@@ -9,6 +9,7 @@ export function createWorkbenchState(): WorkbenchState {
     inspectorTab: persisted.inspectorTab,
     templateSearch: persisted.templateSearch,
     inspectorOpen: persisted.inspectorOpen,
+    selectedElementId: null,
     irDraft: serializeDocument(persisted.document),
     irError: null,
     status: 'Workbench ready',
@@ -22,6 +23,7 @@ export function hydrateWorkbenchState(raw: unknown): WorkbenchState {
     inspectorTab: persisted.inspectorTab,
     templateSearch: persisted.templateSearch,
     inspectorOpen: persisted.inspectorOpen,
+    selectedElementId: null,
     irDraft: serializeDocument(persisted.document),
     irError: null,
     status: 'Workbench ready',
@@ -44,6 +46,7 @@ export function workbenchReducer(state: WorkbenchState, action: WorkbenchAction)
       return {
         ...state,
         document,
+        selectedElementId: null,
         irDraft: serializeDocument(document),
         irError: null,
       };
@@ -98,6 +101,7 @@ export function workbenchReducer(state: WorkbenchState, action: WorkbenchAction)
       return {
         ...state,
         document: action.document,
+        selectedElementId: null,
         irDraft: serializeDocument(action.document),
         irError: null,
         status: 'IR applied',
@@ -111,6 +115,8 @@ export function workbenchReducer(state: WorkbenchState, action: WorkbenchAction)
       return { ...state, inspectorOpen: action.open };
     case 'ui/irDraft':
       return { ...state, irDraft: action.draft, irError: action.error };
+    case 'ui/selectElement':
+      return state.selectedElementId === action.elementId ? state : { ...state, selectedElementId: action.elementId };
     case 'ui/status':
       return { ...state, status: action.status };
     default:
@@ -125,6 +131,7 @@ export function resetWorkbenchDocument(): WorkbenchState {
     inspectorTab: 'properties',
     templateSearch: '',
     inspectorOpen: true,
+    selectedElementId: null,
     irDraft: serializeDocument(document),
     irError: null,
     status: 'Workbench ready',

@@ -111,4 +111,24 @@ describe('workbenchReducer', () => {
     const next = workbenchReducer(state, { type: 'ui/status', status: state.status });
     expect(next).toEqual(state);
   });
+
+  it('selection: starts null, selects, replaces, clears, never touches document', () => {
+    const s0 = createWorkbenchState();
+    expect(s0.selectedElementId).toBeNull();
+    const s1 = workbenchReducer(s0, { type: 'ui/selectElement', elementId: 'force-a' });
+    expect(s1.selectedElementId).toBe('force-a');
+    const s2 = workbenchReducer(s1, { type: 'ui/selectElement', elementId: 'force-b' });
+    expect(s2.selectedElementId).toBe('force-b');
+    const s3 = workbenchReducer(s2, { type: 'ui/selectElement', elementId: null });
+    expect(s3.selectedElementId).toBeNull();
+    expect(s2.document).toBe(s0.document);
+    expect(s2.irDraft).toBe(s0.irDraft);
+    expect(serializeDocument(s2.document)).not.toContain('force-b');
+  });
+
+  it('selection clears when the template changes', () => {
+    const s1 = workbenchReducer(createWorkbenchState(), { type: 'ui/selectElement', elementId: 'mg' });
+    const s2 = workbenchReducer(s1, { type: 'document/template', template: { type: 'circuit', preset: 'seriesFull' } });
+    expect(s2.selectedElementId).toBeNull();
+  });
 });
