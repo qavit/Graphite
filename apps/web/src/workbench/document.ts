@@ -7,8 +7,8 @@ import {
   generateInductionWaveform,
   simpleCircuitPresets,
 } from '@graphite/templates';
-import { renderToSVG } from '@kakau/render-svg';
-import type { DiagramElement, DiagramSpec, ViewMode } from '@kakau/diagram-spec';
+import { renderToSVG } from '@kakau-tw/render-svg';
+import type { DiagramElement, DiagramSpec, ViewMode } from '@kakau-tw/diagram-spec';
 import type { ChargedParticleParams, InclinedPlaneParams, SimpleCircuitParams } from '@graphite/templates';
 import { applyElementEdits, sanitizeEdits } from './edits';
 import type {

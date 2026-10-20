@@ -19,7 +19,7 @@
     "baseUrl": ".",
     "paths": {
       "@graphite/*": ["../../packages/*/src"],
-      "@kakau/*": ["../../packages/*/src"]
+      "@kakau-tw/*": ["../../packages/*/src"]
     }
   },
   "include": ["src"],

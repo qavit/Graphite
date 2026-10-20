@@ -1,4 +1,4 @@
-import type { DiagramElement, DiagramSpec } from '@kakau/diagram-spec';
+import type { DiagramElement, DiagramSpec } from '@kakau-tw/diagram-spec';
 import type { WorkbenchDocument, WorkbenchValidationItem, WorkbenchValidationReport } from './types';
 
 function boundsForElement(element: DiagramElement): { xMin: number; yMin: number; xMax: number; yMax: number } | null {

@@ -10,8 +10,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@kakau/diagram-spec": "*",
-    "@kakau/render-svg": "*",
+    "@kakau-tw/diagram-spec": "*",
+    "@kakau-tw/render-svg": "*",
     "sharp": "^0.33.0",
     "pdfkit": "^0.13.0"
   },

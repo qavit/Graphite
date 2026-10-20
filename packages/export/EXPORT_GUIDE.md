@@ -256,7 +256,7 @@ A: Currently using PNG-based PDF. Pure vector PDF support planned for v0.2.
 
 ## Related
 
-- `@kakau/render-svg` - SVG rendering
+- `@kakau-tw/render-svg` - SVG rendering
 - `@graphite/golden-tester` - Visual regression testing
 - `@graphite/templates` - Diagram templates
 

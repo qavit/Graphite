@@ -4,7 +4,7 @@ import {
   chargedParticlePresets,
   type ChargedParticleParams,
 } from '../chargedParticleMotion';
-import { validateDiagramSpec } from '@kakau/diagram-spec';
+import { validateDiagramSpec } from '@kakau-tw/diagram-spec';
 
 describe('Charged Particle Motion Template', () => {
   it('generates valid spec for magnetic field (into-page, positive charge)', () => {

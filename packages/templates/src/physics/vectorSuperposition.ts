@@ -11,7 +11,7 @@ import {
   DiagramElement,
   ArrowElement,
   LabelElement,
-} from '@kakau/diagram-spec';
+} from '@kakau-tw/diagram-spec';
 
 export interface VectorSuperpositionParams {
   labelLocale?: 'zh-TW' | 'en-US';

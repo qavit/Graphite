@@ -4,8 +4,8 @@ import { resolve } from 'path';
 export default defineConfig({
   resolve: {
     alias: {
-      '@kakau/diagram-spec': resolve(__dirname, '../diagram-spec/src'),
-      '@kakau/render-svg': resolve(__dirname, '../render-svg/src'),
+      '@kakau-tw/diagram-spec': resolve(__dirname, '../diagram-spec/src'),
+      '@kakau-tw/render-svg': resolve(__dirname, '../render-svg/src'),
       '@graphite/templates': resolve(__dirname, '../templates/src'),
       '@graphite/export': resolve(__dirname, './src'),
     },

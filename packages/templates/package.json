@@ -10,6 +10,6 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@kakau/diagram-spec": "*"
+    "@kakau-tw/diagram-spec": "*"
   }
 }

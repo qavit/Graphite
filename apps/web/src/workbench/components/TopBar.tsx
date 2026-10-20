@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { createTranslator } from '../i18n';
-import type { DiagramSpec } from '@kakau/diagram-spec';
+import type { DiagramSpec } from '@kakau-tw/diagram-spec';
 import type { UiLocale, UiTheme } from '../types';
 import {
   CommandIcon,

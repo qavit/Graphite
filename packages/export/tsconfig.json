@@ -6,8 +6,8 @@
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
     "baseUrl": ".",
     "paths": {
-      "@kakau/diagram-spec": ["../diagram-spec/dist"],
-      "@kakau/render-svg": ["../render-svg/dist"],
+      "@kakau-tw/diagram-spec": ["../diagram-spec/dist"],
+      "@kakau-tw/render-svg": ["../render-svg/dist"],
       "@graphite/templates": ["../templates/dist"]
     }
   },

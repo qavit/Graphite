@@ -4,7 +4,7 @@ import {
   inclinedPlanePresets,
   type InclinedPlaneParams,
 } from '../inclinedPlane';
-import { validateDiagramSpec } from '@kakau/diagram-spec';
+import { validateDiagramSpec } from '@kakau-tw/diagram-spec';
 
 describe('Inclined Plane Template', () => {
   it('should generate a valid DiagramSpec for 30° teacher mode', () => {

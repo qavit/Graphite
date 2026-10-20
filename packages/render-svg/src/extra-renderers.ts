@@ -2,7 +2,7 @@ import { escapeXml } from './escape.js';
 /**
  * 針對新元素類型的渲染邏輯擴展
  */
-import { DiagramElement, CircuitComponentElement, CIRCUIT_HALF_WIDTH } from '@kakau/diagram-spec';
+import { DiagramElement, CircuitComponentElement, CIRCUIT_HALF_WIDTH } from '@kakau-tw/diagram-spec';
 
 export function renderNewElements(el: DiagramElement): string {
   switch (el.type) {
