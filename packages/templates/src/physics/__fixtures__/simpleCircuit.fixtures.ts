@@ -1,5 +1,5 @@
 import { generateSimpleCircuit, simpleCircuitPresets } from '../simpleCircuit';
-import type { DiagramSpec } from '@graphite/diagram-spec';
+import type { DiagramSpec } from '@kakau-tw/diagram-spec';
 
 export const fixture_circuit_series_full = (): DiagramSpec =>
   generateSimpleCircuit(simpleCircuitPresets.seriesFull(), 'teacher');

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { generateInductionWaveform } from '../inductionWaveform';
-import { validateDiagramSpec } from '@graphite/diagram-spec';
+import { validateDiagramSpec } from '@kakau-tw/diagram-spec';
 
 describe('Induction Waveform Template', () => {
   it('should generate a valid DiagramSpec in teacher mode', () => {

@@ -12,7 +12,7 @@ import {
   ArrowElement,
   CircleElement,
   LabelElement,
-} from '@graphite/diagram-spec';
+} from '@kakau-tw/diagram-spec';
 
 export interface FieldLinesParams {
   chargeSign: 'positive' | 'negative';

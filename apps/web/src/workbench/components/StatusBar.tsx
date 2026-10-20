@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createTranslator } from '../i18n';
 import type { CanvasState, UiLocale, WorkbenchValidationReport } from '../types';
-import type { DiagramSpec } from '@graphite/diagram-spec';
+import type { DiagramSpec } from '@kakau-tw/diagram-spec';
 
 const ZOOM_PRESETS = [0.5, 0.75, 1, 1.5, 2] as const;
 

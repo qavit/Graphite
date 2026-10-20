@@ -5,7 +5,7 @@ import {
   type SeriesCircuitParams,
   type ParallelCircuitParams,
 } from '../simpleCircuit';
-import { validateDiagramSpec } from '@graphite/diagram-spec';
+import { validateDiagramSpec } from '@kakau-tw/diagram-spec';
 
 describe('Simple Circuit Template', () => {
   // ── Series ──────────────────────────────────────────────────────────────────

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { generateFieldLines } from '../fieldLines';
-import { validateDiagramSpec } from '@graphite/diagram-spec';
+import { validateDiagramSpec } from '@kakau-tw/diagram-spec';
 
 describe('Electric Field Lines Template', () => {
   it('should generate a valid DiagramSpec for positive charge', () => {

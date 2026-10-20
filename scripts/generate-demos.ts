@@ -1,7 +1,7 @@
-import { renderToSVG } from '@graphite/render-svg';
+import { renderToSVG } from '@kakau-tw/render-svg';
 import { generateInclinedPlane, inclinedPlanePresets } from '@graphite/templates';
 import { generateChargedParticleMotion, chargedParticlePresets } from '@graphite/templates';
-import { DiagramSpec } from '@graphite/diagram-spec';
+import { DiagramSpec } from '@kakau-tw/diagram-spec';
 import fs from 'fs';
 import path from 'path';
 

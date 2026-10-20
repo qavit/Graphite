@@ -7,7 +7,7 @@ import { createWorkbenchState, hydrateWorkbenchState, workbenchReducer } from '.
 import { buildValidationReport } from './workbench/validation';
 import { persistStateToStorage, WORKBENCH_STORAGE_KEY } from './workbench/storage';
 import { readAppSettings, writeAppSettings, type AppSettings } from './workbench/settings';
-import type { DiagramEditIntent } from '@graphite/diagram-spec';
+import type { DiagramEditIntent } from '@kakau-tw/diagram-spec';
 import { listStaleEditIds } from './workbench/edits';
 import { findSelectedElement } from './workbench/selection';
 import { CanvasWorkspace } from './workbench/components/CanvasWorkspace';

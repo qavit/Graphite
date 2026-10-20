@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { DiagramSpec } from '@graphite/diagram-spec';
+import type { DiagramSpec } from '@kakau-tw/diagram-spec';
 import { renderToSVG } from '../renderer';
 import { escapeXml } from '../escape';
 

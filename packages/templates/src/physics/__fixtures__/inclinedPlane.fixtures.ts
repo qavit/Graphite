@@ -4,7 +4,7 @@
  */
 
 import { generateInclinedPlane, type InclinedPlaneParams } from '../inclinedPlane';
-import type { DiagramSpec } from '@graphite/diagram-spec';
+import type { DiagramSpec } from '@kakau-tw/diagram-spec';
 
 /**
  * Golden Example 1: 30° angle, teacher mode, simple variant

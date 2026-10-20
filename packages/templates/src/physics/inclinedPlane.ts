@@ -14,7 +14,7 @@ import {
   LabelElement,
   BoxElement,
   DiagramElement,
-} from '@graphite/diagram-spec';
+} from '@kakau-tw/diagram-spec';
 
 export interface InclinedPlaneParams {
   angle: number; // degrees (0-90)

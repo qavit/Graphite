@@ -1,4 +1,4 @@
-import type { DiagramSpec, ForceVectorElement, LabelElement } from '@graphite/diagram-spec';
+import type { DiagramSpec, ForceVectorElement, LabelElement } from '@kakau-tw/diagram-spec';
 
 /** Element types that Stage 0 allows the user to select on the canvas. */
 const SELECTABLE_TYPES: ReadonlySet<string> = new Set(['force-vector', 'label']);

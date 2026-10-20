@@ -1,4 +1,4 @@
-import { DiagramSpec, DiagramElement, ViewMode } from '@graphite/diagram-spec';
+import { DiagramSpec, DiagramElement, ViewMode } from '@kakau-tw/diagram-spec';
 import { renderNewElements } from './extra-renderers.js';
 import { escapeXml } from './escape.js';
 

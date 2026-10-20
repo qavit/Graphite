@@ -17,7 +17,7 @@ Evidence base: Graphite PRs #2–#5, `qavit/kakau-lab#20` (draft), the Gate 2 an
 ## What is genuinely shared
 - `DiagramSpec` types (geometry-only vocabulary) and the deterministic `renderToSVG` — both consumers rendered through them with no change to the renderer.
 - Semantic identity via `data-element-id/type` and "validate the DOM candidate against a semantic source".
-- Neutral edit intent + pure immutable `applyDiagramEditIntent` (now in `@graphite/diagram-spec`).
+- Neutral edit intent + pure immutable `applyDiagramEditIntent` (now in `@kakau-tw/diagram-spec`).
 - Pointer → spec coordinate via `getScreenCTM` (identical in both; **Lab re-implemented it**, ~60 lines, because it is still in the Workbench app).
 
 ## Consumer-specific (must stay out of Graphite)

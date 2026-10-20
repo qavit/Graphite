@@ -19,7 +19,7 @@ import {
   FieldSymbolElement,
   FunctionCurveElement,
   ArrowElement,
-} from '@graphite/diagram-spec';
+} from '@kakau-tw/diagram-spec';
 
 export interface ChargedParticleParams {
   fieldType: 'magnetic' | 'electric';

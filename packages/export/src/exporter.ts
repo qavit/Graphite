@@ -8,8 +8,8 @@
  */
 
 import sharp from 'sharp';
-import { DiagramSpec } from '@graphite/diagram-spec';
-import { renderToSVG } from '@graphite/render-svg';
+import { DiagramSpec } from '@kakau-tw/diagram-spec';
+import { renderToSVG } from '@kakau-tw/render-svg';
 
 export interface ExportOptions {
   quality?: number; // PNG: 1-100

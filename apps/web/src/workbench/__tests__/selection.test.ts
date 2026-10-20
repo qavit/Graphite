@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import type { DiagramSpec } from '@graphite/diagram-spec';
-import { renderToSVG } from '@graphite/render-svg';
+import type { DiagramSpec } from '@kakau-tw/diagram-spec';
+import { renderToSVG } from '@kakau-tw/render-svg';
 import { resolveSelectableElementId, findSelectedElement } from '../selection';
 
 const base = { visibility: ['teacher', 'student', 'minimal'] } as const;

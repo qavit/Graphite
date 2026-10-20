@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { generateVectorSuperposition } from '../vectorSuperposition';
-import { validateDiagramSpec } from '@graphite/diagram-spec';
+import { validateDiagramSpec } from '@kakau-tw/diagram-spec';
 
 describe('Vector Superposition Template', () => {
   it('should generate a valid DiagramSpec in teacher mode', () => {

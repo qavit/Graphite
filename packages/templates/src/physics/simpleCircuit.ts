@@ -23,7 +23,7 @@ import {
   CircuitComponentType,
   Point,
   CIRCUIT_HALF_WIDTH,
-} from '@graphite/diagram-spec';
+} from '@kakau-tw/diagram-spec';
 
 // ── Param types ──────────────────────────────────────────────────────────────
 

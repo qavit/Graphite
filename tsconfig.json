@@ -18,7 +18,8 @@
     "noEmit": true,
     "ignoreDeprecations": "6.0",
     "paths": {
-      "@graphite/*": ["packages/*/src"]
+      "@graphite/*": ["packages/*/src"],
+      "@kakau-tw/*": ["packages/*/src"]
     }
   },
   "exclude": ["node_modules", "dist"]

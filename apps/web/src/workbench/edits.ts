@@ -1,5 +1,5 @@
-import type { DiagramEditIntent, DiagramSpec, Point } from '@graphite/diagram-spec';
-import { applyDiagramEditIntent } from '@graphite/diagram-spec';
+import type { DiagramEditIntent, DiagramSpec, Point } from '@kakau-tw/diagram-spec';
+import { applyDiagramEditIntent } from '@kakau-tw/diagram-spec';
 import type { ElementEdit, ElementEdits } from './types';
 
 /**

@@ -1,4 +1,4 @@
-import type { DiagramEditIntent, ViewMode } from '@graphite/diagram-spec';
+import type { DiagramEditIntent, ViewMode } from '@kakau-tw/diagram-spec';
 
 export type TemplateId = 'inclined' | 'particle' | 'circuit' | 'vector-superposition' | 'field-lines' | 'induction-waveform';
 export type UiLocale = 'zh-TW' | 'en-US';

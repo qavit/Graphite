@@ -7,7 +7,7 @@
     "noEmit": false,
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
     "paths": {
-      "@graphite/diagram-spec": ["../diagram-spec/dist"]
+      "@kakau-tw/diagram-spec": ["../diagram-spec/dist"]
     }
   },
   "include": ["src/**/*.ts"],

@@ -1,7 +1,7 @@
 {
-  "name": "@graphite/diagram-spec",
+  "name": "@kakau-tw/diagram-spec",
   "version": "0.1.0",
-  "private": true,
+  "license": "MIT",
   "type": "module",
   "description": "Core schema and types for Graphite diagrams",
   "main": "dist/index.js",
@@ -17,7 +17,18 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE",
+    "!dist/**/*.tsbuildinfo",
+    "!dist/**/*.map"
   ],
-  "sideEffects": false
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qavit/Graphite.git",
+    "directory": "packages/diagram-spec"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }
