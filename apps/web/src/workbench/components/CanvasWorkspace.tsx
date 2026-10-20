@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
-import type { DiagramSpec } from '@graphite/diagram-spec';
+import type { DiagramSpec } from '@kakau/diagram-spec';
 import { createTranslator } from '../i18n';
-import type { DiagramEditIntent } from '@graphite/diagram-spec';
+import type { DiagramEditIntent } from '@kakau/diagram-spec';
 import { resolveSelectableElementId, findSelectedElement } from '../selection';
 import type { CanvasState, TemplateState, UiLocale, WorkbenchValidationReport } from '../types';
 import {

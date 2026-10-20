@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { renderToSVG } from '@graphite/render-svg';
+import { renderToSVG } from '@kakau/render-svg';
 import { buildBaseDiagramSpec, buildDiagramSpec, createDefaultDocument, loadDocumentFromUnknown, readSvgFromSpec, serializeDocument } from '../document';
 import { applyElementEdits, listStaleEditIds, recordEditIntent, sanitizeEdits } from '../edits';
 import { createWorkbenchState, workbenchReducer } from '../reducer';

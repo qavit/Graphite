@@ -19,7 +19,7 @@
 將 DiagramSpec 轉換為 SVG 字串。
 
 ```typescript
-import { renderToSVG } from '@graphite/render-svg';
+import { renderToSVG } from '@kakau/render-svg';
 import { fixture_30deg_teacher_simple } from '@graphite/templates';
 
 const spec = fixture_30deg_teacher_simple();
@@ -50,7 +50,7 @@ console.log(svg);  // <svg>...</svg>
 
 **用法**：
 ```typescript
-import { validateAgainstGolden } from '@graphite/render-svg';
+import { validateAgainstGolden } from '@kakau/render-svg';
 
 const result = validateAgainstGolden('30deg-teacher-simple', svg);
 expect(result.passed).toBe(true);
@@ -96,7 +96,7 @@ Total: 5 | Passed: 5 ✅ | Failed: 0 ❌
 當加入新的測試或意圖修改 SVG 輸出時，需要更新黃金文件：
 
 ```bash
-UPDATE_GOLDEN=true npm test --workspace=@graphite/render-svg
+UPDATE_GOLDEN=true npm test --workspace=@kakau/render-svg
 ```
 
 此命令會：
@@ -109,7 +109,7 @@ UPDATE_GOLDEN=true npm test --workspace=@graphite/render-svg
 運行正常測試，確保所有 SVG 都符合預期：
 
 ```bash
-npm test --workspace=@graphite/render-svg
+npm test --workspace=@kakau/render-svg
 ```
 
 成功輸出：
@@ -149,14 +149,14 @@ packages/render-svg/
 1. 在 `packages/templates/` 中建立新的範本函數
 2. 添加 fixtures（黃金示例）
 3. 添加到 `packages/render-svg/__tests__/golden.test.ts`
-4. 運行 `UPDATE_GOLDEN=true npm test --workspace=@graphite/render-svg` 生成黃金文件
+4. 運行 `UPDATE_GOLDEN=true npm test --workspace=@kakau/render-svg` 生成黃金文件
 5. 審查生成的 SVG 是否符合預期
 6. 提交黃金文件到版本控制
 
 ### 修改渲染器時
 
 1. 修改 `renderer.ts`
-2. 運行測試：`npm test --workspace=@graphite/render-svg`
+2. 運行測試：`npm test --workspace=@kakau/render-svg`
 3. 如果有意的修改，運行 `UPDATE_GOLDEN=true npm test` 更新黃金文件
 4. 審查變更
 5. 提交

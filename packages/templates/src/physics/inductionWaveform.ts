@@ -14,7 +14,7 @@ import {
   LabelElement,
   FunctionCurveElement,
   Point,
-} from '@graphite/diagram-spec';
+} from '@kakau/diagram-spec';
 
 export interface InductionWaveformParams {
   showEMF: boolean;

@@ -1,7 +1,7 @@
 {
-  "name": "@graphite/render-svg",
+  "name": "@kakau/render-svg",
   "version": "0.1.0",
-  "private": true,
+  "license": "MIT",
   "type": "module",
   "description": "Deterministic SVG renderer for Graphite",
   "main": "dist/index.js",
@@ -11,7 +11,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@graphite/diagram-spec": "^0.1.0"
+    "@kakau/diagram-spec": "^0.1.0"
   },
   "exports": {
     ".": {
@@ -22,7 +22,18 @@
   "files": [
     "dist",
     "!dist/**/__tests__",
-    "!dist/golden-tester.*"
+    "!dist/golden-tester.*",
+    "LICENSE",
+    "!dist/**/*.tsbuildinfo",
+    "!dist/**/*.map"
   ],
-  "sideEffects": false
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qavit/Graphite.git",
+    "directory": "packages/render-svg"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -4,7 +4,7 @@ import { resolve } from 'path';
 export default defineConfig({
   resolve: {
     alias: {
-      '@graphite/diagram-spec': resolve(__dirname, '../diagram-spec/src'),
+      '@kakau/diagram-spec': resolve(__dirname, '../diagram-spec/src'),
       '@graphite/templates': resolve(__dirname, './src'),
     },
   },

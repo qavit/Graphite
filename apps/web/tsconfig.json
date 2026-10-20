@@ -18,7 +18,8 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@graphite/*": ["../../packages/*/src"]
+      "@graphite/*": ["../../packages/*/src"],
+      "@kakau/*": ["../../packages/*/src"]
     }
   },
   "include": ["src"],

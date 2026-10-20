@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 import { renderToSVG } from '../renderer';
-import { DiagramSpec } from '@graphite/diagram-spec';
+import { DiagramSpec } from '@kakau/diagram-spec';
 
 it('renders a coordinate system with a quadratic curve', () => {
   const spec: DiagramSpec = {

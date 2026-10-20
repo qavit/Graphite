@@ -11,7 +11,7 @@ import {
   DiagramElement,
   ArrowElement,
   LabelElement,
-} from '@graphite/diagram-spec';
+} from '@kakau/diagram-spec';
 
 export interface VectorSuperpositionParams {
   labelLocale?: 'zh-TW' | 'en-US';

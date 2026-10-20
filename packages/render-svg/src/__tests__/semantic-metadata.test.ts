@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { DiagramSpec } from '@graphite/diagram-spec';
+import type { DiagramSpec } from '@kakau/diagram-spec';
 import { renderToSVG } from '../renderer';
 
 const spec: DiagramSpec = {

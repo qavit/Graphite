@@ -24,4 +24,4 @@ Graphite is a TypeScript monorepo using `npm workspaces`.
 See [ARCHITECTURE.md](./docs/ARCHITECTURE.md) for technical design details.
 
 ## License
-MIT
+Only `@kakau/diagram-spec` and `@kakau/render-svg` (the `packages/diagram-spec` and `packages/render-svg` directories) are MIT-licensed; see the `LICENSE` file in each. Everything else in this repository, including `apps/`, `packages/templates` and `packages/export`, is not licensed for reuse (`UNLICENSED`) unless a file says otherwise.
