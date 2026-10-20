@@ -10,6 +10,7 @@ import {
 import { renderToSVG } from '@graphite/render-svg';
 import type { DiagramElement, DiagramSpec, ViewMode } from '@graphite/diagram-spec';
 import type { ChargedParticleParams, InclinedPlaneParams, SimpleCircuitParams } from '@graphite/templates';
+import { applyElementEdits, sanitizeEdits } from './edits';
 import type {
   CanvasState,
   CircuitPresetId,
@@ -75,7 +76,8 @@ export function createInclinedTemplate(): InclinedTemplateState {
   };
 }
 
-export function buildDiagramSpec(document: WorkbenchDocument): DiagramSpec {
+/** Generated spec for the document's template parameters, before durable element edits. */
+export function buildBaseDiagramSpec(document: WorkbenchDocument): DiagramSpec {
   const viewMode = document.mode;
   const baseSpec = buildBaseSpec(document, viewMode);
   const elements = applyCanvasVisibility(baseSpec.elements, document.canvas);
@@ -89,6 +91,11 @@ export function buildDiagramSpec(document: WorkbenchDocument): DiagramSpec {
       theme: 'exam-bw',
     },
   };
+}
+
+/** Final spec: generated geometry with the document's durable edits applied. Drives canvas and export. */
+export function buildDiagramSpec(document: WorkbenchDocument): DiagramSpec {
+  return applyElementEdits(buildBaseDiagramSpec(document), document.edits);
 }
 
 function buildBaseSpec(document: WorkbenchDocument, mode: ViewMode): DiagramSpec {
@@ -179,6 +186,8 @@ export function loadDocumentFromUnknown(input: unknown, fallback = createDefault
 
   const template = normalizeTemplate(raw.template, fallback.template);
 
+  const edits = sanitizeEdits(raw.edits);
+
   return {
     version: 1,
     title: toString(raw.title, ''),
@@ -187,6 +196,7 @@ export function loadDocumentFromUnknown(input: unknown, fallback = createDefault
     mode,
     canvas,
     template,
+    ...(edits ? { edits } : {}),
   };
 }
 

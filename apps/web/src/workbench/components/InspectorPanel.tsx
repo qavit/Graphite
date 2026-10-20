@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { ForceVectorElement } from '@graphite/diagram-spec';
+import type { SelectableElement } from '../selection';
 import { CIRCUIT_PRESET_META } from '../catalog';
 import { createTranslator } from '../i18n';
 import { serializeDocument } from '../document';
@@ -25,7 +25,10 @@ interface InspectorPanelProps {
   document: WorkbenchDocument;
   validation: WorkbenchValidationReport;
   svgMarkup: string;
-  selectedForce: ForceVectorElement | null;
+  selectedElement: SelectableElement | null;
+  editCount: number;
+  staleEditCount: number;
+  onResetEdits: () => void;
   irDraft: string;
   irError: string | null;
   tab: InspectorTab;
@@ -371,7 +374,10 @@ export function InspectorPanel({
   document,
   validation,
   svgMarkup,
-  selectedForce,
+  selectedElement,
+  editCount,
+  staleEditCount,
+  onResetEdits,
   irDraft,
   irError,
   tab,
@@ -416,15 +422,34 @@ export function InspectorPanel({
               <span>{serializeDocument(document).slice(0, 64)}...</span>
             </div>
 
-            {selectedForce ? (
+            {selectedElement ? (
               <div className="helper-card" role="status" aria-live="polite" data-testid="selected-element">
                 <strong>{locale === 'zh-TW' ? '已選取元素' : 'Selected element'}</strong>
-                <span>force-vector</span>
-                <span>ID: {selectedForce.id}</span>
-                <span>{locale === 'zh-TW' ? '力' : 'Force'}: {selectedForce.forceName}</span>
-                <span>{locale === 'zh-TW' ? '起點' : 'Start'}: ({selectedForce.start.x}, {selectedForce.start.y})</span>
-                <span>{locale === 'zh-TW' ? '終點' : 'End'}: ({selectedForce.end.x}, {selectedForce.end.y})</span>
-                {selectedForce.magnitude ? <span>{locale === 'zh-TW' ? '大小' : 'Magnitude'}: {selectedForce.magnitude}</span> : null}
+                <span>{selectedElement.type}</span>
+                <span>ID: {selectedElement.id}</span>
+                {selectedElement.type === 'force-vector' ? (
+                  <>
+                    <span>{locale === 'zh-TW' ? '力' : 'Force'}: {selectedElement.forceName}</span>
+                    <span>{locale === 'zh-TW' ? '起點' : 'Start'}: ({selectedElement.start.x}, {selectedElement.start.y})</span>
+                    <span>{locale === 'zh-TW' ? '終點' : 'End'}: ({selectedElement.end.x}, {selectedElement.end.y})</span>
+                    {selectedElement.magnitude ? <span>{locale === 'zh-TW' ? '大小' : 'Magnitude'}: {selectedElement.magnitude}</span> : null}
+                  </>
+                ) : (
+                  <>
+                    <span>{locale === 'zh-TW' ? '文字' : 'Text'}: {selectedElement.text}</span>
+                    <span>{locale === 'zh-TW' ? '位置' : 'Position'}: ({selectedElement.position.x}, {selectedElement.position.y})</span>
+                  </>
+                )}
+              </div>
+            ) : null}
+
+            {editCount > 0 ? (
+              <div className="helper-card" data-testid="edits-summary">
+                <strong>{locale === 'zh-TW' ? `手動調整：${editCount} 項` : `Manual edits: ${editCount}`}</strong>
+                {staleEditCount > 0 ? (
+                  <span>{locale === 'zh-TW' ? `其中 ${staleEditCount} 項目前沒有對應元素（已忽略，不會輸出）。` : `${staleEditCount} no longer match an element (ignored in output).`}</span>
+                ) : null}
+                <button type="button" onClick={onResetEdits}>{locale === 'zh-TW' ? '重設所有調整' : 'Reset all edits'}</button>
               </div>
             ) : null}
 

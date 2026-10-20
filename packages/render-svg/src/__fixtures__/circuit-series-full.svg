@@ -45,6 +45,8 @@
   font-family="sans-serif" 
   font-size="13" 
   text-anchor="middle"
+  data-element-id="title"
+  data-element-type="label"
   
 >
   串聯電路

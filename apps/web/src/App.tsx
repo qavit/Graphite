@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import type { ChangeEvent } from 'react';
-import { buildDiagramSpec, createDefaultDocument, loadDocumentFromUnknown, readSvgFromSpec, serializeDocument } from './workbench/document';
+import { buildBaseDiagramSpec, buildDiagramSpec, createDefaultDocument, loadDocumentFromUnknown, readSvgFromSpec, serializeDocument } from './workbench/document';
 import { TEMPLATE_CATALOG } from './workbench/catalog';
 import { createTranslator } from './workbench/i18n';
 import { createWorkbenchState, hydrateWorkbenchState, workbenchReducer } from './workbench/reducer';
 import { buildValidationReport } from './workbench/validation';
 import { persistStateToStorage, WORKBENCH_STORAGE_KEY } from './workbench/storage';
 import { readAppSettings, writeAppSettings, type AppSettings } from './workbench/settings';
-import { applyDiagramEditIntent, resolveDisplaySpec, specKey, type DiagramEditIntent, type InteractiveOverride } from './workbench/interaction';
-import { findSelectedForceVector } from './workbench/selection';
+import type { DiagramEditIntent } from '@graphite/diagram-spec';
+import { listStaleEditIds } from './workbench/edits';
+import { findSelectedElement } from './workbench/selection';
 import { CanvasWorkspace } from './workbench/components/CanvasWorkspace';
 import { CommandPalette, type CommandPaletteItem } from './workbench/components/CommandPalette';
 import { InspectorPanel } from './workbench/components/InspectorPanel';
@@ -125,24 +126,18 @@ function App() {
     }
   }, [state.document]);
 
-  // Ephemeral editing projection over the generated spec; never serialized into the document.
-  const [override, setOverride] = useState<InteractiveOverride | null>(null);
-  const specResult = useMemo(
-    () => ({ ...generatedResult, spec: resolveDisplaySpec(generatedResult.spec, override) }),
-    [generatedResult, override],
-  );
+  const specResult = generatedResult;
   const handleElementEdit = useCallback((intent: DiagramEditIntent) => {
-    const base = generatedResult.spec;
-    if (!base) return;
-    const current = resolveDisplaySpec(base, override) ?? base;
-    const next = applyDiagramEditIntent(current, intent);
-    if (next === current) return;
-    setOverride({ baseKey: specKey(base), spec: next });
-  }, [generatedResult, override]);
+    dispatch({ type: 'document/editIntent', intent });
+  }, []);
+  const staleEditIds = useMemo(
+    () => listStaleEditIds(buildBaseDiagramSpec(state.document), state.document.edits),
+    [state.document],
+  );
 
   const svgMarkup = useMemo(() => (specResult.spec ? readSvgFromSpec(specResult.spec) : ''), [specResult.spec]);
 
-  const selectedElementId = findSelectedForceVector(specResult.spec, state.selectedElementId)?.id ?? null;
+  const selectedElementId = findSelectedElement(specResult.spec, state.selectedElementId)?.id ?? null;
 
   const validation = useMemo(() => {
     if (!specResult.spec) {
@@ -916,7 +911,10 @@ function App() {
             document={state.document}
             validation={validation}
             svgMarkup={svgMarkup}
-            selectedForce={findSelectedForceVector(specResult.spec, selectedElementId)}
+            selectedElement={findSelectedElement(specResult.spec, selectedElementId)}
+            editCount={Object.keys(state.document.edits ?? {}).length}
+            staleEditCount={staleEditIds.length}
+            onResetEdits={() => dispatch({ type: 'document/resetEdits' })}
             irDraft={state.irDraft}
             irError={state.irError}
             tab={state.inspectorTab}

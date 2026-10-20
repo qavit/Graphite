@@ -29,6 +29,8 @@
   font-family="sans-serif" 
   font-size="14" 
   text-anchor="start"
+  data-element-id="label-angle"
+  data-element-type="label"
   
 >
   θ = 30°
@@ -40,6 +42,8 @@
   font-family="sans-serif" 
   font-size="12" 
   text-anchor="start"
+  data-element-id="label-weight"
+  data-element-type="label"
   
 >
   重力 (mg)
@@ -51,6 +55,8 @@
   font-family="sans-serif" 
   font-size="12" 
   text-anchor="start"
+  data-element-id="label-normal"
+  data-element-type="label"
   
 >
   正向力 (N = mg cos θ)

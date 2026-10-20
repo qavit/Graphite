@@ -1,7 +1,7 @@
-import type { DiagramSpec, ForceVectorElement } from '@graphite/diagram-spec';
+import type { DiagramSpec, ForceVectorElement, LabelElement } from '@graphite/diagram-spec';
 
-/** Element types that Stage 0A-1 allows the user to select on the canvas. */
-const SELECTABLE_TYPES: ReadonlySet<string> = new Set(['force-vector']);
+/** Element types that Stage 0 allows the user to select on the canvas. */
+const SELECTABLE_TYPES: ReadonlySet<string> = new Set(['force-vector', 'label']);
 
 interface ClosestCapable {
   closest(selector: string): { getAttribute(name: string): string | null } | null;
@@ -24,9 +24,11 @@ export function resolveSelectableElementId(target: EventTarget | null, spec: Dia
   return element && SELECTABLE_TYPES.has(element.type) ? id : null;
 }
 
-/** Look up the currently selected element in the spec (null if gone or not a force vector). */
-export function findSelectedForceVector(spec: DiagramSpec | null, selectedId: string | null): ForceVectorElement | null {
+export type SelectableElement = ForceVectorElement | LabelElement;
+
+/** Look up the currently selected element in the spec (null if gone or not selectable). */
+export function findSelectedElement(spec: DiagramSpec | null, selectedId: string | null): SelectableElement | null {
   if (!spec || !selectedId) return null;
   const el = spec.elements.find((e) => e.id === selectedId);
-  return el && el.type === 'force-vector' ? el : null;
+  return el && (el.type === 'force-vector' || el.type === 'label') ? el : null;
 }

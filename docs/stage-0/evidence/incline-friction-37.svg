@@ -1,0 +1,78 @@
+<svg 
+  width="600" 
+  height="500" 
+  viewBox="0 0 600 500" 
+  xmlns="http://www.w3.org/2000/svg"
+  class="graphite-diagram theme-exam-bw"
+>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+    </marker>
+  </defs>
+  <rect width="100%" height="100%" fill="white" />
+  <line x1="40" y1="460" x2="560" y2="68.15189394654703" id="incline" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="" />
+<line x1="20" y1="460" x2="580" y2="460" id="ground" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="" />
+<rect 
+  x="285" 
+  y="230.29391210093013" 
+  width="30" 
+  height="30" 
+  id="block" stroke="#000" stroke-width="2" fill="#fff" stroke-dasharray="" transform="rotate(-37 300 245.29391210093013)"
+/>
+<line x1="300" y1="245.29391210093013" x2="300" y2="325.29391210093013" id="force-weight" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="" data-element-id="force-weight" data-element-type="force-vector" marker-end="url(#arrowhead)" />
+<line x1="300" y1="245.29391210093013" x2="261.54953216246724" y2="194.26841786825014" id="force-normal" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="" data-element-id="force-normal" data-element-type="force-vector" marker-end="url(#arrowhead)" />
+<line x1="300" y1="245.29391210093013" x2="338.45046783753276" y2="216.3194063336101" id="force-friction" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="4,4" data-element-id="force-friction" data-element-type="force-vector" marker-end="url(#arrowhead)" />
+<text 
+  x="162.18" 
+  y="486.11" 
+  fill="black" 
+  font-family="sans-serif" 
+  font-size="14" 
+  text-anchor="start"
+  data-element-id="label-angle"
+  data-element-type="label"
+  
+>
+  θ = 37°
+</text>
+<text 
+  x="320" 
+  y="340.29391210093013" 
+  fill="black" 
+  font-family="sans-serif" 
+  font-size="12" 
+  text-anchor="start"
+  data-element-id="label-weight"
+  data-element-type="label"
+  
+>
+  重力 (mg)
+</text>
+<text 
+  x="260.47" 
+  y="139.96" 
+  fill="black" 
+  font-family="sans-serif" 
+  font-size="12" 
+  text-anchor="start"
+  data-element-id="label-normal"
+  data-element-type="label"
+  
+>
+  正向力 (N = mg cos θ)
+</text>
+<text 
+  x="395.09" 
+  y="297.01" 
+  fill="black" 
+  font-family="sans-serif" 
+  font-size="12" 
+  text-anchor="start"
+  data-element-id="label-friction"
+  data-element-type="label"
+  
+>
+  摩擦力 (f = mg sin θ)
+</text>
+</svg>
