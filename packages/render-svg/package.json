@@ -1,6 +1,6 @@
 {
   "name": "@kakau-tw/render-svg",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "type": "module",
   "description": "Deterministic SVG renderer for Graphite",
@@ -8,10 +8,11 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "prepack": "rm -rf dist && tsc",
     "test": "vitest run"
   },
   "dependencies": {
-    "@kakau-tw/diagram-spec": "^0.1.0"
+    "@kakau-tw/diagram-spec": "^0.1.1"
   },
   "exports": {
     ".": {

@@ -1,6 +1,6 @@
 {
   "name": "@kakau-tw/diagram-spec",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "type": "module",
   "description": "Core schema and types for Graphite diagrams",
@@ -8,6 +8,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "prepack": "rm -rf dist && tsc",
     "test": "vitest run"
   },
   "exports": {
